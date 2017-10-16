@@ -14,10 +14,24 @@ using flixel.util.FlxSpriteUtil;
 class Player extends FlxBasic
 {
 
+	public var dollars 		: Int;
+	public var blood 		: Float;
+	public var meat	 		: Float;
+	public var IQ 	 		: Int;
+	public var notoriety 	: Float;
+	
+	
 	public function new()
 	{
 		super();
 		initCursor();
+		
+		dollars = Tweaking.playerMoney;
+		blood = 0;
+		meat = 0;
+		IQ = 0;
+		notoriety = 0;
+		
 
 	}
 

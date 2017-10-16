@@ -17,6 +17,9 @@ class PlayState extends FlxState
 		super.create();
 		bgColor = 0xFFE5C992;
 		
+		//RessourceBar
+		var ressourceBar = new ResourceBar(new Rectangle(0, 0, 640, 80));
+		add(ressourceBar);
 		
 		//button
 		var goButton = new TextButton(new Rectangle(300,200,48,36),"HELLO WORLD 2 !");
