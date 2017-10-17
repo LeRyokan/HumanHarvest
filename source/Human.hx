@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
@@ -14,50 +15,112 @@ import nape.phys.BodyType;
  * ...
  * @author ElRyoGrande
  */
-class Human extends FlxGroup 
+class Human extends FlxNapeSprite 
 {
+	public var _spaceStation:SpaceStation;
 	public var mainSprite:FlxNapeSprite;
 	public var shadowSelect:FlxSprite;
 	
-	//CHARGER LA SPACESTATION
+	public var isGrab:Bool;
 	
-	public function new(?X:Float=0, ?Y:Float=0) 
+	//Caracteristique
+	var _meatProduce 	: Float;
+	var _milk			: Float;
+	var _iq				: Int ;
+	
+	
+	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation) 
 	{
-		super();
-		
-		mainSprite = new FlxNapeSprite(100, 100, "assets/images/human.png", false);
-		mainSprite.createRectangularBody(16, 16, BodyType.DYNAMIC);
-		mainSprite.setDrag(1, 0.96);
-		mainSprite.setBodyMaterial(1, 0.2, 0.4, 1, 1000);
-		add(mainSprite);
+		super(X,Y,"assets/images/human.png",true,true);
+		this.body.allowRotation = false;
+		this.body.gravMass = 0.0;
 		
 		
-		//shadowSelect = mainSprite.clone();
-		//shadowSelect.setPosition(mainSprite.x, mainSprite.y);
-		//shadowSelect.color = FlxColor.BLACK;
-		//shadowSelect.scale.set(1.4, 1.05);
-		//shadowSelect.visible = false;
+		//FlxG.watch.add(this, "isGrab", "Grab:");
+		
+		isGrab = false;
+	
+		_spaceStation = spaceStation;
 		
 		//Setup mouse event
-		FlxMouseEventManager.add(mainSprite, null, null, onMouseOver, onMouseOut); 
+		//FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut); 
 	}
+	
+	public function init(meat:Float, iq:Int, milk:Float)
+	{
+		_meatProduce = meat;
+		_iq = iq;
+		_milk = milk;
+		
+	}
+	
 	
 	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (FlxG.overlap());
+	
+		//FOR EACH AREA UN OVERLAPS
+		FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab);
+		FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab);
+		FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab);
+	}
+	
+	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
+	{
+		if (isGrab)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	private function getSlaughtered(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BOUCHERIE");
+		_spaceStation.meat += _meatProduce; 
+		this.kill();
+		
+	}	
+	
+	private function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BRAINWASH");
+		_spaceStation.iq += _iq; 
+		this.kill();
 		
 	}
 	
-	private function onMouseOver(_)
+	
+	private function getMilked(obj1:FlxObject, obj2:FlxObject):Void
 	{
-		shadowSelect.visible = true;
+		trace("MILKED");
+		_spaceStation.milk += _milk; 
+		this.kill();
+		
 	}
 	
-	private function onMouseOut(_)
-	{
-		shadowSelect.visible = false;
-	}
-	
+	//private function onMouseOver(_)
+	//{
+		////shadowSelect.visible = true;
+	//}
+	//
+	//private function onMouseOut(_)
+	//{
+		////shadowSelect.visible = false;
+	//}
+	//
+	//private function onMouseDown(_)
+	//{
+		//isGrab = true;
+	//}
+	//
+	//private function onMouseUp(_)
+	//{
+		//isGrab = false;
+	//}
+	//
 	
 }

@@ -24,6 +24,7 @@ class PlayState extends FlxState
 	public var player:Player;
 	public var human:Human;
 	
+	public var spaceStation:SpaceStation;
 	
 	override public function create():Void
 	{
@@ -37,33 +38,39 @@ class PlayState extends FlxState
 		
 		bgColor = 0xFFE5C992;
 		
+		spaceStation = new SpaceStation();
+		add(spaceStation);
+		
 		//RessourceBar
-		var ressourceBar = new ResourceBar(new Rectangle(0, 0, 640, 80));
+		var ressourceBar = new ResourceBar(new Rectangle(0, 0, 640, 80),spaceStation);
 		add(ressourceBar);
 		
 		//button
-		var goButton = new TextButton(new Rectangle(300,200,48,36),"HELLO WORLD 2 !");
-		add(goButton);
-		
+		//var goButton = new TextButton(new Rectangle(300,200,48,36),"HELLO WORLD 2 !");
+		//add(goButton);
 		
 		player = new Player();
 		add(player);
 		
-		var area = new Area(100,300);
-		add(area);
 		
-		human = new Human(100, 100);
-		player.registerPhysSprite(human.mainSprite);
-		//add(human.shadowSelect);
-		add(human);
+		
+		for (i in 1...6)
+		{
+			human = new Human(i * 50, 100, spaceStation);
+			//ICI INCLURE LE PSEUDO PROCEDURAL
+			human.init(5.5, 10, 45.0);
+			player.registerPhysSprite(human);
+			add(human);
+			
+		}
+		
+		
 		
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		
 		
 		
 		//DEBUG

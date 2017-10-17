@@ -28,6 +28,8 @@ class Player extends FlxBasic
 	
 	
 	var mouseJoint:DistanceJoint;
+	var currentSpriteGrab:Human;
+	
 	
 	public function new()
 	{
@@ -39,8 +41,6 @@ class Player extends FlxBasic
 		meat = 0;
 		IQ = 0;
 		notoriety = 0;
-			
-
 	}
 	
 	public override function update(elapsed:Float)
@@ -53,6 +53,11 @@ class Player extends FlxBasic
 			if (FlxG.mouse.justReleased)
 			{
 				mouseJoint.space = null;
+				if (currentSpriteGrab != null)
+				{
+					currentSpriteGrab.isGrab = false;
+				}
+				
 				trace("SOURIS RELACHE");
 			}
 		}
@@ -70,15 +75,19 @@ class Player extends FlxBasic
 
 	}
 	
-	public inline function registerPhysSprite(spr:FlxNapeSprite)
+	public inline function registerPhysSprite(human:Human)
 	{
-		FlxMouseEventManager.add(spr, createMouseJoint);
+		//FlxMouseEventManager.add(human.mainSprite, createMouseJoint);
+		FlxMouseEventManager.add(human, createMouseJoint);
 	}
 	
-	function createMouseJoint(spr:FlxNapeSprite) 
+	function createMouseJoint(spr:Human) 
 	{
+		currentSpriteGrab = spr;
+		currentSpriteGrab.isGrab = true;
+		
 		mouseJoint = new DistanceJoint(FlxNapeSpace.space.world, spr.body, new Vec2(FlxG.mouse.x, FlxG.mouse.y),
-			spr.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)), 0, 0);
+		spr.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)), 0, 0);
 		
 		mouseJoint.space = FlxNapeSpace.space;
 	}	
