@@ -11,7 +11,7 @@ import openfl.geom.Rectangle;
  * ...
  * @author ElRyoGrande
  */
-class ResourceBar extends FlxSpriteGroup 
+class RessourceBar extends FlxSpriteGroup 
 {
 	public var backgroundSprite 	: FlxSprite;
 	
@@ -44,16 +44,16 @@ class ResourceBar extends FlxSpriteGroup
 		milkCount = _spaceStation.milk;
 		
 		//Sprite section
-		backgroundSprite = new FlxSprite(0, 0);
-		backgroundSprite.makeGraphic(640, 40, FlxColor.GRAY, false);
+		backgroundSprite = new FlxSprite(rect.x, rect.y);
+		backgroundSprite.makeGraphic(Std.int(rect.width), Std.int(rect.height), FlxColor.GRAY, false);
 		
-		foodRessourceSprite = new FlxSprite(20, 4);
+		foodRessourceSprite = new FlxSprite(rect.x +10, rect.y);
 		foodRessourceSprite.makeGraphic(32, 32, FlxColor.CYAN, false);	
 		
-		intelRessourceSprite = new FlxSprite(102, 4);
+		intelRessourceSprite = new FlxSprite(rect.x + 55 , rect.y);
 		intelRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
 		
-		milkRessourceSprite = new FlxSprite(184, 4);
+		milkRessourceSprite = new FlxSprite(rect.x+ 100, rect.y);
 		milkRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
 		
 		add(backgroundSprite);
@@ -66,17 +66,17 @@ class ResourceBar extends FlxSpriteGroup
 		foodText = new FlxBitmapText();
 		foodText.text = Std.string(foodCount);
 		foodText.x = foodRessourceSprite.x + foodRessourceSprite.width + 4;
-		foodText.y = 20;
+		foodText.y = foodRessourceSprite.y + 10;
 		
 		milkText = new FlxBitmapText();
 		milkText.text = Std.string(milkCount);
 		milkText.x = milkRessourceSprite.x + milkRessourceSprite.width + 4;
-		milkText.y = 20;
+		milkText.y = foodRessourceSprite.y + 10 ;
 		
 		intelText = new FlxBitmapText();
 		intelText.text = Std.string(iqCount);
 		intelText.x = intelRessourceSprite.x + intelRessourceSprite.width + 4;
-		intelText.y = 20;
+		intelText.y = foodRessourceSprite.y + 10 ;
 		
 		add(foodText);
 		add(milkText);

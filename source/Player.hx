@@ -8,6 +8,7 @@ import flixel.addons.nape.FlxNapeSprite;
 import flixel.input.mouse.FlxMouseEventManager;
 import nape.constraint.DistanceJoint;
 import nape.geom.Vec2;
+import nape.space.Space;
 
 import flixel.util.FlxColor;
 using flixel.util.FlxSpriteUtil;
@@ -29,12 +30,14 @@ class Player extends FlxBasic
 	
 	var mouseJoint:DistanceJoint;
 	var currentSpriteGrab:Human;
+	var _spaceStation:SpaceStation;
 	
-	
-	public function new()
+	public function new(spaceStation:SpaceStation)
 	{
 		super();
 		initCursor();
+		
+		_spaceStation = spaceStation;
 		
 		dollars = Tweaking.playerMoney;
 		blood = 0;
@@ -78,7 +81,7 @@ class Player extends FlxBasic
 	public inline function registerPhysSprite(human:Human)
 	{
 		//FlxMouseEventManager.add(human.mainSprite, createMouseJoint);
-		FlxMouseEventManager.add(human, createMouseJoint);
+		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis);
 	}
 	
 	function createMouseJoint(spr:Human) 
@@ -92,5 +95,9 @@ class Player extends FlxBasic
 		mouseJoint.space = FlxNapeSpace.space;
 	}	
 	
+	function getInfoAboutThis(human:Human)
+	{
+		_spaceStation.sendTextToInfoScreen(human.basicInfo);
+	}
 
 }

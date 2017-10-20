@@ -15,56 +15,59 @@ import nape.phys.BodyType;
  * ...
  * @author ElRyoGrande
  */
-class Human extends FlxNapeSprite 
+class Human extends FlxNapeSprite
 {
 	public var _spaceStation:SpaceStation;
 	public var mainSprite:FlxNapeSprite;
 	public var shadowSelect:FlxSprite;
-	
+
 	public var isGrab:Bool;
-	
+
 	//Caracteristique
+	var _id				:Int;
 	var _meatProduce 	: Float;
 	var _milk			: Float;
 	var _iq				: Int ;
-	
-	
-	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation) 
+
+	public var basicInfo : String;
+
+	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int)
 	{
 		super(X,Y,"assets/images/human.png",true,true);
 		this.body.allowRotation = false;
 		this.body.gravMass = 0.0;
+		_id = id;
 		
-		
-		//FlxG.watch.add(this, "isGrab", "Grab:");
-		
-		isGrab = false;
-	
-		_spaceStation = spaceStation;
-		
-		//Setup mouse event
-		//FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut); 
+		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id);
+
+	  //FlxG.watch.add(this, "isGrab", "Grab:");
+
+	  isGrab = false;
+
+	  _spaceStation = spaceStation;
+
+	  //Setup mouse event
+	  //FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
 	}
-	
+
 	public function init(meat:Float, iq:Int, milk:Float)
 	{
 		_meatProduce = meat;
 		_iq = iq;
 		_milk = milk;
-		
+
 	}
-	
-	
+
 	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-	
+
 		//FOR EACH AREA UN OVERLAPS
 		FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab);
 		FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab);
 		FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab);
 	}
-	
+
 	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
 	{
 		if (isGrab)
@@ -76,51 +79,50 @@ class Human extends FlxNapeSprite
 			return true;
 		}
 	}
-	
+
 	private function getSlaughtered(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("BOUCHERIE");
-		_spaceStation.meat += _meatProduce; 
+		_spaceStation.meat += _meatProduce;
 		this.kill();
-		
-	}	
-	
+
+	}
+
 	private function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("BRAINWASH");
-		_spaceStation.iq += _iq; 
+		_spaceStation.iq += _iq;
 		this.kill();
-		
+
 	}
-	
-	
+
 	private function getMilked(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("MILKED");
-		_spaceStation.milk += _milk; 
+		_spaceStation.milk += _milk;
 		this.kill();
-		
+
 	}
-	
+
 	//private function onMouseOver(_)
 	//{
-		////shadowSelect.visible = true;
+	////shadowSelect.visible = true;
 	//}
 	//
 	//private function onMouseOut(_)
 	//{
-		////shadowSelect.visible = false;
+	////shadowSelect.visible = false;
 	//}
 	//
 	//private function onMouseDown(_)
 	//{
-		//isGrab = true;
+	//isGrab = true;
 	//}
 	//
 	//private function onMouseUp(_)
 	//{
-		//isGrab = false;
+	//isGrab = false;
 	//}
 	//
-	
+
 }
