@@ -81,7 +81,7 @@ class Player extends FlxBasic
 	public inline function registerPhysSprite(human:Human)
 	{
 		//FlxMouseEventManager.add(human.mainSprite, createMouseJoint);
-		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis);
+		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis,cleanScreenInfo);
 	}
 	
 	function createMouseJoint(spr:Human) 
@@ -98,6 +98,11 @@ class Player extends FlxBasic
 	function getInfoAboutThis(human:Human)
 	{
 		_spaceStation.sendTextToInfoScreen(human.basicInfo);
+	}
+	
+	function cleanScreenInfo(human:Human)
+	{
+		_spaceStation.sendTextToInfoScreen(" ");
 	}
 
 }

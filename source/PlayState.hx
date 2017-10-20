@@ -46,6 +46,10 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		
+		if (spaceStation.isEndFinish)
+		{
+			FlxG.switchState(new DebriefState());
+		}
 		
 		//DEBUG
 		if (FlxG.keys.anyJustPressed([R]))

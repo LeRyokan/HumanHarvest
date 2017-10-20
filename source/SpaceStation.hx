@@ -15,11 +15,26 @@ import openfl.geom.Rectangle;
  */
 class SpaceStation extends FlxGroup 
 {
+	////////////////////////////////////////
+	//A MIGRER PLUS TARD DANS GAME SESSION//
 	//Game timer
 	public var gameTimer : FlxTimer;
 	var gameDuration : Float;
+	public var isEndFinish :Bool = false;
 	
-	//AREA
+	var maxHumainKidnap: Int = 25;  //NON USED
+	var maxWave:Int = 2;
+	var waveCount: Int = 0;
+	var canSpawnNewWave : Bool = true;
+	///////////////////////////////////////
+	
+	
+	//Les entités du jeu
+	public var player : Player;
+	public var humanGroup : FlxGroup;
+	
+	
+	//AREA : A regrouper maybe en FINAL ZONE AREA
 	public var slaughterhouse : Area;
 	public var iqhouse : Area;
 	public var milkhouse : Area;
@@ -34,6 +49,9 @@ class SpaceStation extends FlxGroup
 	
 	
 	public var infoScreen:InfoScreen;
+	
+	
+	
 	
 	public function new() 
 	{
@@ -69,18 +87,16 @@ class SpaceStation extends FlxGroup
 		add(milkhouse);
 		
 		
-		var player = new Player(this);
+		player = new Player(this);
 		add(player);
 		
-		for (i in 1...6)
-		{
-			var human = new Human(i * 50, 800, this,i);
-			//ICI INCLURE LE PSEUDO PROCEDURAL
-			human.init(5.5, 10, 45.0);
-			player.registerPhysSprite(human);
-			add(human);
-			
-		}
+		var nbWave = maxHumainKidnap / 5 ;
+		trace(nbWave);
+		
+		humanGroup  = new FlxGroup();
+		
+		
+		
 		
 		
 	}
@@ -91,8 +107,33 @@ class SpaceStation extends FlxGroup
 		super.update(elapsed);
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
 		{
-			gameTimer.start(gameDuration, endGame, 1);
-			trace("START GAME!");
+			if (waveCount == 0)
+			{
+				gameTimer.start(gameDuration, endGame, 1);
+				trace("START GAME!");
+			}
+			
+			
+			//trace("GROUPE NUMBER : " + humanGroup.length);
+			if (humanGroup.countLiving() == 0)
+			{
+				canSpawnNewWave = true;
+			}
+			
+			if (canSpawnNewWave)
+			{
+				if (!spawnWave(waveCount))
+				{
+					trace("SPAWN DE LA WAVE : " + waveCount);
+					waveCount++;
+					canSpawnNewWave = false;
+				}
+				else
+				{
+					trace("FIN DU NOMBRE D'HUMAIN ! DONC FIN DU JOUR");
+					isEndFinish = true;
+				}
+			}
 		}
 	}
 	
@@ -106,6 +147,29 @@ class SpaceStation extends FlxGroup
 	public function sendTextToInfoScreen(text:String)
 	{
 		infoScreen.updateText(text);
+	}
+	
+	public function spawnWave(idWave:Int):Bool
+	{
+		if (idWave != maxWave)
+		{
+			for (i in 1...6)
+			{
+				var human = new Human(i * 50, 800, this, i);
+				
+				//ICI INCLURE LE PSEUDO PROCEDURAL
+				human.init(5.5, 10, 45.0);
+				player.registerPhysSprite(human);
+				humanGroup.add(human);
+			}
+			add(humanGroup);
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+		
 	}
 	
 }
