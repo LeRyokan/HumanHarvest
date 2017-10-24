@@ -24,12 +24,13 @@ class Human extends FlxNapeSprite
 	public var isGrab:Bool;
 
 	//Caracteristique
-	var _id				:Int;
+	var _id				: Int;
 	var _meatProduce 	: Float;
 	var _milk			: Float;
 	var _iq				: Int ;
 
 	public var basicInfo : String;
+	public var sicknessInfo : String;
 
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int)
 	{
@@ -37,17 +38,29 @@ class Human extends FlxNapeSprite
 		this.body.allowRotation = false;
 		this.body.gravMass = 0.0;
 		_id = id;
-		
-		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id);
 
-	  //FlxG.watch.add(this, "isGrab", "Grab:");
+		//Inclusion du HumanProfile
+		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
+		var humanP = new HumanProfile();
+		if (humanP.isSick)
+		{
+			sicknessInfo = "JE SUIS MALADE";
 
-	  isGrab = false;
+		}
+		else
+		{
+			sicknessInfo = "JE SUIS SAIN";
+		}
 
-	  _spaceStation = spaceStation;
+		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
+		basicInfo += sicknessInfo;
 
-	  //Setup mouse event
-	  //FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
+		isGrab = false;
+
+		_spaceStation = spaceStation;
+
+		//Setup mouse event
+		//FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)

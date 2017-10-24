@@ -32,7 +32,7 @@ class SpaceStation extends FlxGroup
 	//Les entités du jeu
 	public var player : Player;
 	public var humanGroup : FlxGroup;
-	
+	public var aliveHumanLeft : Int = 2;
 	
 	//AREA : A regrouper maybe en FINAL ZONE AREA
 	public var slaughterhouse : Area;
@@ -58,18 +58,18 @@ class SpaceStation extends FlxGroup
 		super();
 		
 		FlxNapeSpace.init();
-		
 		FlxNapeSpace.createWalls(0,0,1280,860);
 		FlxNapeSpace.space.gravity.setxy(0, 400);
 		
 		gameTimer = new FlxTimer(null);
 		gameDuration = 20.0;
+		
 		//ressource init
 		meat = 0.0;
 		milk = 0.0;
 		iq = 0;
 		
-		var ressourceBar = new RessourceBar(new Rectangle(0, 0, 1280, 300),this);
+		//var ressourceBar = new RessourceBar(new Rectangle(0, 0, 1280, 300),this);
 		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600),this);
 		//add(ressourceBar);
 		add(ressourceBar2);
@@ -105,6 +105,13 @@ class SpaceStation extends FlxGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		if (humanGroup.countLiving() == aliveHumanLeft) //VALEUR MODIFIABLE
+		{
+			humanGroup.clear();
+		}
+		
+		
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
 		{
 			if (waveCount == 0)
@@ -115,7 +122,7 @@ class SpaceStation extends FlxGroup
 			
 			
 			//trace("GROUPE NUMBER : " + humanGroup.length);
-			if (humanGroup.countLiving() == 0)
+			if (humanGroup.length == 0)
 			{
 				canSpawnNewWave = true;
 			}
