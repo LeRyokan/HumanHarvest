@@ -34,12 +34,8 @@ class PlayState extends FlxState
 		
 		bgColor = 0xFFE5C992;
 		
-		spaceStation = new SpaceStation();
+		spaceStation = new SpaceStation(); // PASSER LE LEVEL
 		add(spaceStation);
-
-		
-		
-		
 	}
 
 	override public function update(elapsed:Float):Void

@@ -15,14 +15,17 @@ class RessourceBar extends FlxSpriteGroup
 {
 	public var backgroundSprite 	: FlxSprite;
 	
+	public var moneyRessoureSprite	: FlxSprite;
 	public var foodRessourceSprite 	: FlxSprite;
 	public var milkRessourceSprite : FlxSprite;
 	public var intelRessourceSprite : FlxSprite;
 	
+	public var moneyText	: FlxBitmapText;
 	public var foodText		:  FlxBitmapText;
 	public var milkText		:  FlxBitmapText;
 	public var intelText 	:  FlxBitmapText;
 	
+	public var moneyCount :Int;
 	public var foodCount : Float;
 	public var iqCount : Int;
 	public var milkCount : Float;
@@ -39,6 +42,7 @@ class RessourceBar extends FlxSpriteGroup
 		_spaceStation = spaceStation;
 		
 		//logic section
+		moneyCount = _spaceStation.dollars;
 		foodCount = _spaceStation.meat;
 		iqCount = _spaceStation.iq;
 		milkCount = _spaceStation.milk;
@@ -56,10 +60,17 @@ class RessourceBar extends FlxSpriteGroup
 		milkRessourceSprite = new FlxSprite(rect.x+ 100, rect.y);
 		milkRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
 		
+		moneyRessoureSprite = new FlxSprite(rect.x+ 200, rect.y);
+		moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
+
+		
 		add(backgroundSprite);
 		add(foodRessourceSprite);
 		add(milkRessourceSprite);
 		add(intelRessourceSprite);
+		add(moneyRessoureSprite);
+		
+		
 
 		
 		//Text section
@@ -78,10 +89,15 @@ class RessourceBar extends FlxSpriteGroup
 		intelText.x = intelRessourceSprite.x + intelRessourceSprite.width + 4;
 		intelText.y = foodRessourceSprite.y + 10 ;
 		
+		moneyText = new FlxBitmapText();
+		moneyText.text = Std.string(moneyCount);
+		moneyText.x = moneyRessoureSprite.x + moneyRessoureSprite.width + 4;
+		moneyText.y = moneyRessoureSprite.y + 10 ;
+		
 		add(foodText);
 		add(milkText);
 		add(intelText);
-		
+		add(moneyText);
 		//timer = new FlxTimer();
 		//timer.start(2, AddRessources, 0);
 		

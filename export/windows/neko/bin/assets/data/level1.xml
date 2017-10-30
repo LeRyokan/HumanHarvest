@@ -1,0 +1,25 @@
+<levels>
+	<level id="1">
+        <money> 500 </money>
+		<people> 20 </people>
+		<meat> 100 </meat>
+		<iq> 25 </iq>
+		<milk> 5 </milk>	
+	</level>
+	
+	<level id="2">
+        <money> 500 </money>
+        <people> 25 </people>
+		<meat> 150 </meat>
+		<iq> 50 </iq>
+		<milk> 50 </milk>	
+	</level>
+	
+	<level id="3">
+        <money> 500 </money>
+        <people> 25 </people>
+		<meat> 250 </meat>
+		<iq> 75 </iq>
+		<milk> 25 </milk>	
+	</level>
+</levels>

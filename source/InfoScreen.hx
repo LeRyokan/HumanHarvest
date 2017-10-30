@@ -22,7 +22,7 @@ class InfoScreen extends FlxSpriteGroup
 		screenSprite.makeGraphic(360, 240, FlxColor.CYAN, false);
 		add(screenSprite);
 		
-		textOnScreen = new FlxText(screenSprite.x + 5, screenSprite.y + 10,0, "HELLO WORLD", 8, true);
+		textOnScreen = new FlxText(screenSprite.x + 5, screenSprite.y + 10,0, "SCREEN INFO", 8, true);
 		add(textOnScreen);
 		
 		

@@ -17,6 +17,12 @@ class HumanProfile
 	
 	
 	
+	public var _meat : Float;
+	public var _iq : Int;
+	public var _milk : Float;
+	
+	
+	
 	public function new() 
 	{
 		//Determine from a percentage if the human is sick
@@ -38,5 +44,13 @@ class HumanProfile
 		
 		
 	}
+	
+	
+	function setRessources()
+	{
+		//MEAT ALGORITHM
+		//_meat = 
+	}
+	
 	
 }

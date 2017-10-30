@@ -1,12 +1,16 @@
 package;
 
 import flixel.FlxG;
+import flixel.addons.nape.FlxNapeSprite;
+import flixel.addons.nape.FlxNapeVelocity;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
+import nape.geom.Vec2;
 import openfl.geom.Rectangle;
 
 /**
@@ -23,21 +27,25 @@ class SpaceStation extends FlxGroup
 	public var isEndFinish :Bool = false;
 	
 	var maxHumainKidnap: Int = 25;  //NON USED
-	var maxWave:Int = 2;
+	var maxWave:Int = 5;
 	var waveCount: Int = 0;
 	var canSpawnNewWave : Bool = true;
+	var peopleCount : Int = 0 ;
 	///////////////////////////////////////
 	
 	
 	//Les entités du jeu
 	public var player : Player;
-	public var humanGroup : FlxGroup;
+	//public var humanGroup : FlxGroup;
+	public var humanGroup : FlxTypedGroup<FlxNapeSprite>;
+	
 	public var aliveHumanLeft : Int = 2;
 	
 	//AREA : A regrouper maybe en FINAL ZONE AREA
 	public var slaughterhouse : Area;
 	public var iqhouse : Area;
 	public var milkhouse : Area;
+	public var burnhouse: Area;
 	
 	
 	//LOGIC RESSOURCES ACTUELLEMENT AUSSI DANS PLAYER
@@ -51,11 +59,17 @@ class SpaceStation extends FlxGroup
 	public var infoScreen:InfoScreen;
 	
 	
+	//LEVEL CONSTRAINT
+	public var levelConstraint :LevelConstraint;
+	var ressourceArray : Array<Float>;
 	
 	
 	public function new() 
 	{
 		super();
+		
+		levelConstraint = new LevelConstraint(1);
+		ressourceArray = levelConstraint.createHumanRessource();
 		
 		FlxNapeSpace.init();
 		FlxNapeSpace.createWalls(0,0,1280,860);
@@ -64,7 +78,8 @@ class SpaceStation extends FlxGroup
 		gameTimer = new FlxTimer(null);
 		gameDuration = 20.0;
 		
-		//ressource init
+		//ressource shown init
+		dollars = levelConstraint.moneyPossessed;
 		meat = 0.0;
 		milk = 0.0;
 		iq = 0;
@@ -86,6 +101,10 @@ class SpaceStation extends FlxGroup
 		milkhouse = new Area(450, 100, FlxColor.LIME);
 		add(milkhouse);
 		
+		burnhouse = new Area(450, 800-24, FlxColor.RED);
+		add(burnhouse);
+		
+		
 		
 		player = new Player(this);
 		add(player);
@@ -93,7 +112,7 @@ class SpaceStation extends FlxGroup
 		var nbWave = maxHumainKidnap / 5 ;
 		trace(nbWave);
 		
-		humanGroup  = new FlxGroup();
+		humanGroup  = new FlxTypedGroup<FlxNapeSprite>();
 		
 		
 		
@@ -106,11 +125,23 @@ class SpaceStation extends FlxGroup
 	{
 		super.update(elapsed);
 		
-		if (humanGroup.countLiving() == aliveHumanLeft) //VALEUR MODIFIABLE
+		//SIMULATION DU TAPIS ROULANT QUI TUE AU MOMENT OU LES HUMAINS "TOMBE" DANS LE CREMATORIUM
+		if (humanGroup.length > 0)
 		{
-			humanGroup.clear();
+			for (h in humanGroup)
+			{
+				if (h.x > 450)
+				{
+					h.kill();
+				}
+			}
 		}
 		
+		//if (humanGroup.countLiving() == aliveHumanLeft) //VALEUR MODIFIABLE
+		//{
+			//humanGroup.clear();
+		//}
+		//
 		
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
 		{
@@ -119,7 +150,6 @@ class SpaceStation extends FlxGroup
 				gameTimer.start(gameDuration, endGame, 1);
 				trace("START GAME!");
 			}
-			
 			
 			//trace("GROUPE NUMBER : " + humanGroup.length);
 			if (humanGroup.length == 0)
@@ -134,6 +164,11 @@ class SpaceStation extends FlxGroup
 					trace("SPAWN DE LA WAVE : " + waveCount);
 					waveCount++;
 					canSpawnNewWave = false;
+					//TEST TAPIS ROULANT
+					for (hu in humanGroup)
+					{
+						hu.body.velocity.set(new Vec2(20.0, 0.0));	
+					}
 				}
 				else
 				{
@@ -148,8 +183,7 @@ class SpaceStation extends FlxGroup
 	private function endGame(timer:FlxTimer):Void
 	{
 		trace("END GAME!");
-		
-	}
+	} 
 	
 	public function sendTextToInfoScreen(text:String)
 	{
@@ -165,9 +199,14 @@ class SpaceStation extends FlxGroup
 				var human = new Human(i * 50, 800, this, i);
 				
 				//ICI INCLURE LE PSEUDO PROCEDURAL
-				human.init(5.5, 10, 45.0);
+				
+				//human.init(5.5, 10, 45.0);
+				human.init(ressourceArray[peopleCount], 10, 45.0);
 				player.registerPhysSprite(human);
 				humanGroup.add(human);
+				
+				peopleCount++;	
+				
 			}
 			add(humanGroup);
 			return false;

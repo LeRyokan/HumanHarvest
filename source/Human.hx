@@ -42,6 +42,11 @@ class Human extends FlxNapeSprite
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
 		var humanP = new HumanProfile();
+
+		//ON INIT LES RESSOURCES EN PREMIER
+		init(humanP._meat, humanP._iq, humanP._milk);
+		
+		
 		if (humanP.isSick)
 		{
 			sicknessInfo = "JE SUIS MALADE";
@@ -53,7 +58,8 @@ class Human extends FlxNapeSprite
 		}
 
 		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
-		basicInfo += sicknessInfo;
+		basicInfo += sicknessInfo + "\r\r";
+		
 
 		isGrab = false;
 
@@ -69,6 +75,10 @@ class Human extends FlxNapeSprite
 		_iq = iq;
 		_milk = milk;
 
+		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meatProduce + " KILOS DE VIANDE \r";
+		basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
+		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _milk + " LITRES D'EAU \r";
+		
 	}
 
 	public override function update(elapsed:Float)
