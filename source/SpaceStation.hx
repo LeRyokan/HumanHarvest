@@ -76,7 +76,7 @@ class SpaceStation extends FlxGroup
 		FlxNapeSpace.space.gravity.setxy(0, 400);
 		
 		gameTimer = new FlxTimer(null);
-		gameDuration = 20.0;
+		gameDuration = 5.0;
 		
 		//ressource shown init
 		dollars = levelConstraint.moneyPossessed;
@@ -113,29 +113,26 @@ class SpaceStation extends FlxGroup
 		trace(nbWave);
 		
 		humanGroup  = new FlxTypedGroup<FlxNapeSprite>();
-		
-		
-		
-		
+		//add(humanGroup);
 		
 	}
 	
-	
+	//LE UPDATE SERA BON POUR UN PETIT REFACTO
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		
 		//SIMULATION DU TAPIS ROULANT QUI TUE AU MOMENT OU LES HUMAINS "TOMBE" DANS LE CREMATORIUM
-		if (humanGroup.length > 0)
-		{
-			for (h in humanGroup)
-			{
-				if (h.x > 450)
-				{
-					h.kill();
-				}
-			}
-		}
+		//if (humanGroup.length > 0)
+		//{
+			//for (h in humanGroup)
+			//{
+				//if (h.x > 450)
+				//{
+					//h.kill();
+				//}
+			//}
+		//}
 		
 		//if (humanGroup.countLiving() == aliveHumanLeft) //VALEUR MODIFIABLE
 		//{
@@ -147,35 +144,42 @@ class SpaceStation extends FlxGroup
 		{
 			if (waveCount == 0)
 			{
-				gameTimer.start(gameDuration, endGame, 1);
+				//gameTimer.start(gameDuration, endGame, 1);
+				gameTimer.start(gameDuration, spawnHum, 20);
 				trace("START GAME!");
+				waveCount++; // a remplacer
 			}
 			
-			//trace("GROUPE NUMBER : " + humanGroup.length);
-			if (humanGroup.length == 0)
-			{
-				canSpawnNewWave = true;
-			}
 			
-			if (canSpawnNewWave)
-			{
-				if (!spawnWave(waveCount))
-				{
-					trace("SPAWN DE LA WAVE : " + waveCount);
-					waveCount++;
-					canSpawnNewWave = false;
-					//TEST TAPIS ROULANT
-					for (hu in humanGroup)
-					{
-						hu.body.velocity.set(new Vec2(20.0, 0.0));	
-					}
-				}
-				else
-				{
-					trace("FIN DU NOMBRE D'HUMAIN ! DONC FIN DU JOUR");
-					isEndFinish = true;
-				}
-			}
+			//METHODE DE SPAWN UNITAIRE
+			
+			
+			
+			//METHODE DE SPAWN PAR VAGUE
+			//if (humanGroup.length == 0)
+			//{
+				//canSpawnNewWave = true;
+			//}
+			//
+			//if (canSpawnNewWave)
+			//{
+				//if (!spawnWave(waveCount))
+				//{
+					//trace("SPAWN DE LA WAVE : " + waveCount);
+					//waveCount++;
+					//canSpawnNewWave = false;
+					////TEST TAPIS ROULANT
+					//for (hu in humanGroup)
+					//{
+						//hu.body.velocity.set(new Vec2(20.0, 0.0));	
+					//}
+				//}
+				//else
+				//{
+					//trace("FIN DU NOMBRE D'HUMAIN ! DONC FIN DU JOUR");
+					//isEndFinish = true;
+				//}
+			//}
 		}
 	}
 	
@@ -185,10 +189,28 @@ class SpaceStation extends FlxGroup
 		trace("END GAME!");
 	} 
 	
+	private function spawnHum(timer:FlxTimer):Void
+	{
+		trace("SPAWN");
+		spawnUnitary();
+	} 
+	
 	public function sendTextToInfoScreen(text:String)
 	{
 		infoScreen.updateText(text);
 	}
+	
+	public function spawnUnitary():Void
+	{
+		var human = new Human(50, 800, this, peopleCount);
+		human.init(ressourceArray[peopleCount], 10, 45.0);
+		player.registerPhysSprite(human);
+		human.body.velocity.set(new Vec2(20.0, 0.0));
+		humanGroup.add(human);	
+		peopleCount++;	
+		add(humanGroup); // a déplacer
+	}
+	
 	
 	public function spawnWave(idWave:Int):Bool
 	{

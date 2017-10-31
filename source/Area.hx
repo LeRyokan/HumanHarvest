@@ -19,6 +19,14 @@ class Area extends FlxSprite
 		makeGraphic(64, 48, color, false);
 		
 		
+		//reduction de la hitbox de la burnhouse
+		if (color == FlxColor.RED)
+		{
+			this.width = this.width / 2;
+			this.offset.set(this.width / 2, 0);
+			
+		}
+		
 	}
 	
 }

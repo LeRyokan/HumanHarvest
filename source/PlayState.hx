@@ -34,7 +34,7 @@ class PlayState extends FlxState
 		
 		bgColor = 0xFFE5C992;
 		
-		spaceStation = new SpaceStation(); // PASSER LE LEVEL
+		spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
 		add(spaceStation);
 	}
 

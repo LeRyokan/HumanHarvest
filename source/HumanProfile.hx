@@ -39,10 +39,6 @@ class HumanProfile
 			//trace("SAIN");
 			isSick = false;
 		}
-		
-		
-		
-		
 	}
 	
 	

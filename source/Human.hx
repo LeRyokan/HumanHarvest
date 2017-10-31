@@ -86,9 +86,11 @@ class Human extends FlxNapeSprite
 		super.update(elapsed);
 
 		//FOR EACH AREA UN OVERLAPS
+		FlxG.overlap(this, _spaceStation.burnhouse, getBurned, isActuallyGrab);
 		FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab);
 		FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab);
 		FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab);
+		
 	}
 
 	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
@@ -108,7 +110,6 @@ class Human extends FlxNapeSprite
 		trace("BOUCHERIE");
 		_spaceStation.meat += _meatProduce;
 		this.kill();
-
 	}
 
 	private function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
@@ -116,7 +117,6 @@ class Human extends FlxNapeSprite
 		trace("BRAINWASH");
 		_spaceStation.iq += _iq;
 		this.kill();
-
 	}
 
 	private function getMilked(obj1:FlxObject, obj2:FlxObject):Void
@@ -124,7 +124,12 @@ class Human extends FlxNapeSprite
 		trace("MILKED");
 		_spaceStation.milk += _milk;
 		this.kill();
-
+	}
+	
+	private function getBurned(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BURNED");
+		this.kill();
 	}
 
 	//private function onMouseOver(_)

@@ -30,6 +30,7 @@ class Player extends FlxBasic
 	
 	var mouseJoint:DistanceJoint;
 	var currentSpriteGrab:Human;
+	var currentHumanWithInfoDisplay:Human;
 	var _spaceStation:SpaceStation;
 	
 	public function new(spaceStation:SpaceStation)
@@ -49,6 +50,12 @@ class Player extends FlxBasic
 	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		if(currentHumanWithInfoDisplay!=null && !currentHumanWithInfoDisplay.alive)
+		{
+				cleanScreenInfo();
+		}
+		
 		if (mouseJoint != null) 
 		{
 			mouseJoint.anchor1 = new Vec2(FlxG.mouse.x, FlxG.mouse.y);
@@ -63,6 +70,7 @@ class Player extends FlxBasic
 				
 				trace("SOURIS RELACHE");
 			}
+			
 		}
 	}
 	
@@ -80,8 +88,7 @@ class Player extends FlxBasic
 	
 	public inline function registerPhysSprite(human:Human)
 	{
-		//FlxMouseEventManager.add(human.mainSprite, createMouseJoint);
-		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis,cleanScreenInfo);
+		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis,null);
 	}
 	
 	function createMouseJoint(spr:Human) 
@@ -98,9 +105,10 @@ class Player extends FlxBasic
 	function getInfoAboutThis(human:Human)
 	{
 		_spaceStation.sendTextToInfoScreen(human.basicInfo);
+		currentHumanWithInfoDisplay = human;
 	}
 	
-	function cleanScreenInfo(human:Human)
+	function cleanScreenInfo()
 	{
 		_spaceStation.sendTextToInfoScreen(" ");
 	}
