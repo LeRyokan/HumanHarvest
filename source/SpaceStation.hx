@@ -24,22 +24,24 @@ class SpaceStation extends FlxGroup
 	//Game timer
 	public var gameTimer : FlxTimer;
 	var gameDuration : Float;
-	public var isEndFinish :Bool = false;
+	public var isDayFinish :Bool = false;
 	
-	var maxHumainKidnap: Int = 25;  //NON USED
+	var maxHumainKidnap: Int = 5;  //A INIT VIA LE XML DU LEVEL
 	var maxWave:Int = 5;
 	var waveCount: Int = 0;
 	var canSpawnNewWave : Bool = true;
 	var peopleCount : Int = 0 ;
+	var peoplePlaced : Int = 0;
 	///////////////////////////////////////
+	
+	var placeholderArray : Array<FlxPoint>;
 	
 	
 	//Les entités du jeu
 	public var player : Player;
-	//public var humanGroup : FlxGroup;
 	public var humanGroup : FlxTypedGroup<FlxNapeSprite>;
 	
-	public var aliveHumanLeft : Int = 2;
+	//public var aliveHumanLeft : Int = 2;
 	
 	//AREA : A regrouper maybe en FINAL ZONE AREA
 	public var slaughterhouse : Area;
@@ -67,6 +69,8 @@ class SpaceStation extends FlxGroup
 	public function new() 
 	{
 		super();
+		
+		placeholderArray = new Array<FlxPoint>();
 		
 		levelConstraint = new LevelConstraint(1);
 		ressourceArray = levelConstraint.createHumanRessource();
@@ -105,7 +109,6 @@ class SpaceStation extends FlxGroup
 		add(burnhouse);
 		
 		
-		
 		player = new Player(this);
 		add(player);
 		
@@ -113,7 +116,7 @@ class SpaceStation extends FlxGroup
 		trace(nbWave);
 		
 		humanGroup  = new FlxTypedGroup<FlxNapeSprite>();
-		//add(humanGroup);
+		add(humanGroup);
 		
 	}
 	
@@ -122,64 +125,30 @@ class SpaceStation extends FlxGroup
 	{
 		super.update(elapsed);
 		
-		//SIMULATION DU TAPIS ROULANT QUI TUE AU MOMENT OU LES HUMAINS "TOMBE" DANS LE CREMATORIUM
-		//if (humanGroup.length > 0)
-		//{
-			//for (h in humanGroup)
-			//{
-				//if (h.x > 450)
-				//{
-					//h.kill();
-				//}
-			//}
-		//}
+		for (pl in placeholderArray)
+		{
+			pl.x += 0.5;
+		}
 		
-		//if (humanGroup.countLiving() == aliveHumanLeft) //VALEUR MODIFIABLE
-		//{
-			//humanGroup.clear();
-		//}
-		//
 		
+		if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)
+		{
+			isDayFinish = true;
+			gameTimer.start(3.0, endGame, 1);
+			trace("END DAY");
+		}
+		
+		//LANCE LE JEU
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
 		{
+			//METHODE DE SPAWN UNITAIRE
 			if (waveCount == 0)
 			{
-				//gameTimer.start(gameDuration, endGame, 1);
-				gameTimer.start(gameDuration, spawnHum, 20);
-				trace("START GAME!");
+				gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);
 				waveCount++; // a remplacer
+				trace("START GAME!");
 			}
 			
-			
-			//METHODE DE SPAWN UNITAIRE
-			
-			
-			
-			//METHODE DE SPAWN PAR VAGUE
-			//if (humanGroup.length == 0)
-			//{
-				//canSpawnNewWave = true;
-			//}
-			//
-			//if (canSpawnNewWave)
-			//{
-				//if (!spawnWave(waveCount))
-				//{
-					//trace("SPAWN DE LA WAVE : " + waveCount);
-					//waveCount++;
-					//canSpawnNewWave = false;
-					////TEST TAPIS ROULANT
-					//for (hu in humanGroup)
-					//{
-						//hu.body.velocity.set(new Vec2(20.0, 0.0));	
-					//}
-				//}
-				//else
-				//{
-					//trace("FIN DU NOMBRE D'HUMAIN ! DONC FIN DU JOUR");
-					//isEndFinish = true;
-				//}
-			//}
 		}
 	}
 	
@@ -187,6 +156,7 @@ class SpaceStation extends FlxGroup
 	private function endGame(timer:FlxTimer):Void
 	{
 		trace("END GAME!");
+		FlxG.switchState(new DebriefState());
 	} 
 	
 	private function spawnHum(timer:FlxTimer):Void
@@ -202,42 +172,58 @@ class SpaceStation extends FlxGroup
 	
 	public function spawnUnitary():Void
 	{
-		var human = new Human(50, 800, this, peopleCount);
-		human.init(ressourceArray[peopleCount], 10, 45.0);
-		player.registerPhysSprite(human);
-		human.body.velocity.set(new Vec2(20.0, 0.0));
-		humanGroup.add(human);	
-		peopleCount++;	
-		add(humanGroup); // a déplacer
-	}
-	
-	
-	public function spawnWave(idWave:Int):Bool
-	{
-		if (idWave != maxWave)
-		{
-			for (i in 1...6)
-			{
-				var human = new Human(i * 50, 800, this, i);
-				
-				//ICI INCLURE LE PSEUDO PROCEDURAL
-				
-				//human.init(5.5, 10, 45.0);
-				human.init(ressourceArray[peopleCount], 10, 45.0);
-				player.registerPhysSprite(human);
-				humanGroup.add(human);
-				
-				peopleCount++;	
-				
-			}
-			add(humanGroup);
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		placeholderArray.push(new FlxPoint(50, 800));
+		//var testMovingPlaceholder = new FlxPoint(50, 800);
 		
+		var human = new Human(50, 800, this, peopleCount,placeholderArray[peopleCount]);
+		human.init(ressourceArray[peopleCount], 10, 45.0); // A SETUP
+		player.registerPhysSprite(human);
+		//human.body.velocity.set(new Vec2(20.0, 0.0));
+		humanGroup.add(human);	
+		
+		//add(humanGroup); // a déplacer
+		
+		//PlaceHolder pour les cubes qui avance meme avec le drag and drop
+		
+		//var placeholder = new FlxNapeSprite(50, 800,"assets/images/placeholder.png",true,true);
+		//var placeholder = new Human(50, 800, this, peopleCount);
+		//
+		////player.registerPhysSprite(placeholder);
+		//placeholder.body.disableCCD = true;
+		//placeholder.body.gravMass = 0.0;
+		//placeholder.body.velocity.set(new Vec2(20.0, 0.0));
+		//add(placeholder);
+		//
+		peopleCount++;	
 	}
+	
+	
+	//public function spawnWave(idWave:Int):Bool
+	//{
+		//if (idWave != maxWave)
+		//{
+			//for (i in 1...6)
+			//{
+				//var human = new Human(i * 50, 800, this, i);
+				//
+				////ICI INCLURE LE PSEUDO PROCEDURAL
+				//
+				////human.init(5.5, 10, 45.0);
+				//human.init(ressourceArray[peopleCount], 10, 45.0);
+				//player.registerPhysSprite(human);
+				//humanGroup.add(human);
+				//
+				//peopleCount++;	
+				//
+			//}
+			//add(humanGroup);
+			//return false;
+		//}
+		//else
+		//{
+			//return true;
+		//}
+		//
+	//}
 	
 }

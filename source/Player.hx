@@ -66,9 +66,10 @@ class Player extends FlxBasic
 				if (currentSpriteGrab != null)
 				{
 					currentSpriteGrab.isGrab = false;
+					trace("SPRITE RELACHE");
 				}
 				
-				trace("SOURIS RELACHE");
+			
 			}
 			
 		}

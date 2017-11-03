@@ -7,6 +7,7 @@ import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.group.FlxGroup;
 import flixel.input.mouse.FlxMouseEventManager;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import nape.phys.BodyType;
@@ -31,19 +32,28 @@ class Human extends FlxNapeSprite
 
 	public var basicInfo : String;
 	public var sicknessInfo : String;
+	
+	
+	//Info lié à la position dans le tapis roulant
+	public var posOnTable:FlxPoint;
+	
 
-	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int)
+	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
 		super(X,Y,"assets/images/human.png",true,true);
 		this.body.allowRotation = false;
 		this.body.gravMass = 0.0;
 		_id = id;
 
+		
+		//posOnTable = new FlxPoint(X, Y);
+		posOnTable = placeholderPos;
+		
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
 		var humanP = new HumanProfile();
 
-		//ON INIT LES RESSOURCES EN PREMIER
+		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
 		init(humanP._meat, humanP._iq, humanP._milk);
 		
 		
@@ -86,11 +96,40 @@ class Human extends FlxNapeSprite
 		super.update(elapsed);
 
 		//FOR EACH AREA UN OVERLAPS
-		FlxG.overlap(this, _spaceStation.burnhouse, getBurned, isActuallyGrab);
-		FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab);
-		FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab);
-		FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab);
-		
+		if (FlxG.overlap(this, _spaceStation.burnhouse, getBurned, isActuallyGrab))
+		{
+			
+		}
+		else if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab))
+		{
+			
+		}
+		else if (FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab))
+		{
+			
+		}
+		else if (FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab))
+		{
+			
+		}
+		else
+		{
+			if (!isGrab)
+			{
+				this.x = posOnTable.x;
+				//this.y = posOnTable.y;
+			}
+			else
+			{
+				this.x = FlxG.mouse.x;
+				this.y = FlxG.mouse.y;
+			}
+		}
+		//this.x += 1;
+		//if (this.alive)
+		//{
+			
+		//}
 	}
 
 	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
