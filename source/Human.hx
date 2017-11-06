@@ -148,6 +148,7 @@ class Human extends FlxNapeSprite
 	{
 		trace("BOUCHERIE");
 		_spaceStation.meat += _meatProduce;
+		_spaceStation.slaughterhouse.humanCount++;
 		this.kill();
 	}
 
@@ -155,6 +156,7 @@ class Human extends FlxNapeSprite
 	{
 		trace("BRAINWASH");
 		_spaceStation.iq += _iq;
+		_spaceStation.iqhouse.humanCount++;
 		this.kill();
 	}
 
@@ -162,12 +164,14 @@ class Human extends FlxNapeSprite
 	{
 		trace("MILKED");
 		_spaceStation.milk += _milk;
+		_spaceStation.milkhouse.humanCount++;
 		this.kill();
 	}
 	
 	private function getBurned(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("BURNED");
+		_spaceStation.burnhouse.humanCount++;
 		this.kill();
 	}
 

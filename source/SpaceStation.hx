@@ -26,6 +26,14 @@ class SpaceStation extends FlxGroup
 	//A MIGRER PLUS TARD DANS GAME SESSION//
 	//Game timer
 	public var gameTimer : FlxTimer;
+	public var dayTimer : FlxTimer;
+	
+	var quarterTime : Bool = false;
+	var halfTime: Bool = false;
+	var threeQuarterTime : Bool = false;
+	var endNearTime:Bool = false;
+	
+	var dayDuration : Float;
 	var gameDuration : Float;
 	public var isDayFinish :Bool = false;
 	
@@ -82,6 +90,8 @@ class SpaceStation extends FlxGroup
 		FlxNapeSpace.createWalls(0,0,1280,860);
 		FlxNapeSpace.space.gravity.setxy(0, 400);
 		
+		dayTimer = new FlxTimer(null);
+		dayDuration = 12.0;
 		gameTimer = new FlxTimer(null);
 		gameDuration = 5.0;
 		
@@ -128,24 +138,58 @@ class SpaceStation extends FlxGroup
 	{
 		super.update(elapsed);
 		
+		//Déplace les humains sur le tapis
 		for (pl in placeholderArray)
 		{
 			if (player.currentSpriteGrab == null) 
 			{	
 				pl.x += 0.5;
-			} else {
+			} else 
+			{
 				pl.x += 1.;
 			}
 			
 		}
 		
 		
+		
+		//1er solution pour la fin de partie
 		if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)
 		{
 			isDayFinish = true;
 			gameTimer.start(3.0, endGame, 1);
 			trace("END DAY");
 		}
+		
+		//2eme solution pour la fin de partie
+		if (dayTimer.active)
+		{
+			if (dayTimer.progress > 0.25 && !quarterTime)
+			{
+				trace("QUARTER TIME");
+				quarterTime = true;
+			}
+			
+			if (dayTimer.progress > 0.5 && !halfTime)
+			{
+				trace("HALF TIME");
+				halfTime = true;
+			}
+			
+			if (dayTimer.progress > 0.75 && !threeQuarterTime)
+			{
+				trace("THREE QUARTER TIME");
+				threeQuarterTime = true;
+			}
+			
+			if (dayTimer.progress > 0.90 && !endNearTime)
+			{
+				trace("END NEAR TIME");
+				endNearTime = true;
+			}
+			
+		}
+		
 		
 		//LANCE LE JEU
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
@@ -156,6 +200,10 @@ class SpaceStation extends FlxGroup
 				gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);
 				waveCount++; // a remplacer
 				trace("START GAME!");
+				
+				//Timer du jour
+				dayTimer.start(dayDuration, endGame, 1);
+				
 			}
 			
 		}
@@ -164,7 +212,11 @@ class SpaceStation extends FlxGroup
 	
 	private function endGame(timer:FlxTimer):Void
 	{
-		trace("END GAME!");
+		trace("END DAY! ");
+		trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
+		
+		
+		
 		FlxG.switchState(new DebriefState());
 	} 
 	

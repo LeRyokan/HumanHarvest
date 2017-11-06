@@ -11,12 +11,15 @@ import flixel.util.FlxColor;
 class Area extends FlxSprite 
 {
 	
-	//var humanCount:Int;
+	public var humanCount:Int;
 
 	public function new(?X:Float=0, ?Y:Float=0, color:FlxColor) 
 	{
 		super(X, Y);
 		makeGraphic(64, 48, color, false);
+		
+		//Compte d'humain arrivé dans la zone
+		humanCount = 0;
 		
 		
 		//reduction de la hitbox de la burnhouse
