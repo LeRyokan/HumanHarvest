@@ -1,4 +1,4 @@
-package;
+package ui;
 
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -11,7 +11,7 @@ import flixel.util.FlxColor;
  */
 class InfoScreen extends FlxSpriteGroup 
 {
-	var ressourceBar : RessourceBar;
+	var ressourceBar : ui.RessourceBar;
 	var screenSprite : FlxSprite;
 	var textOnScreen : FlxText;
 	

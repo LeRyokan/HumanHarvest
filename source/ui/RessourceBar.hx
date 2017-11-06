@@ -1,4 +1,5 @@
-package;
+package ui;
+import SpaceStation;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxBitmapText;

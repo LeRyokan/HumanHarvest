@@ -1,11 +1,15 @@
-package;
+package state;
 
+import Human;
+import Player;
+import SpaceStation;
 import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
 import lime.ui.KeyCode;
+import ui.InfoScreen;
 
 
 import flixel.addons.nape.FlxNapeSprite;
@@ -25,7 +29,7 @@ class PlayState extends FlxState
 	public var human:Human;
 	
 	public var spaceStation:SpaceStation;
-	public var infoScreen : InfoScreen;
+	public var infoScreen : ui.InfoScreen;
 	
 	override public function create():Void
 	{
