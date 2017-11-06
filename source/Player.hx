@@ -29,7 +29,7 @@ class Player extends FlxBasic
 	
 	
 	var mouseJoint:DistanceJoint;
-	var currentSpriteGrab:Human;
+	public var currentSpriteGrab:Human;
 	var currentHumanWithInfoDisplay:Human;
 	var _spaceStation:SpaceStation;
 	
@@ -60,18 +60,19 @@ class Player extends FlxBasic
 		{
 			mouseJoint.anchor1 = new Vec2(FlxG.mouse.x, FlxG.mouse.y);
 			
+			// TODO: idéalement, foutre dans le onMouseUp
 			if (FlxG.mouse.justReleased)
 			{
 				mouseJoint.space = null;
 				if (currentSpriteGrab != null)
 				{
 					currentSpriteGrab.isGrab = false;
+					currentSpriteGrab.posOnTable.x = FlxG.mouse.x;
+					currentSpriteGrab = null;
 					trace("SPRITE RELACHE");
 				}
-				
-			
 			}
-			
+			//
 		}
 	}
 	
@@ -89,9 +90,10 @@ class Player extends FlxBasic
 	
 	public inline function registerPhysSprite(human:Human)
 	{
-		FlxMouseEventManager.add(human, createMouseJoint,null,getInfoAboutThis,null);
+		FlxMouseEventManager.add(human, createMouseJoint, humanReleased, getInfoAboutThis, onMouseOut);
 	}
 	
+	// onMouseDown
 	function createMouseJoint(spr:Human) 
 	{
 		currentSpriteGrab = spr;
@@ -101,12 +103,30 @@ class Player extends FlxBasic
 		spr.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)), 0, 0);
 		
 		mouseJoint.space = FlxNapeSpace.space;
-	}	
+	}
 	
+	// onMouseUp
+	// TODO: fonctionne pas pour le moment
+	function humanReleased(spr:Human) 
+	{
+		// mouseJoint.space = null;
+		// spr.isGrab = false;
+		// spr.posOnTable.x = FlxG.mouse.x;
+		// spr = null;
+		// trace("SPRITE RELACHE");
+	}
+	
+	// onMouseOver
 	function getInfoAboutThis(human:Human)
 	{
 		_spaceStation.sendTextToInfoScreen(human.basicInfo);
 		currentHumanWithInfoDisplay = human;
+	}
+	
+	// onMouseOut
+	function onMouseOut(human:Human) 
+	{
+		// trace(human);
 	}
 	
 	function cleanScreenInfo()

@@ -130,7 +130,13 @@ class SpaceStation extends FlxGroup
 		
 		for (pl in placeholderArray)
 		{
-			pl.x += 0.5;
+			if (player.currentSpriteGrab == null) 
+			{	
+				pl.x += 0.5;
+			} else {
+				pl.x += 1.;
+			}
+			
 		}
 		
 		

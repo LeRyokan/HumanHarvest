@@ -117,7 +117,7 @@ class Human extends FlxNapeSprite
 			if (!isGrab)
 			{
 				this.x = posOnTable.x;
-				//this.y = posOnTable.y;
+				this.y = posOnTable.y;
 			}
 			else
 			{

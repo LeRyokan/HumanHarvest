@@ -52,12 +52,12 @@ class PlayState extends FlxState
 		//}
 		
 		//DEBUG
-		if (FlxG.keys.anyJustPressed([R]))
+		if (FlxG.keys.pressed.SHIFT)
 		{
-			FlxG.resetState();
+			if (FlxG.keys.anyJustPressed([R]))
+			{
+				FlxG.resetState();
+			}
 		}
 	}
-	
-	
-	
 }
