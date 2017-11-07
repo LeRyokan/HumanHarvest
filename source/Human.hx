@@ -32,11 +32,9 @@ class Human extends FlxNapeSprite
 
 	public var basicInfo : String;
 	public var sicknessInfo : String;
-	
-	
+
 	//Info lié à la position dans le tapis roulant
 	public var posOnTable:FlxPoint;
-	
 
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
@@ -45,18 +43,16 @@ class Human extends FlxNapeSprite
 		this.body.gravMass = 0.0;
 		_id = id;
 
-		
 		//posOnTable = new FlxPoint(X, Y);
 		posOnTable = placeholderPos;
-		
+
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
 		var humanP = new HumanProfile();
 
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
 		init(humanP._meat, humanP._iq, humanP._milk);
-		
-		
+
 		if (humanP.isSick)
 		{
 			sicknessInfo = "JE SUIS MALADE";
@@ -69,7 +65,6 @@ class Human extends FlxNapeSprite
 
 		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
 		basicInfo += sicknessInfo + "\r\r";
-		
 
 		isGrab = false;
 
@@ -88,7 +83,7 @@ class Human extends FlxNapeSprite
 		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meatProduce + " KILOS DE VIANDE \r";
 		basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
 		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _milk + " LITRES D'EAU \r";
-		
+
 	}
 
 	public override function update(elapsed:Float)
@@ -98,19 +93,19 @@ class Human extends FlxNapeSprite
 		//FOR EACH AREA UN OVERLAPS
 		if (FlxG.overlap(this, _spaceStation.burnhouse, getBurned, isActuallyGrab))
 		{
-			
+
 		}
 		else if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab))
 		{
-			
+
 		}
 		else if (FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab))
 		{
-			
+
 		}
 		else if (FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab))
 		{
-			
+
 		}
 		else
 		{
@@ -125,11 +120,7 @@ class Human extends FlxNapeSprite
 				this.y = FlxG.mouse.y;
 			}
 		}
-		//this.x += 1;
-		//if (this.alive)
-		//{
-			
-		//}
+
 	}
 
 	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
@@ -167,7 +158,7 @@ class Human extends FlxNapeSprite
 		_spaceStation.milkhouse.humanCount++;
 		this.kill();
 	}
-	
+
 	private function getBurned(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("BURNED");

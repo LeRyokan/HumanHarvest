@@ -67,7 +67,7 @@ class Player extends FlxBasic
 				if (currentSpriteGrab != null)
 				{
 					currentSpriteGrab.isGrab = false;
-					currentSpriteGrab.posOnTable.x = FlxG.mouse.x;
+					currentSpriteGrab.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
 					currentSpriteGrab = null;
 					trace("SPRITE RELACHE");
 				}

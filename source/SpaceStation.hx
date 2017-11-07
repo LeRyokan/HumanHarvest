@@ -91,7 +91,7 @@ class SpaceStation extends FlxGroup
 		FlxNapeSpace.space.gravity.setxy(0, 400);
 		
 		dayTimer = new FlxTimer(null);
-		dayDuration = 12.0;
+		dayDuration = 100.0;
 		gameTimer = new FlxTimer(null);
 		gameDuration = 5.0;
 		
@@ -101,9 +101,7 @@ class SpaceStation extends FlxGroup
 		milk = 0.0;
 		iq = 0;
 		
-		//var ressourceBar = new RessourceBar(new Rectangle(0, 0, 1280, 300),this);
 		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600),this);
-		//add(ressourceBar);
 		add(ressourceBar2);
 		
 		infoScreen = new InfoScreen();
@@ -125,8 +123,8 @@ class SpaceStation extends FlxGroup
 		player = new Player(this);
 		add(player);
 		
-		var nbWave = maxHumainKidnap / 5 ;
-		trace(nbWave);
+		//var nbWave = maxHumainKidnap / 5 ;
+		//trace(nbWave);
 		
 		humanGroup  = new FlxTypedGroup<FlxNapeSprite>();
 		add(humanGroup);
@@ -151,29 +149,43 @@ class SpaceStation extends FlxGroup
 			
 		}
 		
-		
-		
 		//1er solution pour la fin de partie
-		if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)
+		/*if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)
 		{
 			isDayFinish = true;
 			gameTimer.start(3.0, endGame, 1);
 			trace("END DAY");
-		}
+		}*/
 		
 		//2eme solution pour la fin de partie
 		if (dayTimer.active)
 		{
+			
+			if (gameTimer.finished==true )
+			{
+				trace("RUSH HOUR ENDS ! GOING BACK TO NORMAL");
+				gameTimer.start(gameDuration, spawnHum, 0);
+			}
+			
+			
+			
 			if (dayTimer.progress > 0.25 && !quarterTime)
 			{
 				trace("QUARTER TIME");
 				quarterTime = true;
+				
+				//TEST DU RUSH HOUR
+				gameTimer.cancel();
+				gameTimer.start(1.5, spawnHum, 10);
 			}
 			
 			if (dayTimer.progress > 0.5 && !halfTime)
 			{
 				trace("HALF TIME");
 				halfTime = true;
+				
+				
+				
 			}
 			
 			if (dayTimer.progress > 0.75 && !threeQuarterTime)
@@ -186,10 +198,15 @@ class SpaceStation extends FlxGroup
 			{
 				trace("END NEAR TIME");
 				endNearTime = true;
+				
+				//SECOND RUSH HOUR
+				gameTimer.cancel();
+				gameTimer.start(1.5, spawnHum, 10);
+				
+				
 			}
 			
 		}
-		
 		
 		//LANCE LE JEU
 		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
@@ -197,7 +214,8 @@ class SpaceStation extends FlxGroup
 			//METHODE DE SPAWN UNITAIRE
 			if (waveCount == 0)
 			{
-				gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);
+				//gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);//VERSION SPAWN NOMBRE LIMITE
+				gameTimer.start(gameDuration, spawnHum, 0);//VERSION SPAWN ILIMITE
 				waveCount++; // a remplacer
 				trace("START GAME!");
 				
@@ -205,19 +223,24 @@ class SpaceStation extends FlxGroup
 				dayTimer.start(dayDuration, endGame, 1);
 				
 			}
-			
 		}
+		
+		//FIN  DE JEU
+		if (humanGroup.countDead() == peopleCount && isDayFinish)
+		{
+			trace("END DAY! ");
+			trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
+			// UN LEGER WAIT AVANT DE SWITCH STATE SERAIT COOL
+			FlxG.switchState(new DebriefState());
+		}
+
 	}
 	
 	
 	private function endGame(timer:FlxTimer):Void
 	{
-		trace("END DAY! ");
-		trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
-		
-		
-		
-		FlxG.switchState(new DebriefState());
+		gameTimer.cancel();
+		isDayFinish = true;
 	} 
 	
 	private function spawnHum(timer:FlxTimer):Void
@@ -242,19 +265,6 @@ class SpaceStation extends FlxGroup
 		//human.body.velocity.set(new Vec2(20.0, 0.0));
 		humanGroup.add(human);	
 		
-		//add(humanGroup); // a déplacer
-		
-		//PlaceHolder pour les cubes qui avance meme avec le drag and drop
-		
-		//var placeholder = new FlxNapeSprite(50, 800,"assets/images/placeholder.png",true,true);
-		//var placeholder = new Human(50, 800, this, peopleCount);
-		//
-		////player.registerPhysSprite(placeholder);
-		//placeholder.body.disableCCD = true;
-		//placeholder.body.gravMass = 0.0;
-		//placeholder.body.velocity.set(new Vec2(20.0, 0.0));
-		//add(placeholder);
-		//
 		peopleCount++;	
 	}
 	
@@ -286,5 +296,11 @@ class SpaceStation extends FlxGroup
 		//}
 		//
 	//}
+	
+	
+	public function rushHour()
+	{
+		
+	}
 	
 }
