@@ -1,8 +1,2 @@
-/export
-export/windows/neko/obj/ApplicationMain.n
-export/.build
-export/windows/neko/bin/HumanHarvest.exe
-export/windows/neko/haxe/ApplicationMain.hx
-export/windows/neko/obj/ApplicationMain.n
-export/windows/neko/haxe/ApplicationMain.hx
-export/windows/neko/obj/ApplicationMain.n
+/export/*
+

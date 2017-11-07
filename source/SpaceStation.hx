@@ -214,8 +214,10 @@ class SpaceStation extends FlxGroup
 			//METHODE DE SPAWN UNITAIRE
 			if (waveCount == 0)
 			{
+
 				//gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);//VERSION SPAWN NOMBRE LIMITE
 				gameTimer.start(gameDuration, spawnHum, 0);//VERSION SPAWN ILIMITE
+
 				waveCount++; // a remplacer
 				trace("START GAME!");
 				

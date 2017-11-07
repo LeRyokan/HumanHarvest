@@ -72,6 +72,10 @@ class Human extends FlxNapeSprite
 
 		//Setup mouse event
 		//FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
+		
+		setSize(32, 32);
+		offset.set(-16, 0);
+		trace("width : " + width + " - height : " + height);
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)
@@ -116,8 +120,8 @@ class Human extends FlxNapeSprite
 			}
 			else
 			{
-				this.x = FlxG.mouse.x;
-				this.y = FlxG.mouse.y;
+				this.x = FlxG.mouse.x - (width / 4);
+				this.y = FlxG.mouse.y + 4;
 			}
 		}
 
