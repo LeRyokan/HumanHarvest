@@ -635,7 +635,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "554",
+			build: "556",
 			company: "HaxeFlixel",
 			file: "HumanHarvest",
 			fps: 60,
