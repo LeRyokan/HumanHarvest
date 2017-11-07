@@ -198,6 +198,7 @@ class SpaceStation extends FlxGroup
 			if (waveCount == 0)
 			{
 				gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);
+				spawnHum(null);
 				waveCount++; // a remplacer
 				trace("START GAME!");
 				

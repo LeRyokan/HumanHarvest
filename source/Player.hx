@@ -81,44 +81,48 @@ class Player extends FlxBasic
 		// Create a white circle to use as a cursor graphic
 		var sprite = new FlxSprite();
 		sprite.makeGraphic(15, 15, FlxColor.TRANSPARENT);
-		sprite.drawCircle();
+		sprite.drawCircle(-1, -1, -1, FlxColor.fromRGB(255, 255, 255, 125));
 
 		// Load the sprite's graphic to the cursor
 		FlxG.mouse.load(sprite.pixels);
-
 	}
 	
 	public inline function registerPhysSprite(human:Human)
 	{
-		FlxMouseEventManager.add(human, createMouseJoint, humanReleased, getInfoAboutThis, onMouseOut);
+		// Le false de fin c'est pour pas se baser sur le sprite mais plutôt sur la hitbox
+		FlxMouseEventManager.add(human, createMouseJoint, humanReleased, getInfoAboutThis, onMouseOut, false, true, false);
 	}
 	
 	// onMouseDown
-	function createMouseJoint(spr:Human) 
+	function createMouseJoint(human:Human) 
 	{
-		currentSpriteGrab = spr;
+		currentSpriteGrab = human;
 		currentSpriteGrab.isGrab = true;
 		
-		mouseJoint = new DistanceJoint(FlxNapeSpace.space.world, spr.body, new Vec2(FlxG.mouse.x, FlxG.mouse.y),
-		spr.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)), 0, 0);
-		
+		mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world, 
+										human.body, 
+										new Vec2(FlxG.mouse.x, FlxG.mouse.y), 
+										human.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)),
+										0, 
+										0);
 		mouseJoint.space = FlxNapeSpace.space;
 	}
 	
 	// onMouseUp
 	// TODO: fonctionne pas pour le moment
-	function humanReleased(spr:Human) 
+	function humanReleased(human:Human) 
 	{
 		// mouseJoint.space = null;
-		// spr.isGrab = false;
-		// spr.posOnTable.x = FlxG.mouse.x;
-		// spr = null;
+		// human.isGrab = false;
+		// human.posOnTable.x = FlxG.mouse.x;
+		// human = null;
 		// trace("SPRITE RELACHE");
 	}
 	
 	// onMouseOver
 	function getInfoAboutThis(human:Human)
 	{
+		//trace("in");
 		_spaceStation.sendTextToInfoScreen(human.basicInfo);
 		currentHumanWithInfoDisplay = human;
 	}
@@ -126,7 +130,7 @@ class Player extends FlxBasic
 	// onMouseOut
 	function onMouseOut(human:Human) 
 	{
-		// trace(human);
+		//trace("out");
 	}
 	
 	function cleanScreenInfo()
