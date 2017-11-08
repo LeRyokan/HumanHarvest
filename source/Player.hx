@@ -80,8 +80,10 @@ class Player extends FlxBasic
 	{
 		// Create a white circle to use as a cursor graphic
 		var sprite = new FlxSprite();
-		sprite.makeGraphic(15, 15, FlxColor.TRANSPARENT);
-		sprite.drawCircle(-1, -1, -1, FlxColor.fromRGB(255, 255, 255, 125));
+		//sprite.makeGraphic(15, 15, FlxColor.TRANSPARENT);
+		//sprite.drawCircle( -1, -1, -1, FlxColor.fromRGB(255, 255, 255, 125));
+		
+		sprite.loadGraphic("assets/images/alien_pointer.png", false, 32, 32, true);
 
 		// Load the sprite's graphic to the cursor
 		FlxG.mouse.load(sprite.pixels);
