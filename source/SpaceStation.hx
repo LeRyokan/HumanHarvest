@@ -236,6 +236,24 @@ class SpaceStation extends FlxGroup
 			FlxG.switchState(new DebriefState());
 		}
 
+		
+		//Changement de la résolution
+			if (FlxG.keys.anyJustPressed([F]))
+			{
+				
+				//trace("X : " + Capabilities.screenResolutionX);
+				//trace("Y : " + Capabilities.screenResolutionY);
+				trace("fullscreen");
+				FlxG.fullscreen == !FlxG.fullscreen;
+				//FlxG.resizeGame(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
+				//FlxG.resizeWindow(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
+				//FlxG.
+				//flixel.FlxCamera.defaultZoom = 1;
+				//FlxG.cameras.reset();
+				//FlxG.camera.setSize(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
+			}
+		
+		
 	}
 	
 	

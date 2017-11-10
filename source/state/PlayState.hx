@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxColor;
 import lime.ui.KeyCode;
+import openfl.system.Capabilities;
 import ui.InfoScreen;
 
 
@@ -58,6 +59,9 @@ class PlayState extends FlxState
 			{
 				FlxG.resetState();
 			}
+			
+			
+			
 		}
 	}
 }
