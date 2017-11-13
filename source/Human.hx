@@ -73,7 +73,8 @@ class Human extends FlxNapeSprite
 		
 		setSize(32, 32);
 		offset.set(-16, 0);
-		trace("width : " + width + " - height : " + height);
+		//trace("width : " + width + " - height : " + height);
+		FlxG.watch.add(this, "isGrab", "Grab : " );
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)
@@ -85,6 +86,7 @@ class Human extends FlxNapeSprite
 		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meat + " KILOS DE VIANDE \r";
 		basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
 		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
+		basicInfo += "STATUT GRAB : " + isGrab ;
 
 	}
 
@@ -95,15 +97,15 @@ class Human extends FlxNapeSprite
 		
 		if (!isGrab)
 		{
-			if (FlxG.overlap(this, _spaceStation.burnhouse, getBurned))
+			if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered))
 			{
 				
 			}
 			else
 			{
 				//trace("UPDATE POS");
-				this.body.velocity.x = 20;
-				if (this.y != 780)
+				this.body.velocity.x = 50; //20
+				if (this.y != 100)
 				{
 					this.y = posOnTable.y;
 				}
@@ -132,10 +134,18 @@ class Human extends FlxNapeSprite
 		}
 	}
 
-	private function getBurned(human:Human, area:Area):Void
+	//private function getBurned(human:Human, area:Area):Void
+	//{
+		//trace("BURNED");
+		//_spaceStation.burnhouse.humanCount++;
+		//human.kill();
+	//}
+	
+	private function getSlaughtered(human:Human, area:Area):Void
 	{
-		trace("BURNED");
-		_spaceStation.burnhouse.humanCount++;
+		trace("BOUCHERIE");
+		_spaceStation.player._meat += human._meat;
+		area.humanCount++;
 		human.kill();
 	}
 

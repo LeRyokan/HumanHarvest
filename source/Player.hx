@@ -94,7 +94,7 @@ class Player extends FlxBasic
 					else
 					{
 						_currentGrabbedHuman.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
-						_currentGrabbedHuman.posOnTable.y = 780;//constante de la hauteur du tapis roulant
+						_currentGrabbedHuman.posOnTable.y = 100;//constante de la hauteur du tapis roulant
 						//condition de si on dépasse la zone
 					}
 					
@@ -137,6 +137,9 @@ class Player extends FlxBasic
 											0,
 											0);
 		_mouseJoint.space = FlxNapeSpace.space;
+		
+		_spaceStation.sendTextToInfoScreen(human.basicInfo);
+		_currentHumanWithInfoDisplay = human;
 	}
 
 	// onMouseUp
@@ -201,6 +204,6 @@ class Player extends FlxBasic
 
 	function cleanScreenInfo()
 	{
-		_spaceStation.sendTextToInfoScreen("");
+	//	_spaceStation.sendTextToInfoScreen("");
 	}
 }

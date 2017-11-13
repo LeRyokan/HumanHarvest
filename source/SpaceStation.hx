@@ -95,16 +95,16 @@ class SpaceStation extends FlxGroup
 		infoScreen = new InfoScreen();
 		add(infoScreen);
 		
-		slaughterhouse = new Area(50, 100, enums.AreaType.SLAUGHTERHOUSE);
+		slaughterhouse = new Area(1200, 100, enums.AreaType.SLAUGHTERHOUSE);
 		add(slaughterhouse);
 		
-		iqhouse = new Area(250, 100, enums.AreaType.IQ);
+		iqhouse = new Area(250, 700, enums.AreaType.IQ);
 		add(iqhouse);
 		
-		milkhouse = new Area(450, 100, enums.AreaType.MILK);
+		milkhouse = new Area(450, 700, enums.AreaType.MILK);
 		add(milkhouse);
 		
-		burnhouse = new Area(450, 800-24, enums.AreaType.BURNHOUSE);
+		burnhouse = new Area(450, 700, enums.AreaType.BURNHOUSE);
 		add(burnhouse);
 		
 		//var nbWave = maxHumainKidnap / 5 ;
@@ -260,10 +260,10 @@ class SpaceStation extends FlxGroup
 	
 	public function spawnUnitary():Void
 	{
-		placeholderArray.push(new FlxPoint(50, 800));
+		placeholderArray.push(new FlxPoint(50, 100));
 		//var testMovingPlaceholder = new FlxPoint(50, 800);
 		
-		var human = new Human(50, 800, this, peopleCount,placeholderArray[peopleCount]);
+		var human = new Human(50, 100, this, peopleCount,placeholderArray[peopleCount]);
 		human.init(ressourceArray[peopleCount], 10, 45.0); // A SETUP
 		player.registerPhysSprite(human);
 		//human.body.velocity.set(new Vec2(20.0, 0.0));

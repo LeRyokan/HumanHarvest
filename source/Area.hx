@@ -12,14 +12,15 @@ class Area extends FlxSprite
 	
 	// Type de la zone (boucherie, benne à ordures, etc)
 	public var _areaType 	: enums.AreaType;
-
+	private var imgAdress : String;
+	
 	public function new(?X:Float=0, ?Y:Float=0, areaType:enums.AreaType/*, color:FlxColor*/)
 	{
 		super(X, Y);
 		_areaType = areaType;
 
 		var color:FlxColor;
-
+		imgAdress = "assets/images/";
 		switch (_areaType)
 		{
 			case BURNHOUSE:
@@ -28,15 +29,19 @@ class Area extends FlxSprite
 				//reduction de la hitbox de la burnhouse
 				width = width / 2;
 				offset.x = width / 2;
+				imgAdress += "bucher.png";
 			case IQ :
+				imgAdress += "brainwash.png";
 				color = FlxColor.MAGENTA;
 			case SLAUGHTERHOUSE:
+				imgAdress += "boucherie.png";
 				color = FlxColor.CYAN;
 			case MILK:
+				imgAdress += "bucher.png";
 				color = FlxColor.LIME;
 			default:
 		}
-
-		makeGraphic(64, 48, color, false);
+		loadGraphic(imgAdress, false, 80, 64, false);
+		//makeGraphic(64, 48, color, false);
 	}
 }
