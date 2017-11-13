@@ -61,17 +61,7 @@ class SpaceStation extends FlxGroup
 	public var milkhouse : Area;
 	public var burnhouse: Area;
 	
-	
-	//LOGIC RESSOURCES ACTUELLEMENT AUSSI DANS PLAYER
-	public var dollars 		: Int;
-	public var milk 		: Float;
-	public var meat	 		: Float;
-	public var iq 	 		: Int;
-	public var notoriety 	: Float;
-	
-	
 	public var infoScreen:InfoScreen;
-	
 	
 	//LEVEL CONSTRAINT
 	public var levelConstraint :LevelConstraint;
@@ -91,18 +81,15 @@ class SpaceStation extends FlxGroup
 		FlxNapeSpace.createWalls(0,0,1280,860);
 		FlxNapeSpace.space.gravity.setxy(0, 400);
 		
+		player = new Player(this);
+		add(player);
+		
 		dayTimer = new FlxTimer(null);
 		dayDuration = 100.0;
 		gameTimer = new FlxTimer(null);
 		gameDuration = 5.0;
 		
-		//ressource shown init
-		dollars = levelConstraint.moneyPossessed;
-		meat = 0.0;
-		milk = 0.0;
-		iq = 0;
-		
-		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600),this);
+		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
 		add(ressourceBar2);
 		
 		infoScreen = new InfoScreen();
@@ -120,10 +107,6 @@ class SpaceStation extends FlxGroup
 		burnhouse = new Area(450, 800-24, enums.AreaType.BURNHOUSE);
 		add(burnhouse);
 		
-		
-		player = new Player(this);
-		add(player);
-		
 		//var nbWave = maxHumainKidnap / 5 ;
 		//trace(nbWave);
 		
@@ -140,7 +123,7 @@ class SpaceStation extends FlxGroup
 		//Déplace les humains sur le tapis
 		for (pl in placeholderArray)
 		{
-			if (player.currentSpriteGrab == null) 
+			if (player._currentGrabbedHuman == null) 
 			{	
 				pl.x += 0.5;
 			} else 

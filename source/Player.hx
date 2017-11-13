@@ -5,93 +5,98 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.nape.FlxNapeSpace;
-import flixel.addons.nape.FlxNapeSprite;
 import flixel.input.mouse.FlxMouseEventManager;
 import nape.constraint.DistanceJoint;
 import nape.geom.Vec2;
-import nape.space.Space;
 
-import flixel.util.FlxColor;
 using flixel.util.FlxSpriteUtil;
 
-
-/**
- * ...
- * @author ElRyoGrande
- */
 class Player extends FlxBasic
 {
-
-	public var dollars 		: Int;
-	public var blood 		: Float;
-	public var meat	 		: Float;
-	public var IQ 	 		: Int;
-	public var notoriety 	: Float;
+		
+	public var _currentGrabbedHuman				: Human;
+	private var _currentHumanWithInfoDisplay	: Human;
 	
+	private var _mouseJoint						: DistanceJoint;
+	private var _spaceStation					: SpaceStation;
 	
-	var mouseJoint:DistanceJoint;
-	public var currentSpriteGrab:Human;
-	var currentHumanWithInfoDisplay:Human;
-	var _spaceStation:SpaceStation;
+	public var _meat	 			: Float;
+	public var _dollars 			: Float;
+	public var _blood 				: Float;
+	public var _iq 	 				: Float;
+	public var _notoriety 			: Float;
+	
+	public var _stockMeat			: Float;
+	public var _stockDollars		: Float;
+	public var _stockBlood			: Float;
+	public var _stockIq				: Float;
+	public var _stockNotoriety		: Float;
 	
 	public function new(spaceStation:SpaceStation)
 	{
 		super();
+		
 		initCursor();
 		
 		_spaceStation = spaceStation;
 		
-		dollars = Tweaking.playerMoney;
-		blood = 0;
-		meat = 0;
-		IQ = 0;
-		notoriety = 0;
+		_meat = 0;
+		_dollars = spaceStation.levelConstraint.moneyPossessed;
+		_blood = 0;
+		_iq = 0;
+		_notoriety = 0;
+		
+		_stockMeat = 0;
+		_stockDollars = Tweaking.playerMoney;
+		_stockBlood = 0;
+		_stockIq = 0;
+		_stockNotoriety = 0;
 	}
 	
 	public override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		
-		if(currentHumanWithInfoDisplay!=null && !currentHumanWithInfoDisplay.alive)
+		if(_currentHumanWithInfoDisplay!=null && !_currentHumanWithInfoDisplay.alive)
 		{
 				cleanScreenInfo();
 		}
 		
-		if (mouseJoint != null) 
+		if (_mouseJoint != null) 
 		{
-			mouseJoint.anchor1 = new Vec2(FlxG.mouse.x, FlxG.mouse.y);
+			_mouseJoint.anchor1 = new Vec2(FlxG.mouse.x, FlxG.mouse.y);
 			
 			// TODO: idéalement, foutre dans le onMouseUp
 			if (FlxG.mouse.justReleased)
 			{
-				mouseJoint.space = null;
-				if (currentSpriteGrab != null)
+				_mouseJoint.space = null;
+				if (_currentGrabbedHuman != null)
 				{
-					currentSpriteGrab.isGrab = false;
+					_currentGrabbedHuman.isGrab = false;
 					
 					trace("SPRITE RELACHE");
 					
-					if(FlxG.overlap(currentSpriteGrab,_spaceStation.slaughterhouse,slaughter))
+					if(FlxG.overlap(_currentGrabbedHuman,_spaceStation.slaughterhouse,slaughter))
 					{
 						trace("BUTCHERED");
 					}
-					else if(FlxG.overlap(currentSpriteGrab,_spaceStation.iqhouse,getBrainwashed))
+					else if(FlxG.overlap(_currentGrabbedHuman,_spaceStation.iqhouse,getBrainwashed))
 					{
 						trace("IQED");
 					}
-					else if(FlxG.overlap(currentSpriteGrab,_spaceStation.milkhouse,getMilked))
+					else if(FlxG.overlap(_currentGrabbedHuman,_spaceStation.milkhouse,getMilked))
 					{
 						trace("MILKED");
 					}
 					else
 					{
-						currentSpriteGrab.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
-						currentSpriteGrab.posOnTable.y = 780;//constante de la hauteur du tapis roulant
+						_currentGrabbedHuman.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
+						_currentGrabbedHuman.posOnTable.y = 780;//constante de la hauteur du tapis roulant
 						//condition de si on dépasse la zone 
 						
 					}
 					
-					currentSpriteGrab = null;
+					_currentGrabbedHuman = null;
 				}
 			}
 			//
@@ -120,16 +125,16 @@ class Player extends FlxBasic
 	// onMouseDown
 	function createMouseJoint(human:Human) 
 	{
-		currentSpriteGrab = human;
-		currentSpriteGrab.isGrab = true;
+		_currentGrabbedHuman = human;
+		_currentGrabbedHuman.isGrab = true;
 		
-		mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world, 
+		_mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world, 
 										human.body, 
 										new Vec2(FlxG.mouse.x, FlxG.mouse.y), 
 										human.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)),
 										0, 
 										0);
-		mouseJoint.space = FlxNapeSpace.space;
+		_mouseJoint.space = FlxNapeSpace.space;
 	}
 	
 	// onMouseUp
@@ -146,45 +151,44 @@ class Player extends FlxBasic
 		// trace("SPRITE RELACHE");
 	}
 	
-	public function tryBurn(obj1:FlxObject, obj2:FlxObject):Void
+	public function tryBurn(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_spaceStation.meat += 5;
+		//_meat += 5;
 		_spaceStation.slaughterhouse.humanCount++;
-		obj1.kill();
+		human.kill();
 	}
 	
-	public function slaughter(obj1:FlxObject, obj2:FlxObject):Void
+	public function slaughter(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_spaceStation.meat += 10;
+		_meat += human._meat;
 		_spaceStation.slaughterhouse.humanCount++;
-		obj1.kill();
+		human.kill();
 	}
 	
-	public function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
+	public function getBrainwashed(human:Human, area:Area):Void
 	{
 		trace("BRAINWASH");
-		_spaceStation.iq += IQ;
+		_iq += human._iq;
 		_spaceStation.iqhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
-	public function getMilked(obj1:FlxObject, obj2:FlxObject):Void
+	public function getMilked(human:Human, area:Area):Void
 	{
 		trace("MILKED");
-		_spaceStation.milk += blood;
+		_blood += human._blood;
 		_spaceStation.milkhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
-	
 	
 	// onMouseOver
 	function getInfoAboutThis(human:Human)
 	{
 		//trace("in");
 		_spaceStation.sendTextToInfoScreen(human.basicInfo);
-		currentHumanWithInfoDisplay = human;
+		_currentHumanWithInfoDisplay = human;
 	}
 	
 	// onMouseOut
