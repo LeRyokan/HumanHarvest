@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
@@ -67,9 +68,30 @@ class Player extends FlxBasic
 				if (currentSpriteGrab != null)
 				{
 					currentSpriteGrab.isGrab = false;
-					currentSpriteGrab.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
-					currentSpriteGrab = null;
+					
 					trace("SPRITE RELACHE");
+					
+					if(FlxG.overlap(currentSpriteGrab,_spaceStation.slaughterhouse,slaughter))
+					{
+						trace("BUTCHERED");
+					}
+					else if(FlxG.overlap(currentSpriteGrab,_spaceStation.iqhouse,getBrainwashed))
+					{
+						trace("IQED");
+					}
+					else if(FlxG.overlap(currentSpriteGrab,_spaceStation.milkhouse,getMilked))
+					{
+						trace("MILKED");
+					}
+					else
+					{
+						currentSpriteGrab.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
+						currentSpriteGrab.posOnTable.y = 780;//constante de la hauteur du tapis roulant
+						//condition de si on dépasse la zone 
+						
+					}
+					
+					currentSpriteGrab = null;
 				}
 			}
 			//
@@ -114,12 +136,48 @@ class Player extends FlxBasic
 	// TODO: fonctionne pas pour le moment
 	function humanReleased(human:Human) 
 	{
+		// NON UTILISE
+		
+		
 		// mouseJoint.space = null;
 		// human.isGrab = false;
 		// human.posOnTable.x = FlxG.mouse.x;
 		// human = null;
 		// trace("SPRITE RELACHE");
 	}
+	
+	public function tryBurn(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BOUCHERIE");
+		_spaceStation.meat += 5;
+		_spaceStation.slaughterhouse.humanCount++;
+		obj1.kill();
+	}
+	
+	public function slaughter(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BOUCHERIE");
+		_spaceStation.meat += 10;
+		_spaceStation.slaughterhouse.humanCount++;
+		obj1.kill();
+	}
+	
+	public function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("BRAINWASH");
+		_spaceStation.iq += _iq;
+		_spaceStation.iqhouse.humanCount++;
+		this.kill();
+	}
+
+	public function getMilked(obj1:FlxObject, obj2:FlxObject):Void
+	{
+		trace("MILKED");
+		_spaceStation.milk += _milk;
+		_spaceStation.milkhouse.humanCount++;
+		this.kill();
+	}
+	
 	
 	// onMouseOver
 	function getInfoAboutThis(human:Human)
