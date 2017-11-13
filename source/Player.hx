@@ -61,14 +61,11 @@ class Player extends FlxBasic
 			cleanScreenInfo();
 		}
 
-		if (_mouseJoint != null)
-		{
-			_mouseJoint.anchor1 = new Vec2(FlxG.mouse.x, FlxG.mouse.y);
+		
 
 			// TODO: idéalement, foutre dans le onMouseUp
 			if (FlxG.mouse.justReleased)
 			{
-				_mouseJoint.space = null;
 				if (_currentGrabbedHuman != null)
 				{
 					_currentGrabbedHuman.isGrab = false;
@@ -102,7 +99,7 @@ class Player extends FlxBasic
 				}
 			}
 			//
-		}
+		
 	}
 
 	public function initCursor():Void
@@ -130,16 +127,15 @@ class Player extends FlxBasic
 		_currentGrabbedHuman = human;
 		_currentGrabbedHuman.isGrab = true;
 
-		_mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world,
-											human.body,
-											new Vec2(FlxG.mouse.x, FlxG.mouse.y),
-											human.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)),
-											0,
-											0);
-		_mouseJoint.space = FlxNapeSpace.space;
+		//_mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world,
+											//human.body,
+											//new Vec2(FlxG.mouse.x, FlxG.mouse.y),
+											//human.body.worldPointToLocal(new Vec2(FlxG.mouse.x, FlxG.mouse.y)),
+											//0,
+											//0);
+		//_mouseJoint.space = FlxNapeSpace.space;
 		
-		_spaceStation.sendTextToInfoScreen(human.basicInfo);
-		_currentHumanWithInfoDisplay = human;
+
 	}
 
 	// onMouseUp

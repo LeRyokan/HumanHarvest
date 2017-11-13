@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeVelocity;
 import flixel.addons.nape.FlxNapeSpace;
@@ -38,8 +39,8 @@ class SpaceStation extends FlxGroup
 	var gameDuration : Float;
 	public var isDayFinish :Bool = false;
 	
-	var maxHumainKidnap: Int = 5;  //A INIT VIA LE XML DU LEVEL
-	var maxWave:Int = 5;
+	var maxHumainKidnap: Int = 100;  //A INIT VIA LE XML DU LEVEL
+	var maxWave:Int = 50;
 	var waveCount: Int = 0;
 	var canSpawnNewWave : Bool = true;
 	var peopleCount : Int = 0 ;
@@ -51,7 +52,7 @@ class SpaceStation extends FlxGroup
 	
 	//Les entités du jeu
 	public var player : Player;
-	public var humanGroup : FlxTypedGroup<FlxNapeSprite>;
+	public var humanGroup : FlxTypedGroup<FlxSprite>;
 	
 	//public var aliveHumanLeft : Int = 2;
 	
@@ -77,9 +78,9 @@ class SpaceStation extends FlxGroup
 		levelConstraint = new LevelConstraint(1);
 		ressourceArray = levelConstraint.createHumanRessource();
 		
-		FlxNapeSpace.init();
-		FlxNapeSpace.createWalls(0,0,1280,860);
-		FlxNapeSpace.space.gravity.setxy(0, 400);
+		//FlxNapeSpace.init();
+		//FlxNapeSpace.createWalls(0,0,1280,860);
+		//FlxNapeSpace.space.gravity.setxy(0, 400);
 		
 		player = new Player(this);
 		add(player);
@@ -87,7 +88,7 @@ class SpaceStation extends FlxGroup
 		dayTimer = new FlxTimer(null);
 		dayDuration = 100.0;
 		gameTimer = new FlxTimer(null);
-		gameDuration = 5.0;
+		gameDuration = 4.0;
 		
 		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
 		add(ressourceBar2);
@@ -110,7 +111,7 @@ class SpaceStation extends FlxGroup
 		//var nbWave = maxHumainKidnap / 5 ;
 		//trace(nbWave);
 		
-		humanGroup  = new FlxTypedGroup<FlxNapeSprite>();
+		humanGroup  = new FlxTypedGroup<FlxSprite>();
 		add(humanGroup);
 		
 	}
@@ -121,17 +122,17 @@ class SpaceStation extends FlxGroup
 		super.update(elapsed);
 		
 		//Déplace les humains sur le tapis
-		for (pl in placeholderArray)
-		{
-			if (player._currentGrabbedHuman == null) 
-			{	
-				pl.x += 0.5;
-			} else 
-			{
-				pl.x += 1.;
-			}
-			
-		}
+		//for (pl in placeholderArray)
+		//{
+			//if (player._currentGrabbedHuman == null) 
+			//{	
+				//pl.x += 0.5;
+			//} else 
+			//{
+				//pl.x += 1.;
+			//}
+			//
+		//}
 		
 		//1er solution pour la fin de partie
 		/*if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)

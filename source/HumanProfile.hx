@@ -1,5 +1,6 @@
 package;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 
 /**
@@ -21,6 +22,8 @@ class HumanProfile
 	public var _iq : Int;
 	public var _milk : Float;
 	
+	//APPARENCE 
+	public var face : FlxSprite;
 	
 	
 	public function new() 

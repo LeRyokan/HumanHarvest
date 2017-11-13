@@ -1,7 +1,7 @@
 <levels>
 	<level id="1">
         <money> 500 </money>
-		<people> 20 </people>
+		<people> 50 </people>
 		<meat> 100 </meat>
 		<iq> 25 </iq>
 		<milk> 5 </milk>	

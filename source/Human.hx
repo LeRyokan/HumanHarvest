@@ -16,7 +16,7 @@ import nape.phys.BodyType;
  * ...
  * @author ElRyoGrande
  */
-class Human extends FlxNapeSprite
+class Human extends FlxSprite
 {
 	public var _spaceStation:SpaceStation;
 	public var mainSprite:FlxNapeSprite;
@@ -38,9 +38,9 @@ class Human extends FlxNapeSprite
 
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
-		super(X,Y,"assets/images/human.png",true,true);
-		this.body.allowRotation = false;
-		this.body.gravMass = 0.0;
+		super(X,Y,"assets/images/human.png");
+		//this.body.allowRotation = false;
+		//this.body.gravMass = 0.0;
 		_id = id;
 
 		//posOnTable = new FlxPoint(X, Y);
@@ -74,7 +74,7 @@ class Human extends FlxNapeSprite
 		setSize(32, 32);
 		offset.set(-16, 0);
 		//trace("width : " + width + " - height : " + height);
-		FlxG.watch.add(this, "isGrab", "Grab : " );
+		//FlxG.watch.add(this, "isGrab", "Grab : " );
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)
@@ -104,7 +104,8 @@ class Human extends FlxNapeSprite
 			else
 			{
 				//trace("UPDATE POS");
-				this.body.velocity.x = 50; //20
+				//is.body.velocity.x = 50; //20
+				this.velocity.x = 50;
 				if (this.y != 100)
 				{
 					this.y = posOnTable.y;
