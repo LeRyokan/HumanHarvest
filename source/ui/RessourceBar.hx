@@ -14,27 +14,26 @@ import openfl.geom.Rectangle;
  */
 class RessourceBar extends FlxSpriteGroup 
 {
-	public var backgroundSprite 	: FlxSprite;
+	private var _spaceStation		: SpaceStation;
 	
-	public var moneyRessoureSprite	: FlxSprite;
-	public var foodRessourceSprite 	: FlxSprite;
-	public var milkRessourceSprite : FlxSprite;
-	public var intelRessourceSprite : FlxSprite;
+	private var backgroundSprite 	: FlxSprite;
 	
-	public var moneyText	: FlxBitmapText;
-	public var foodText		:  FlxBitmapText;
-	public var milkText		:  FlxBitmapText;
-	public var intelText 	:  FlxBitmapText;
+	private var _timer				: FlxTimer;
 	
-	public var moneyCount :Int;
-	public var foodCount : Float;
-	public var iqCount : Int;
-	public var milkCount : Float;
+	private var moneyRessoureSprite		: FlxSprite;
+	private var foodRessourceSprite 	: FlxSprite;
+	private var milkRessourceSprite 	: FlxSprite;
+	private var intelRessourceSprite 	: FlxSprite;
 	
+	private var moneyText		: FlxBitmapText;
+	private var foodText		: FlxBitmapText;
+	private var milkText		: FlxBitmapText;
+	private var intelText 		: FlxBitmapText;
 	
-	var _spaceStation:SpaceStation;
-	var timer: FlxTimer;
-	
+	private var moneyCount 		: Float;
+	private var foodCount 		: Float;
+	private var iqCount 		: Float;
+	private var milkCount 		: Float;
 	
 	public function new(rect:Rectangle, spaceStation:SpaceStation) 
 	{
@@ -43,10 +42,10 @@ class RessourceBar extends FlxSpriteGroup
 		_spaceStation = spaceStation;
 		
 		//logic section
-		moneyCount = _spaceStation.dollars;
-		foodCount = _spaceStation.meat;
-		iqCount = _spaceStation.iq;
-		milkCount = _spaceStation.milk;
+		moneyCount = _spaceStation.player._dollars;
+		foodCount = _spaceStation.player._meat;
+		iqCount = _spaceStation.player._iq;
+		milkCount = _spaceStation.player._blood;
 		
 		//Sprite section
 		backgroundSprite = new FlxSprite(rect.x, rect.y);
@@ -108,21 +107,21 @@ class RessourceBar extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 		
-		if (foodCount != _spaceStation.meat)
+		if (foodCount != _spaceStation.player._meat)
 		{
-			foodCount = _spaceStation.meat;
+			foodCount = _spaceStation.player._meat;
 			foodText.text = Std.string(foodCount);
 		}
 	
-		if (iqCount != _spaceStation.iq)
+		if (iqCount != _spaceStation.player._iq)
 		{
-			iqCount = _spaceStation.iq;
+			iqCount = _spaceStation.player._iq;
 			intelText.text = Std.string(iqCount);
 		}
 		
-		if (milkCount != _spaceStation.milk)
+		if (milkCount != _spaceStation.player._blood)
 		{
-			milkCount = _spaceStation.milk;
+			milkCount = _spaceStation.player._blood;
 			milkText.text = Std.string(milkCount);
 		}
 		

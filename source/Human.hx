@@ -26,9 +26,9 @@ class Human extends FlxNapeSprite
 
 	//Caracteristique
 	var _id				: Int;
-	var _meatProduce 	: Float;
-	var _milk			: Float;
-	var _iq				: Int ;
+	public var _meat 	: Float;
+	public var _blood			: Float;
+	public var _iq				: Int ;
 
 	public var basicInfo : String;
 	public var sicknessInfo : String;
@@ -78,13 +78,13 @@ class Human extends FlxNapeSprite
 
 	public function init(meat:Float, iq:Int, milk:Float)
 	{
-		_meatProduce = meat;
+		_meat = meat;
 		_iq = iq;
-		_milk = milk;
+		_blood = milk;
 
-		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meatProduce + " KILOS DE VIANDE \r";
+		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meat + " KILOS DE VIANDE \r";
 		basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
-		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _milk + " LITRES D'EAU \r";
+		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
 
 	}
 
@@ -120,7 +120,7 @@ class Human extends FlxNapeSprite
 		}
 	}
 
-	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
+	private function isActuallyGrab(human:Human, area:Area):Bool
 	{
 		if (isGrab)
 		{
@@ -132,35 +132,11 @@ class Human extends FlxNapeSprite
 		}
 	}
 
-	private function getSlaughtered(obj1:FlxObject, obj2:FlxObject):Void
-	{
-		trace("BOUCHERIE");
-		_spaceStation.meat += _meatProduce;
-		_spaceStation.slaughterhouse.humanCount++;
-		this.kill();
-	}
-
-	private function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
-	{
-		trace("BRAINWASH");
-		_spaceStation.iq += _iq;
-		_spaceStation.iqhouse.humanCount++;
-		this.kill();
-	}
-
-	private function getMilked(obj1:FlxObject, obj2:FlxObject):Void
-	{
-		trace("MILKED");
-		_spaceStation.milk += _milk;
-		_spaceStation.milkhouse.humanCount++;
-		this.kill();
-	}
-
-	private function getBurned(obj1:FlxObject, obj2:FlxObject):Void
+	private function getBurned(human:Human, area:Area):Void
 	{
 		trace("BURNED");
 		_spaceStation.burnhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
 	//private function onMouseOver(_)
