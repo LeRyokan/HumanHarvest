@@ -14,20 +14,11 @@ class MenuState extends FlxState
 		super.create();
 		
 		bgColor = 0xFF000000;
-		
-		
-		
-		
-		
 	}
 	
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		
-	
-		
 	}
 	
 }
