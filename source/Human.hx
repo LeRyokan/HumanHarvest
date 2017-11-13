@@ -127,7 +127,7 @@ class Human extends FlxNapeSprite
 
 	}
 
-	private function isActuallyGrab(obj1:FlxObject, obj2:FlxObject):Bool
+	private function isActuallyGrab(human:Human, area:Area):Bool
 	{
 		if (isGrab)
 		{
@@ -139,35 +139,35 @@ class Human extends FlxNapeSprite
 		}
 	}
 
-	private function getSlaughtered(obj1:FlxObject, obj2:FlxObject):Void
+	private function getSlaughtered(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
 		_spaceStation.meat += _meatProduce;
 		_spaceStation.slaughterhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
-	private function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
+	private function getBrainwashed(human:Human, area:Area):Void
 	{
 		trace("BRAINWASH");
 		_spaceStation.iq += _iq;
 		_spaceStation.iqhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
-	private function getMilked(obj1:FlxObject, obj2:FlxObject):Void
+	private function getMilked(human:Human, area:Area):Void
 	{
 		trace("MILKED");
 		_spaceStation.milk += _milk;
 		_spaceStation.milkhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
-	private function getBurned(obj1:FlxObject, obj2:FlxObject):Void
+	private function getBurned(human:Human, area:Area):Void
 	{
 		trace("BURNED");
 		_spaceStation.burnhouse.humanCount++;
-		this.kill();
+		human.kill();
 	}
 
 	//private function onMouseOver(_)

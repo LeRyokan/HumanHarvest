@@ -15,6 +15,7 @@ import openfl.geom.Rectangle;
 import ui.InfoScreen;
 import ui.RessourceBar;
 import state.DebriefState;
+import enums.AreaType;
 
 /**
  * ...
@@ -107,16 +108,16 @@ class SpaceStation extends FlxGroup
 		infoScreen = new InfoScreen();
 		add(infoScreen);
 		
-		slaughterhouse = new Area(50, 100, FlxColor.CYAN);
+		slaughterhouse = new Area(50, 100, enums.AreaType.SLAUGHTERHOUSE);
 		add(slaughterhouse);
 		
-		iqhouse = new Area(250, 100, FlxColor.MAGENTA);
+		iqhouse = new Area(250, 100, enums.AreaType.IQ);
 		add(iqhouse);
 		
-		milkhouse = new Area(450, 100, FlxColor.LIME);
+		milkhouse = new Area(450, 100, enums.AreaType.MILK);
 		add(milkhouse);
 		
-		burnhouse = new Area(450, 800-24, FlxColor.RED);
+		burnhouse = new Area(450, 800-24, enums.AreaType.BURNHOUSE);
 		add(burnhouse);
 		
 		
