@@ -165,7 +165,7 @@ class Player extends FlxBasic
 	public function getBrainwashed(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("BRAINWASH");
-		_spaceStation.iq += _iq;
+		_spaceStation.iq += IQ;
 		_spaceStation.iqhouse.humanCount++;
 		this.kill();
 	}
@@ -173,7 +173,7 @@ class Player extends FlxBasic
 	public function getMilked(obj1:FlxObject, obj2:FlxObject):Void
 	{
 		trace("MILKED");
-		_spaceStation.milk += _milk;
+		_spaceStation.milk += blood;
 		_spaceStation.milkhouse.humanCount++;
 		this.kill();
 	}
