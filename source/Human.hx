@@ -56,7 +56,6 @@ class Human extends FlxNapeSprite
 		if (humanP.isSick)
 		{
 			sicknessInfo = "JE SUIS MALADE";
-
 		}
 		else
 		{
@@ -67,7 +66,6 @@ class Human extends FlxNapeSprite
 		basicInfo += sicknessInfo + "\r\r";
 
 		isGrab = false;
-
 		_spaceStation = spaceStation;
 
 		//Setup mouse event
@@ -94,37 +92,32 @@ class Human extends FlxNapeSprite
 	{
 		super.update(elapsed);
 
-		//FOR EACH AREA UN OVERLAPS
-		if (FlxG.overlap(this, _spaceStation.burnhouse, getBurned, isActuallyGrab))
+		
+		if (!isGrab)
 		{
-
-		}
-		else if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered, isActuallyGrab))
-		{
-
-		}
-		else if (FlxG.overlap(this, _spaceStation.iqhouse, getBrainwashed, isActuallyGrab))
-		{
-
-		}
-		else if (FlxG.overlap(this, _spaceStation.milkhouse, getMilked, isActuallyGrab))
-		{
-
-		}
-		else
-		{
-			if (!isGrab)
+			if (FlxG.overlap(this, _spaceStation.burnhouse, getBurned))
 			{
-				this.x = posOnTable.x;
-				this.y = posOnTable.y;
+				
 			}
 			else
 			{
-				this.x = FlxG.mouse.x - (width / 4);
-				this.y = FlxG.mouse.y + 4;
+				//trace("UPDATE POS");
+				this.body.velocity.x = 20;
+				if (this.y != 780)
+				{
+					this.y = posOnTable.y;
+				}
+				//this.acceleration.x = 10;
+				//this.velocity.x = 10;
+				//this.x = posOnTable.x;
+				//this.y = posOnTable.y;
 			}
 		}
-
+		else
+		{
+			this.x = FlxG.mouse.x - (width / 4);
+			this.y = FlxG.mouse.y + 4;
+		}
 	}
 
 	private function isActuallyGrab(human:Human, area:Area):Bool
