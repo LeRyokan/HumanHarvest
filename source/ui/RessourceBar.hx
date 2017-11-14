@@ -20,11 +20,6 @@ class RessourceBar extends FlxSpriteGroup
 	
 	private var _timer				: FlxTimer;
 	
-	private var moneyRessoureSprite		: FlxSprite;
-	private var foodRessourceSprite 	: FlxSprite;
-	private var milkRessourceSprite 	: FlxSprite;
-	private var intelRessourceSprite 	: FlxSprite;
-	
 	private var moneyText		: FlxBitmapText;
 	private var foodText		: FlxBitmapText;
 	private var milkText		: FlxBitmapText;
@@ -34,6 +29,11 @@ class RessourceBar extends FlxSpriteGroup
 	private var foodCount 		: Float;
 	private var iqCount 		: Float;
 	private var milkCount 		: Float;
+	
+	private var moneyRessoureSprite		: FlxSprite;
+	private var foodRessourceSprite 	: FlxSprite;
+	private var milkRessourceSprite 	: FlxSprite;
+	private var intelRessourceSprite 	: FlxSprite;
 	
 	public function new(rect:Rectangle, spaceStation:SpaceStation) 
 	{
@@ -48,10 +48,9 @@ class RessourceBar extends FlxSpriteGroup
 		milkCount = _spaceStation.player._blood;
 		
 		//Sprite section
-		backgroundSprite = new FlxSprite(rect.x, rect.y);
-		backgroundSprite.makeGraphic(Std.int(rect.width), Std.int(rect.height), FlxColor.GRAY, false);
+
 		
-		foodRessourceSprite = new FlxSprite(rect.x +10, rect.y);
+			foodRessourceSprite = new FlxSprite(rect.x +10, rect.y);
 		foodRessourceSprite.makeGraphic(32, 32, FlxColor.CYAN, false);	
 		
 		intelRessourceSprite = new FlxSprite(rect.x + 55 , rect.y);
@@ -62,15 +61,6 @@ class RessourceBar extends FlxSpriteGroup
 		
 		moneyRessoureSprite = new FlxSprite(rect.x+ 200, rect.y);
 		moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
-
-		
-		add(backgroundSprite);
-		add(foodRessourceSprite);
-		add(milkRessourceSprite);
-		add(intelRessourceSprite);
-		add(moneyRessoureSprite);
-		
-		
 
 		
 		//Text section

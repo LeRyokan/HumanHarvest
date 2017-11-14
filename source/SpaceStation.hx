@@ -17,6 +17,7 @@ import ui.InfoScreen;
 import ui.RessourceBar;
 import state.DebriefState;
 import enums.AreaType;
+import flixel.FlxCamera;
 
 /**
  * ...
@@ -90,13 +91,22 @@ class SpaceStation extends FlxGroup
 		gameTimer = new FlxTimer(null);
 		gameDuration = 4.0;
 		
-		var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
-		add(ressourceBar2);
-		
-		infoScreen = new InfoScreen();
+		///////////////////////////////////
+		infoScreen = new InfoScreen(this);
 		add(infoScreen);
 		
-		slaughterhouse = new Area(1200, 100, enums.AreaType.SLAUGHTERHOUSE);
+		// Caméra pour le HUD (on sait pas trop comment, mais ça marche)
+		var infoScreenCam = new FlxCamera(FlxG.width - infoScreen._width, FlxG.height - infoScreen._height, infoScreen._width, infoScreen._height, 1);
+		infoScreenCam.zoom = 1;
+		infoScreenCam.bgColor = FlxColor.PINK;
+		infoScreenCam.follow(infoScreen.backgroundSprite, NO_DEAD_ZONE);
+		FlxG.cameras.add(infoScreenCam);
+		///////////////////////////////////
+		
+		//var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
+		//add(ressourceBar2);
+		
+		slaughterhouse = new Area(1200, 50, enums.AreaType.SLAUGHTERHOUSE);
 		add(slaughterhouse);
 		
 		iqhouse = new Area(250, 700, enums.AreaType.IQ);
