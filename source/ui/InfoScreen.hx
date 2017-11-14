@@ -155,7 +155,7 @@ class InfoScreen extends FlxSpriteGroup
 
 	public function updateText(text:String)
 	{
-		title.text = text;
+		humanBiography.text = text;
 	}
 	
 	public static function fixedFloat(v:Float, ?precision:Int = 2):Float
