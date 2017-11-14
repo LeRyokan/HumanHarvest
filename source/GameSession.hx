@@ -35,7 +35,7 @@ class GameSession extends FlxGame
 		
 		var fps:Int = 60;
 		
-		super(Math.ceil(stageWidth / _ratio), Math.ceil(stageHeight / _ratio), PlayState, _ratio, fps, fps);
+		super(Math.ceil(stageWidth / _ratio), Math.ceil(stageHeight / _ratio), MenuState, _ratio, fps, fps);
 		
 		
 		x = 0.5 * ( stageWidth - GAME_WIDTH * _ratio);

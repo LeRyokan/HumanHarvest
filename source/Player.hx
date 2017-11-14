@@ -30,6 +30,10 @@ class Player extends FlxBasic
 	public var _stockBlood			: Float;
 	public var _stockIq				: Float;
 	public var _stockNotoriety		: Float;
+	
+	//affiche le nombre jours passé
+	public var _day : Int;
+	
 
 	public function new(spaceStation:SpaceStation)
 	{
@@ -45,10 +49,10 @@ class Player extends FlxBasic
 		_iq = 0;
 		_notoriety = 0;
 
-		_stockMeat = 0;
+		_stockMeat = 100;
 		_stockDollars = Tweaking.playerMoney;
-		_stockBlood = 0;
-		_stockIq = 0;
+		_stockBlood = 100;
+		_stockIq = 100;
 		_stockNotoriety = 0;
 	}
 
@@ -190,7 +194,7 @@ class Player extends FlxBasic
 		_currentHumanWithInfoDisplay = human;
 	}
 
-	// onMouseOut
+	// onMouseOut // A MODIFIER
 	function onMouseOut(human:Human)
 	{
 		//trace("out");

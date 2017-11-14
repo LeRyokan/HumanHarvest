@@ -1,12 +1,16 @@
 package ui;
 
+import enums.Levels;
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxBitmapText;
 import flixel.text.FlxText.FlxTextAlign;
 import flixel.util.FlxColor;
 import openfl.geom.Rectangle;
+import state.PlayState;
 /**
  * ...
  * @author ElRyoGrande
@@ -16,8 +20,11 @@ class TextButton extends FlxSpriteGroup
 {
 	var imgButton : FlxSprite;
 	var textField : FlxBitmapText;
+	var _idToNextLVL : Int;
+	var nextState : PlayState;
+	
 	 
-	public function new(rect:Rectangle, text:String) 
+	public function new(rect:Rectangle, text:String, id:Int) 
 	{
 		super();
 		
@@ -43,8 +50,30 @@ class TextButton extends FlxSpriteGroup
 		x = rect.x;
 		y = rect.y;
 		
+		_idToNextLVL = id;
+		
+		switch (_idToNextLVL) 
+		{
+			case 1:
+				nextState = new PlayState(Levels.DAY_1);
+				//nextState.loadLevel(1);
+				
+			case 2:
+				nextState = new PlayState(Levels.DAY_2);
+			case 3:
+				nextState = new PlayState(Levels.DAY_3);
+			case 4:
+				nextState = new PlayState(Levels.DAY_4);
+			default:
+				
+		}
+		
+		
 		//Setup mouse event
 		FlxMouseEventManager.add(imgButton, onMouseDown, null, onMouseOver, onMouseOut); 
+		
+		
+		
 		
 	}
 	
@@ -67,6 +96,7 @@ class TextButton extends FlxSpriteGroup
 	{
 		
 		trace("Button clicked");
+		FlxG.switchState(nextState);
 	}
 	
 }

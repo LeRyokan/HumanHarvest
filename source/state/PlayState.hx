@@ -3,6 +3,8 @@ package state;
 import Human;
 import Player;
 import SpaceStation;
+import enums.Levels;
+import flash.geom.Orientation3D;
 import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -32,6 +34,15 @@ class PlayState extends FlxState
 	public var spaceStation:SpaceStation;
 	public var infoScreen : ui.InfoScreen;
 	
+	public var _currentLevel : enums.Levels;
+	
+	public function new(level:Levels)
+	{
+		super();
+		_currentLevel = level;
+	}
+	
+	
 	override public function create():Void
 	{
 		
@@ -39,7 +50,8 @@ class PlayState extends FlxState
 		
 		bgColor = 0xFFE5C992;
 		
-		spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
+		//spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
+		spaceStation = new SpaceStation(_currentLevel); // PASSER LE LEVEL EN PARAMETRE
 		add(spaceStation);
 	}
 
@@ -64,4 +76,11 @@ class PlayState extends FlxState
 			
 		}
 	}
+	
+	
+	//public function loadLevel(id:Int)
+	//{
+		//spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
+		//add(spaceStation);
+	//}
 }
