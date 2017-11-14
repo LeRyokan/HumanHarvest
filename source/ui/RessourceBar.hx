@@ -52,7 +52,7 @@ class RessourceBar extends FlxSpriteGroup
 		backgroundSprite.makeGraphic(Std.int(rect.width), Std.int(rect.height), FlxColor.GRAY, false);
 		
 		foodRessourceSprite = new FlxSprite(rect.x +10, rect.y);
-		foodRessourceSprite.makeGraphic(32, 32, FlxColor.CYAN, false);	
+		foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);	
 		
 		intelRessourceSprite = new FlxSprite(rect.x + 55 , rect.y);
 		intelRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);

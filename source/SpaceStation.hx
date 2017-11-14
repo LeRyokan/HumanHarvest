@@ -1,7 +1,9 @@
 package;
 
+import enums.Levels;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxState;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeVelocity;
 import flixel.addons.nape.FlxNapeSpace;
@@ -17,6 +19,7 @@ import ui.InfoScreen;
 import ui.RessourceBar;
 import state.DebriefState;
 import enums.AreaType;
+import ui.TextButton;
 
 /**
  * ...
@@ -26,6 +29,9 @@ class SpaceStation extends FlxGroup
 {
 	////////////////////////////////////////
 	//A MIGRER PLUS TARD DANS GAME SESSION//
+	public var currentLevel : Levels;
+	
+	
 	//Game timer
 	public var gameTimer : FlxTimer;
 	public var dayTimer : FlxTimer;
@@ -47,7 +53,7 @@ class SpaceStation extends FlxGroup
 	var peoplePlaced : Int = 0;
 	///////////////////////////////////////
 	
-	var placeholderArray : Array<FlxPoint>;
+	//var placeholderArray : Array<FlxPoint>;
 	
 	
 	//Les entités du jeu
@@ -69,12 +75,13 @@ class SpaceStation extends FlxGroup
 	var ressourceArray : Array<Float>;
 	
 	
-	public function new() 
+	public function new(level:Levels) 
 	{
 		super();
+		currentLevel = level;
+		//placeholderArray = new Array<FlxPoint>();
 		
-		placeholderArray = new Array<FlxPoint>();
-		
+		//A REVOIR
 		levelConstraint = new LevelConstraint(1);
 		ressourceArray = levelConstraint.createHumanRessource();
 		
@@ -86,7 +93,7 @@ class SpaceStation extends FlxGroup
 		add(player);
 		
 		dayTimer = new FlxTimer(null);
-		dayDuration = 100.0;
+		dayDuration = 10.0;
 		gameTimer = new FlxTimer(null);
 		gameDuration = 4.0;
 		
@@ -111,6 +118,8 @@ class SpaceStation extends FlxGroup
 		//var nbWave = maxHumainKidnap / 5 ;
 		//trace(nbWave);
 		
+		
+		
 		humanGroup  = new FlxTypedGroup<FlxSprite>();
 		add(humanGroup);
 		
@@ -120,27 +129,6 @@ class SpaceStation extends FlxGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		
-		//Déplace les humains sur le tapis
-		//for (pl in placeholderArray)
-		//{
-			//if (player._currentGrabbedHuman == null) 
-			//{	
-				//pl.x += 0.5;
-			//} else 
-			//{
-				//pl.x += 1.;
-			//}
-			//
-		//}
-		
-		//1er solution pour la fin de partie
-		/*if (humanGroup.countDead() == maxHumainKidnap  && !isDayFinish)
-		{
-			isDayFinish = true;
-			gameTimer.start(3.0, endGame, 1);
-			trace("END DAY");
-		}*/
 		
 		//2eme solution pour la fin de partie
 		if (dayTimer.active)
@@ -218,7 +206,10 @@ class SpaceStation extends FlxGroup
 			trace("END DAY! ");
 			trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
 			// UN LEGER WAIT AVANT DE SWITCH STATE SERAIT COOL
-			FlxG.switchState(new DebriefState());
+			//FlxG.switchState(new DebriefState(this.player));
+			var nextState = new DebriefState();
+			nextState.initState(this.player);
+			FlxG.switchState(nextState);
 		}
 
 		
