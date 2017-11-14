@@ -53,7 +53,7 @@ class SpaceStation extends FlxGroup
 	var peoplePlaced : Int = 0;
 	///////////////////////////////////////
 	
-	//var placeholderArray : Array<FlxPoint>;
+	var placeholderArray : Array<FlxPoint>;
 	
 	
 	//Les entités du jeu
@@ -79,7 +79,7 @@ class SpaceStation extends FlxGroup
 	{
 		super();
 		currentLevel = level;
-		//placeholderArray = new Array<FlxPoint>();
+		placeholderArray = new Array<FlxPoint>();
 		
 		//A REVOIR
 		levelConstraint = new LevelConstraint(1);
@@ -103,7 +103,7 @@ class SpaceStation extends FlxGroup
 		infoScreen = new InfoScreen();
 		add(infoScreen);
 		
-		slaughterhouse = new Area(1200, 100, enums.AreaType.SLAUGHTERHOUSE);
+		slaughterhouse = new Area(1120, 100, enums.AreaType.SLAUGHTERHOUSE);
 		add(slaughterhouse);
 		
 		iqhouse = new Area(250, 700, enums.AreaType.IQ);
@@ -118,7 +118,10 @@ class SpaceStation extends FlxGroup
 		//var nbWave = maxHumainKidnap / 5 ;
 		//trace(nbWave);
 		
-		
+		//decor
+		var tunnelSprite = new FlxSprite(0, 80);
+		tunnelSprite.loadGraphic("assets/images/tun.png", true, 1120, 80, true);
+		add(tunnelSprite);
 		
 		humanGroup  = new FlxTypedGroup<FlxSprite>();
 		add(humanGroup);

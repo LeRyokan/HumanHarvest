@@ -34,14 +34,14 @@ class Area extends FlxSprite
 				imgAdress += "brainwash.png";
 				color = FlxColor.MAGENTA;
 			case SLAUGHTERHOUSE:
-				imgAdress += "boucherie.png";
+				imgAdress += "abattoir.png";
 				color = FlxColor.CYAN;
 			case MILK:
 				imgAdress += "bucher.png";
 				color = FlxColor.LIME;
 			default:
 		}
-		loadGraphic(imgAdress, false, 80, 64, false);
+		loadGraphic(imgAdress, false, 160, 100, false);
 		//makeGraphic(64, 48, color, false);
 	}
 }

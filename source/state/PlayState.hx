@@ -78,9 +78,9 @@ class PlayState extends FlxState
 	}
 	
 	
-	public function loadLevel(id:Int)
-	{
-		spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
-		add(spaceStation);
-	}
+	//public function loadLevel(id:Int)
+	//{
+		//spaceStation = new SpaceStation(); // PASSER LE LEVEL EN PARAMETRE
+		//add(spaceStation);
+	//}
 }

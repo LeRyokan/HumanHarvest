@@ -1,5 +1,6 @@
 package ui;
 
+import enums.Levels;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -54,15 +55,15 @@ class TextButton extends FlxSpriteGroup
 		switch (_idToNextLVL) 
 		{
 			case 1:
-				nextState = new PlayState();
+				nextState = new PlayState(Levels.DAY_1);
 				//nextState.loadLevel(1);
 				
 			case 2:
-				nextState = new PlayState2();
+				nextState = new PlayState(Levels.DAY_2);
 			case 3:
-				nextState = new PlayState3();
+				nextState = new PlayState(Levels.DAY_3);
 			case 4:
-				nextState = new PlayState4();
+				nextState = new PlayState(Levels.DAY_4);
 			default:
 				
 		}
