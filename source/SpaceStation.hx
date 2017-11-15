@@ -16,7 +16,6 @@ import flixel.input.keyboard.FlxKey;
 import nape.geom.Vec2;
 import openfl.geom.Rectangle;
 import ui.InfoScreen;
-import ui.RessourceBar;
 import state.DebriefState;
 import enums.AreaType;
 import flixel.FlxCamera;
@@ -99,21 +98,23 @@ class SpaceStation extends FlxGroup
 		gameDuration = 4.0;
 		
 		///////////////////////////////////
-		infoScreen = new InfoScreen(this);
+		infoScreen = new InfoScreen();
 		add(infoScreen);
 		
 		// Caméra pour le HUD (on sait pas trop comment, mais ça marche)
 		var infoScreenCam = new FlxCamera(FlxG.width - infoScreen._width, FlxG.height - infoScreen._height, infoScreen._width, infoScreen._height, 1);
 		infoScreenCam.zoom = 1;
 		infoScreenCam.bgColor = FlxColor.PINK;
-		infoScreenCam.follow(infoScreen.backgroundSprite, NO_DEAD_ZONE);
+		infoScreenCam.follow(infoScreen._backgroundSprite, NO_DEAD_ZONE);
 		FlxG.cameras.add(infoScreenCam);
 		///////////////////////////////////
 		
+
 		//var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
 		//add(ressourceBar2);
 		
 		slaughterhouse = new Area(1120, 50, enums.AreaType.SLAUGHTERHOUSE);
+
 		add(slaughterhouse);
 		
 		iqhouse = new Area(250, 700, enums.AreaType.IQ);
@@ -139,6 +140,8 @@ class SpaceStation extends FlxGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		infoScreen.updateResources(player);
 		
 		//2eme solution pour la fin de partie
 		if (dayTimer.active)
@@ -238,8 +241,40 @@ class SpaceStation extends FlxGroup
 				//FlxG.cameras.reset();
 				//FlxG.camera.setSize(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
 			}
-		
-		
+			
+		//DEBUG
+		if (FlxG.keys.pressed.SHIFT)
+		{
+			// Reset du niveau
+			if (FlxG.keys.justPressed.R)
+			{
+				FlxG.resetState();
+			}
+			
+			// Ajout de bouffe
+			if (FlxG.keys.pressed.Q) 
+			{
+				player._food += FlxG.mouse.wheel * 5;
+			}
+			
+			// Ajout d'argent
+			if (FlxG.keys.pressed.S) 
+			{
+				player._money += FlxG.mouse.wheel * 5;
+			}
+			
+			// Ajout d'iq
+			if (FlxG.keys.pressed.D) 
+			{
+				player._iq += FlxG.mouse.wheel * 5;
+			}
+			
+			// Ajout de sang
+			if (FlxG.keys.pressed.F) 
+			{
+				player._blood += FlxG.mouse.wheel * 5;
+			}
+		}
 	}
 	
 	

@@ -19,21 +19,20 @@ class Player extends FlxBasic
 	private var _mouseJoint						: DistanceJoint;
 	private var _spaceStation					: SpaceStation;
 
-	public var _meat	 			: Float;
-	public var _dollars 			: Float;
+	public var _food	 			: Float;
+	public var _money 				: Float;
 	public var _blood 				: Float;
 	public var _iq 	 				: Float;
 	public var _notoriety 			: Float;
 
-	public var _stockMeat			: Float;
-	public var _stockDollars		: Float;
+	public var _stockFood			: Float;
+	public var _stockMoney			: Float;
 	public var _stockBlood			: Float;
 	public var _stockIq				: Float;
 	public var _stockNotoriety		: Float;
 	
 	//affiche le nombre jours passé
 	public var _day : Int;
-	
 
 	public function new(spaceStation:SpaceStation)
 	{
@@ -43,14 +42,14 @@ class Player extends FlxBasic
 
 		_spaceStation = spaceStation;
 
-		_meat = 0;
-		_dollars = spaceStation.levelConstraint.moneyPossessed;
+		_food = 0;
+		_money = spaceStation.levelConstraint.moneyPossessed;
 		_blood = 0;
 		_iq = 0;
 		_notoriety = 0;
 
-		_stockMeat = 100;
-		_stockDollars = Tweaking.playerMoney;
+		_stockFood = 100;
+		_stockMoney = Tweaking.playerMoney;
 		_stockBlood = 100;
 		_stockIq = 100;
 		_stockNotoriety = 0;
@@ -165,7 +164,7 @@ class Player extends FlxBasic
 	public function slaughter(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_meat += human._meat;
+		_food += human._meat;
 		area.humanCount++;
 		human.kill();
 	}
