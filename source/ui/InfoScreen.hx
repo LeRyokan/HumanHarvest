@@ -5,7 +5,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.FlxG;
-import flixel.text.FlxBitmapText;
+import flixel.addons.text.FlxTypeText;
 
 class InfoScreen extends FlxSpriteGroup
 {
@@ -18,7 +18,7 @@ class InfoScreen extends FlxSpriteGroup
 	public var _backgroundSprite 		: FlxSprite;
 
 	private var _humanHeadSprite		: FlxSprite;
-	private var _humanBiography			: FlxText;
+	private var _humanBiography			: FlxTypeText;
 
 	private var _foodRessourceSprite 	: FlxSprite;
 	private var _moneyRessoureSprite	: FlxSprite;
@@ -42,7 +42,7 @@ class InfoScreen extends FlxSpriteGroup
 		this.x = OFFSET;
 
 		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.makeGraphic(_width, _height, FlxColor.CYAN, false);
+		_backgroundSprite.makeGraphic(_width, _height, FlxColor.BLACK, false);
 
 		// RESSOURCES
 		_foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
@@ -87,12 +87,14 @@ class InfoScreen extends FlxSpriteGroup
 		text += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
 		text += "\n\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
 
-		_humanBiography = new FlxText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y + SPACING);
-		_humanBiography.size = 12;
+		_humanBiography = new FlxTypeText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y + SPACING, 0, text, 12);
 		_humanBiography.fieldWidth = _width - _humanBiography.x - SPACING;
-		_humanBiography.alignment = FlxTextAlign.LEFT;
-		_humanBiography.wordWrap = true;
-		_humanBiography.text = text;
+		_humanBiography.setTypingVariation(0.5, true);
+		//_humanBiography.alignment = FlxTextAlign.LEFT;
+		_humanBiography.start(0.008, false, false, [SPACE], function()
+		{
+			
+		});
 
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
