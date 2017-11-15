@@ -5,114 +5,81 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.FlxG;
-import ui.RessourceBar;
 import flixel.text.FlxBitmapText;
 
-/**
- * ...
- * @author ElRyoGrande
- */
 class InfoScreen extends FlxSpriteGroup
 {
 	public static inline var OFFSET 	: Int = 10000;
 	public static inline var SPACING 	: Int = 20;
 
-	private var _spaceStation		: SpaceStation;
-
 	public var _width 					: Int = Std.int(FlxG.width / 2);
 	public var _height					: Int = FlxG.height - 150;
 
-	public var backgroundSprite 		: FlxSprite;
+	public var _backgroundSprite 		: FlxSprite;
 
-	//private var ressourceBar 			: RessourceBar;
-	private var title 					: FlxText;
+	private var _humanHeadSprite		: FlxSprite;
+	private var _humanBiography			: FlxText;
 
-	private var humanHeadSprite			: FlxSprite;
-	private var humanBiography			: FlxText;
+	private var _foodRessourceSprite 	: FlxSprite;
+	private var _moneyRessoureSprite	: FlxSprite;
+	private var _iqRessourceSprite 		: FlxSprite;
+	private var _bloodRessourceSprite 	: FlxSprite;
 
-	private var foodRessourceSprite 	: FlxSprite;
-	private var moneyRessoureSprite		: FlxSprite;
-	private var intelRessourceSprite 	: FlxSprite;
-	private var milkRessourceSprite 	: FlxSprite;
+	private var _foodCount 				: Float;
+	private var _moneyCount 			: Float;
+	private var _iqCount 				: Float;
+	private var _bloodCount 			: Float;
 
-	private var foodCount 		: Float;
-	private var moneyCount 		: Float;
-	private var iqCount 		: Float;
-	private var milkCount 		: Float;
+	private var _foodText				: FlxText;
+	private var _moneyText				: FlxText;
+	private var _iqText 				: FlxText;
+	private var _bloodText				: FlxText;
 
-	// TODO: pourquoi pas juste FlxText ?
-	private var foodText		: FlxText;
-	private var moneyText		: FlxText;
-	private var intelText 		: FlxText;
-	private var milkText		: FlxText;
-
-	public function new(spaceStation:SpaceStation)
+	public function new()
 	{
 		super();
 
-		_spaceStation = spaceStation;
-
-		// TODO: ça va bouger dans le new et update du spaceStation
-		foodCount = _spaceStation.player._meat;
-		moneyCount = _spaceStation.player._dollars;
-		iqCount = _spaceStation.player._iq;
-		milkCount = _spaceStation.player._blood;
-
 		this.x = OFFSET;
 
-		backgroundSprite = new FlxSprite(0, 0);
-		backgroundSprite.makeGraphic(_width, _height, FlxColor.CYAN, false);
-
-		//title = new FlxText(0 + _width / 2, SPACING, 0, "SCREEN INFO", 8, true);
+		_backgroundSprite = new FlxSprite(0, 0);
+		_backgroundSprite.makeGraphic(_width, _height, FlxColor.CYAN, false);
 
 		// RESSOURCES
-		foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
-		foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
+		_foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
+		_foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
 
-		foodText = new FlxText(foodRessourceSprite.x + foodRessourceSprite.width + SPACING / 2, SPACING + 2);
-		foodText.alignment = FlxTextAlign.LEFT;
-		foodText.size = 20;
-		foodText.fieldWidth = 96;
-		foodText.text = Std.string(foodCount);
-		//foodText.text = "300";
-		//foodText.text = Std.string(fixedFloat(413.7657, 2));
+		_foodText = new FlxText(_foodRessourceSprite.x + _foodRessourceSprite.width + SPACING / 2, SPACING + 2);
+		_foodText.alignment = FlxTextAlign.LEFT;
+		_foodText.size = 20;
+		_foodText.fieldWidth = 96;
 
-		moneyRessoureSprite = new FlxSprite(foodText.x + foodText.width + SPACING, SPACING);
-		moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
+		_moneyRessoureSprite = new FlxSprite(_foodText.x + _foodText.width + SPACING, SPACING);
+		_moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
 
-		moneyText = new FlxText(moneyRessoureSprite.x + moneyRessoureSprite.width + SPACING / 2, SPACING + 2);
-		moneyText.alignment = FlxTextAlign.LEFT;
-		moneyText.size = 20;
-		moneyText.fieldWidth = 96;
-		moneyText.text = Std.string(moneyCount);
-		//moneyText.text = "300";
-		//moneyText.text = Std.string(fixedFloat(413.7657, 2));
+		_moneyText = new FlxText(_moneyRessoureSprite.x + _moneyRessoureSprite.width + SPACING / 2, SPACING + 2);
+		_moneyText.alignment = FlxTextAlign.LEFT;
+		_moneyText.size = 20;
+		_moneyText.fieldWidth = 96;
 
-		intelRessourceSprite = new FlxSprite(moneyText.x + moneyText.width + SPACING, SPACING);
-		intelRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
+		_iqRessourceSprite = new FlxSprite(_moneyText.x + _moneyText.width + SPACING, SPACING);
+		_iqRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
 
-		intelText = new FlxText(intelRessourceSprite.x + intelRessourceSprite.width + SPACING / 2, SPACING + 2);
-		intelText.alignment = FlxTextAlign.LEFT;
-		intelText.size = 20;
-		intelText.fieldWidth = 96;
-		intelText.text = Std.string(iqCount);
-		//intelText.text = "300";
-		//intelText.text = Std.string(fixedFloat(413.7657, 2));
+		_iqText = new FlxText(_iqRessourceSprite.x + _iqRessourceSprite.width + SPACING / 2, SPACING + 2);
+		_iqText.alignment = FlxTextAlign.LEFT;
+		_iqText.size = 20;
+		_iqText.fieldWidth = 96;
 
-		milkRessourceSprite = new FlxSprite(intelText.x + intelText.width + SPACING, SPACING);
-		milkRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
+		_bloodRessourceSprite = new FlxSprite(_iqText.x + _iqText.width + SPACING, SPACING);
+		_bloodRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
 
-		milkText = new FlxText(milkRessourceSprite.x + milkRessourceSprite.width + SPACING / 2, SPACING + 2);
-		milkText.alignment = FlxTextAlign.LEFT;
-		milkText.size = 20;
-		milkText.fieldWidth = 96;
-		milkText.text = Std.string(milkCount);
-		//milkText.text = "300";
-		//milkText.text = Std.string(fixedFloat(413.7657, 2));
+		_bloodText = new FlxText(_bloodRessourceSprite.x + _bloodRessourceSprite.width + SPACING / 2, SPACING + 2);
+		_bloodText.alignment = FlxTextAlign.LEFT;
+		_bloodText.size = 20;
+		_bloodText.fieldWidth = 96;
 
 		// HUMAIN
-		humanHeadSprite = new FlxSprite(SPACING, 70);
-		humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
+		_humanHeadSprite = new FlxSprite(SPACING, 70);
+		_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
 
 		var text:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
 		text += "\n\nDepuis, il galère.";
@@ -120,32 +87,30 @@ class InfoScreen extends FlxSpriteGroup
 		text += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
 		text += "\n\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
 
-		humanBiography = new FlxText(humanHeadSprite.x + humanHeadSprite.width + SPACING, humanHeadSprite.y + SPACING);
-		humanBiography.size = 12;
-		humanBiography.fieldWidth = _width - humanBiography.x - SPACING;
-		humanBiography.alignment = FlxTextAlign.LEFT;
-		humanBiography.wordWrap = true;
-		humanBiography.text = text;
+		_humanBiography = new FlxText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y + SPACING);
+		_humanBiography.size = 12;
+		_humanBiography.fieldWidth = _width - _humanBiography.x - SPACING;
+		_humanBiography.alignment = FlxTextAlign.LEFT;
+		_humanBiography.wordWrap = true;
+		_humanBiography.text = text;
 
-		add(backgroundSprite);
+		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
+		add(_backgroundSprite);
 
-		add(foodRessourceSprite);
-		add(foodText);
+		add(_foodRessourceSprite);
+		add(_foodText);
 
-		add(moneyRessoureSprite);
-		add(moneyText);
+		add(_moneyRessoureSprite);
+		add(_moneyText);
 
-		add(intelRessourceSprite);
-		add(intelText);
+		add(_iqRessourceSprite);
+		add(_iqText);
 
-		add(milkRessourceSprite);
-		add(milkText);
+		add(_bloodRessourceSprite);
+		add(_bloodText);
 
-		add(humanHeadSprite);
-		add(humanBiography);
-
-		trace(humanHeadSprite.x);
-		trace(humanBiography.x);
+		add(_humanHeadSprite);
+		add(_humanBiography);
 	}
 
 	override public function update(elapsed:Float)
@@ -155,9 +120,23 @@ class InfoScreen extends FlxSpriteGroup
 
 	public function updateText(text:String)
 	{
-		humanBiography.text = text;
+		_humanBiography.text = text;
 	}
 	
+	public function updateResources(player:Player)
+	{
+		var foodCount:Float = player._food;
+		var moneyCount:Float = player._money;
+		var iqCount:Float = player._iq;
+		var bloodCount:Float = player._blood;
+		
+		_foodText.text = Std.string(fixedFloat(foodCount, 2));
+		_moneyText.text = Std.string(fixedFloat(moneyCount, 2));
+		_iqText.text = Std.string(fixedFloat(iqCount, 2));
+		_bloodText.text = Std.string(fixedFloat(bloodCount, 2));
+	}
+	
+	// Fonction pompée sur internet pour pouvoir arrondir un chiffre avec le nombre de chiffres après la virgule qu'on veut
 	public static function fixedFloat(v:Float, ?precision:Int = 2):Float
 	{
 		return Math.round( v * Math.pow(10, precision) ) / Math.pow(10, precision);

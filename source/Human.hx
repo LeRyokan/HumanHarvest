@@ -145,7 +145,7 @@ class Human extends FlxSprite
 	private function getSlaughtered(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_spaceStation.player._meat += human._meat;
+		_spaceStation.player._food += human._meat;
 		area.humanCount++;
 		human.kill();
 	}
