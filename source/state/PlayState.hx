@@ -9,7 +9,7 @@ import enums.Levels;
 
 class PlayState extends FlxState
 {
-	public var _currentLevel 	: Levels;
+	public var _currentLevel 		: Levels;
 	public var _spaceStation		: SpaceStation;
 
 	public function new(level:Levels)
