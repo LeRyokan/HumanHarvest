@@ -24,6 +24,7 @@ class HumanProfile
 	
 	//APPARENCE 
 	public var face : FlxSprite;
+	public var imgAdress : String;
 	
 	
 	public function new() 

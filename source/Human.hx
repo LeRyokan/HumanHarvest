@@ -35,10 +35,15 @@ class Human extends FlxSprite
 
 	//Info lié à la position dans le tapis roulant
 	public var posOnTable:FlxPoint;
+	
+	
+	//Info graphique
+	public var headSprite : FlxSprite;
 
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
-		super(X,Y,"assets/images/human.png");
+		super(X, Y, "assets/images/human.png");
+		
 		//this.body.allowRotation = false;
 		//this.body.gravMass = 0.0;
 		_id = id;
@@ -50,6 +55,12 @@ class Human extends FlxSprite
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
 		var humanP = new HumanProfile();
 
+		
+		//LOAD L'IMAGE DU VISAGE
+		headSprite = new FlxSprite(0,0);
+		headSprite.loadGraphic(humanP.imgAdress, false, 64, 32, false);
+		
+		
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
 		init(humanP._meat, humanP._iq, humanP._milk);
 

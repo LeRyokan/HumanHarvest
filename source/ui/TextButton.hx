@@ -56,8 +56,6 @@ class TextButton extends FlxSpriteGroup
 		{
 			case 1:
 				nextState = new PlayState(Levels.DAY_1);
-				//nextState.loadLevel(1);
-				
 			case 2:
 				nextState = new PlayState(Levels.DAY_2);
 			case 3:

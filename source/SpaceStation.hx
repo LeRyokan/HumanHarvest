@@ -109,7 +109,12 @@ class SpaceStation extends FlxGroup
 		FlxG.cameras.add(infoScreenCam);
 		///////////////////////////////////
 		
-		slaughterhouse = new Area(1200, 50, enums.AreaType.SLAUGHTERHOUSE);
+
+		//var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
+		//add(ressourceBar2);
+		
+		slaughterhouse = new Area(1120, 50, enums.AreaType.SLAUGHTERHOUSE);
+
 		add(slaughterhouse);
 		
 		iqhouse = new Area(250, 700, enums.AreaType.IQ);
@@ -120,9 +125,6 @@ class SpaceStation extends FlxGroup
 		
 		burnhouse = new Area(450, 700, enums.AreaType.BURNHOUSE);
 		add(burnhouse);
-		
-		//var nbWave = maxHumainKidnap / 5 ;
-		//trace(nbWave);
 		
 		//decor
 		var tunnelSprite = new FlxSprite(0, 80);
@@ -218,7 +220,7 @@ class SpaceStation extends FlxGroup
 			trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
 			// UN LEGER WAIT AVANT DE SWITCH STATE SERAIT COOL
 			//FlxG.switchState(new DebriefState(this.player));
-			var nextState = new DebriefState();
+			var nextState = new DebriefState(currentLevel);
 			nextState.initState(this.player);
 			FlxG.switchState(nextState);
 		}
