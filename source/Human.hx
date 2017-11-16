@@ -148,8 +148,8 @@ class Human extends FlxSprite
 		}
 		else
 		{
-			this.x = FlxG.mouse.x - (width / 4);
-			this.y = FlxG.mouse.y + 4;
+			this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
+			this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
 		}
 	}
 
