@@ -38,7 +38,16 @@ class Human extends FlxSprite
 	//Info lié à la position dans le tapis roulant
 	public var _posOnTable				: FlxPoint;
 	
+	// Indique si on a déjà affiché les infos du bonhomme
+	// Si oui, on réaffiche le texte directement
+	public var _infosAlreadyDisplayed	: Bool;
+	
+	// "Biographie" du bonhomme
+	// Peut contenir des infos cachées sur des ressources cachées
 	public var _biography 				: String;
+	
+	// Nom du bonhomme
+	// Pour le lolz
 	public var _name					: String;
 	
 	// TODO: importer d'un fichier
@@ -94,6 +103,7 @@ class Human extends FlxSprite
 		
 		_biography = _biographies[FlxG.random.int(0, _biographies.length - 1)];
 		_name = _names[FlxG.random.int(0, _names.length - 1)];
+		_infosAlreadyDisplayed = false;
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)

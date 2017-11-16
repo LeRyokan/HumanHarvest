@@ -183,12 +183,19 @@ class InfoScreen extends FlxSpriteGroup
 		_humanBiography.resetText(human._biography);
 		_humanBiography.start(0.006);
 		
+		// TODO: autorisé ce skip ?
+		if (human._infosAlreadyDisplayed) {
+			_humanBiography.skip();
+		}
+		
+		human._infosAlreadyDisplayed = true;
+		
 		_humanName.text = human._name;
 		
-		var foodCount		: Float = human._food;
-		var moneyCount		: Float = human._money;
-		var iqCount			: Float = human._iq;
-		var bloodCount		: Float = human._blood;
+		var foodCount			: Float = human._food;
+		var moneyCount			: Float = human._money;
+		var iqCount				: Float = human._iq;
+		var bloodCount			: Float = human._blood;
 		
 		_humanFoodText.text 	= Std.string(fixedFloat(foodCount, 2));
 		_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
