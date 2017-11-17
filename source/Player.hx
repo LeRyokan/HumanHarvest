@@ -71,7 +71,7 @@ class Player extends FlxBasic
 			{
 				if (_currentGrabbedHuman != null)
 				{
-					_currentGrabbedHuman.isGrab = false;
+					_currentGrabbedHuman._isGrabbed = false;
 					
 					trace("SPRITE RELACHE");
 					
@@ -93,8 +93,8 @@ class Player extends FlxBasic
 					}
 					else
 					{
-						_currentGrabbedHuman.posOnTable.x = FlxG.mouse.x; //a déplacer je pense
-						_currentGrabbedHuman.posOnTable.y = 100;//constante de la hauteur du tapis roulant
+						_currentGrabbedHuman._posOnTable.x = FlxG.mouse.x; //a déplacer je pense
+						_currentGrabbedHuman._posOnTable.y = 100;//constante de la hauteur du tapis roulant
 						//condition de si on dépasse la zone
 					}
 					
@@ -128,7 +128,7 @@ class Player extends FlxBasic
 	function createMouseJoint(human:Human)
 	{
 		_currentGrabbedHuman = human;
-		_currentGrabbedHuman.isGrab = true;
+		_currentGrabbedHuman._isGrabbed = true;
 
 		//_mouseJoint = new DistanceJoint(	FlxNapeSpace.space.world,
 											//human.body,
@@ -164,7 +164,7 @@ class Player extends FlxBasic
 	public function slaughter(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_food += human._meat;
+		_food += human._food;
 		area.humanCount++;
 		human.kill();
 	}
@@ -189,7 +189,7 @@ class Player extends FlxBasic
 	function getInfoAboutThis(human:Human)
 	{
 		//trace("in");
-		_spaceStation.sendTextToInfoScreen(human.basicInfo);
+		_spaceStation.sendTextToInfoScreen(human);
 		_currentHumanWithInfoDisplay = human;
 	}
 

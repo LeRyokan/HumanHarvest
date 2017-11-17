@@ -19,29 +19,48 @@ import nape.phys.BodyType;
  */
 class Human extends FlxSprite
 {
-	public var _spaceStation:SpaceStation;
-	public var mainSprite:FlxNapeSprite;
-	public var shadowSelect:FlxSprite;
+	// TODO: essayer de l'en sortir, plutôt mettre la gestion de collision du côté de la spacestation
+	private var _spaceStation			: SpaceStation;
+	private var _shadowSelect			: FlxSprite;
 
-	public var isGrab:Bool;
+	public var _isGrabbed				: Bool;
 
 	//Caracteristique
-	var _id				: Int;
-	public var _meat 	: Float;
-	public var _blood			: Float;
-	public var _iq				: Int ;
+	public var _id						: Int;
+	
+	public var _food 					: Float;
+	public var _money 					: Float;
+	public var _blood					: Float;
+	public var _iq						: Float;
 
-	public var basicInfo : String;
-	public var sicknessInfo : String;
+	public var _basicInfo 				: String;
+	public var _sicknessInfo			: String;
 
 	//Info lié à la position dans le tapis roulant
-	public var posOnTable:FlxPoint;
+	public var _posOnTable				: FlxPoint;
 	
+	// Indique si on a déjà affiché les infos du bonhomme
+	// Si oui, on réaffiche le texte directement
+	public var _infosAlreadyDisplayed	: Bool;
+	
+	// "Biographie" du bonhomme
+	// Peut contenir des infos cachées sur des ressources cachées
+	public var _biography 				: String;
+	
+	// Nom du bonhomme
+	// Pour le lolz
+	public var _name					: String;
+	
+	// TODO: importer d'un fichier
+	private var _biographies:Array<String> = ["Lorem  lorem sit amet risus hendrerit elementum. Mauris laoreet urna at dui sagittis aliquet. Donec ac neque nisi. Nullam quis lacinia velit. Phasellus tincidunt, dui eget gravida lobortis, lacus ligula dignissim sem, vel volutpat.\n\nDonec sed nisl eget elit bibendum iaculis. Fusce eu mollis augue, ut tempor est. Curabitur tempus libero eget nisl faucibus, vel fringilla quam pretium. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis sed lectus sit amet lacus ultrices ullamcorper. Morbi risus felis, pharetra elementum elit nec, lacinia finibus sem. Donec finibus lorem ac blandit gravida. Nunc at feugiat nisi, sed varius magna. Pellentesque interdum in erat non tempus.", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
+	private var _names:Array<String> = ["Lorem", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
 	
 	//Info graphique
+
 	//public var portrait : FlxSprite;
 	public var portrait : FlxSpriteGroup;
 	public var imgportrait : FlxSprite;
+
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
 		super(X, Y, "assets/images/human.png");
@@ -51,7 +70,7 @@ class Human extends FlxSprite
 		_id = id;
 
 		//posOnTable = new FlxPoint(X, Y);
-		posOnTable = placeholderPos;
+		_posOnTable = placeholderPos;
 
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
@@ -59,50 +78,54 @@ class Human extends FlxSprite
 
 		
 		//LOAD L'IMAGE DU VISAGE
+
 		portrait = new FlxSpriteGroup();
 		var imgAdress = "assets/images/human48.png";
 		//portrait = new FlxSprite(_spaceStation.infoScreen._spacing,70);
 		imgportrait = new FlxSprite(700,Y+70+48);
 		imgportrait.loadGraphic(imgAdress, false, 48, 48, false);
 		portrait.add(imgportrait);
+
 		
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
 		init(humanP._meat, humanP._iq, humanP._milk);
 
 		if (humanP.isSick)
 		{
-			sicknessInfo = "JE SUIS MALADE";
+			_sicknessInfo = "JE SUIS MALADE";
 		}
 		else
 		{
-			sicknessInfo = "JE SUIS SAIN";
+			_sicknessInfo = "JE SUIS SAIN";
 		}
 
-		basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
-		basicInfo += sicknessInfo + "\r\r";
+		_basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
+		_basicInfo += _sicknessInfo + "\r\r";
 
-		isGrab = false;
+		_isGrabbed = false;
 		_spaceStation = spaceStation;
 
-		//Setup mouse event
-		//FlxMouseEventManager.add(mainSprite, onMouseDown, onMouseUp, onMouseOver, onMouseOut);
-		
 		setSize(32, 32);
 		offset.set(-16, 0);
 		//trace("width : " + width + " - height : " + height);
 		//FlxG.watch.add(this, "isGrab", "Grab : " );
+		
+		_biography = _biographies[FlxG.random.int(0, _biographies.length - 1)];
+		_name = _names[FlxG.random.int(0, _names.length - 1)];
+		_infosAlreadyDisplayed = false;
 	}
 
 	public function init(meat:Float, iq:Int, milk:Float)
 	{
-		_meat = meat;
+		_food = meat;
+		_money = 12;
 		_iq = iq;
 		_blood = milk;
 
-		basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _meat + " KILOS DE VIANDE \r";
-		basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
-		basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
-		basicInfo += "STATUT GRAB : " + isGrab ;
+		_basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _food + " KILOS DE VIANDE \r";
+		_basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
+		_basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
+		_basicInfo += "STATUT GRAB : " + _isGrabbed ;
 
 	}
 
@@ -111,7 +134,7 @@ class Human extends FlxSprite
 		super.update(elapsed);
 
 		
-		if (!isGrab)
+		if (!_isGrabbed)
 		{
 			if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered))
 			{
@@ -124,7 +147,7 @@ class Human extends FlxSprite
 				this.velocity.x = 50;
 				if (this.y != 100)
 				{
-					this.y = posOnTable.y;
+					this.y = _posOnTable.y;
 				}
 				//this.acceleration.x = 10;
 				//this.velocity.x = 10;
@@ -134,14 +157,14 @@ class Human extends FlxSprite
 		}
 		else
 		{
-			this.x = FlxG.mouse.x - (width / 4);
-			this.y = FlxG.mouse.y + 4;
+			this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
+			this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
 		}
 	}
 
 	private function isActuallyGrab(human:Human, area:Area):Bool
 	{
-		if (isGrab)
+		if (_isGrabbed)
 		{
 			return false;
 		}
@@ -161,19 +184,19 @@ class Human extends FlxSprite
 	private function getSlaughtered(human:Human, area:Area):Void
 	{
 		trace("BOUCHERIE");
-		_spaceStation.player._food += human._meat;
+		_spaceStation.player._food += human._food;
 		area.humanCount++;
 		human.kill();
 	}
 
 	//private function onMouseOver(_)
 	//{
-	////shadowSelect.visible = true;
+	////_shadowSelect.visible = true;
 	//}
 	//
 	//private function onMouseOut(_)
 	//{
-	////shadowSelect.visible = false;
+	////_shadowSelect.visible = false;
 	//}
 	//
 	//private function onMouseDown(_)

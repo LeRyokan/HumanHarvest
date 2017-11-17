@@ -287,9 +287,9 @@ class SpaceStation extends FlxGroup
 		spawnUnitary();
 	} 
 	
-	public function sendTextToInfoScreen(text:String)
+	public function sendTextToInfoScreen(human:Human)
 	{
-		infoScreen.updateText(text);
+		infoScreen.updateHuman(human);
 	}
 	
 	public function spawnUnitary():Void
