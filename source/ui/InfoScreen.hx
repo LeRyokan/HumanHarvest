@@ -12,12 +12,16 @@ class InfoScreen extends FlxSpriteGroup
 	public static inline var OFFSET 	: Int = 10000;
 	public static inline var SPACING 	: Int = 20;
 
+	//COPIE DE LA STATIC INLINE QUI BIZARREMENT PEUT PAS ETRE ATTEINTE PAR LA CLASSE HUMAN
+	public var _spacing : Int = 10020;
+	
 	public var _width 					: Int = Std.int(FlxG.width / 2);
 	public var _height					: Int = FlxG.height - 150;
 
 	public var _backgroundSprite 		: FlxSprite;
 
 	private var _humanHeadSprite		: FlxSprite;
+	private var _humanPortrait			:FlxSpriteGroup;
 	private var _humanBiography			: FlxText;
 
 	private var _foodRessourceSprite 	: FlxSprite;
@@ -80,6 +84,14 @@ class InfoScreen extends FlxSpriteGroup
 		// HUMAIN
 		_humanHeadSprite = new FlxSprite(SPACING, 70);
 		_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
+		
+		_humanPortrait = new FlxSpriteGroup();
+		_humanPortrait.add(_humanHeadSprite);
+		//_humanPortrait.x = 700;
+		//_humanPortrait.y = 200;
+		
+		
+		
 
 		var text:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
 		text += "\n\nDepuis, il galère.";
@@ -109,7 +121,8 @@ class InfoScreen extends FlxSpriteGroup
 		add(_bloodRessourceSprite);
 		add(_bloodText);
 
-		add(_humanHeadSprite);
+		//add(_humanHeadSprite);
+		add(_humanPortrait);
 		add(_humanBiography);
 	}
 
@@ -122,6 +135,13 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		_humanBiography.text = text;
 	}
+	
+	public function updatePortrait(portrait:FlxSprite)
+	{
+		_humanPortrait.clear();
+		_humanPortrait.add(portrait);
+	}
+	
 	
 	public function updateResources(player:Player)
 	{

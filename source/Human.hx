@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -38,8 +39,9 @@ class Human extends FlxSprite
 	
 	
 	//Info graphique
-	public var headSprite : FlxSprite;
-
+	//public var portrait : FlxSprite;
+	public var portrait : FlxSpriteGroup;
+	public var imgportrait : FlxSprite;
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
 		super(X, Y, "assets/images/human.png");
@@ -57,9 +59,12 @@ class Human extends FlxSprite
 
 		
 		//LOAD L'IMAGE DU VISAGE
-		headSprite = new FlxSprite(0,0);
-		headSprite.loadGraphic(humanP.imgAdress, false, 64, 32, false);
-		
+		portrait = new FlxSpriteGroup();
+		var imgAdress = "assets/images/human48.png";
+		//portrait = new FlxSprite(_spaceStation.infoScreen._spacing,70);
+		imgportrait = new FlxSprite(700,Y+70+48);
+		imgportrait.loadGraphic(imgAdress, false, 48, 48, false);
+		portrait.add(imgportrait);
 		
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
 		init(humanP._meat, humanP._iq, humanP._milk);

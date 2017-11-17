@@ -187,11 +187,8 @@ class SpaceStation extends FlxGroup
 				
 				//SECOND RUSH HOUR
 				gameTimer.cancel();
-				gameTimer.start(1.5, spawnHum, 10);
-				
-				
+				gameTimer.start(1.5, spawnHum, 10);	
 			}
-			
 		}
 		
 		//LANCE LE JEU
@@ -200,7 +197,7 @@ class SpaceStation extends FlxGroup
 			//METHODE DE SPAWN UNITAIRE
 			if (waveCount == 0)
 			{
-
+				spawnUnitary();
 				//gameTimer.start(gameDuration, spawnHum, maxHumainKidnap);//VERSION SPAWN NOMBRE LIMITE
 				gameTimer.start(gameDuration, spawnHum, 0);//VERSION SPAWN ILIMITE
 
@@ -303,9 +300,10 @@ class SpaceStation extends FlxGroup
 		var human = new Human(50, 100, this, peopleCount,placeholderArray[peopleCount]);
 		human.init(ressourceArray[peopleCount], 10, 45.0); // A SETUP
 		player.registerPhysSprite(human);
-		//human.body.velocity.set(new Vec2(20.0, 0.0));
+		//test pour l'affichage du visage du joueur
+		infoScreen.updatePortrait(human.imgportrait);
 		humanGroup.add(human);	
-		
+		//add(human.portrait);
 		peopleCount++;	
 	}
 	
