@@ -28,12 +28,23 @@ class HumanProfile
 	public var face : FlxSprite;
 	public var imgAdress : String;
 	
+	//TEST POUR LE FACE GENERATOR
+	public var generatedFace2 : FlxSpriteGroup;
+	public var generatedFace: FlxTypedSpriteGroup<FlxSprite>;
+	var imgPath : String = "assets/images/faces/";
+	public var faceGeometry : FlxSprite;
+	public var faceImg : String;
+	var eyes : FlxSprite;
+	public var eyesImg : String;
+	var mouth : FlxSprite;
+	public var mouthImg : String;
+	var skinColor : String;
 	
 	public function new() 
 	{
 		//Création de l'apparence
 		
-		//createFace();
+		createFace();
 		
 		
 		
@@ -62,20 +73,40 @@ class HumanProfile
 	
 	public function createFace()
 	{
-		faceGroup = new FlxSpriteGroup();
+		generatedFace = new FlxTypedSpriteGroup<FlxSprite>();
+		generatedFace.x = 430;
+		generatedFace.y = 400;
+		
+		if (FlxG.random.int(0, 1) == 0)
+		{
+			skinColor = "blanc_";
+		}
+		else
+		{
+			skinColor = "noir_";
+		}
+		
+		imgPath = "assets/images/faces/";
+		
+		var randFace = FlxG.random.int(1, 2);
+		var randNose = FlxG.random.int(1, 2);
+		var randEyes = FlxG.random.int(1, 2);
+		//TAILLE DES IMAGES
+		//93,116
 		
 		
-		var faceGeometry = new FlxSprite(0,0);
-		var faceImg : String;
+		faceGeometry = new FlxSprite(0,0);
+		faceImg = imgPath +"visage_" + skinColor + randFace +".png";
+		faceGeometry.loadGraphic(faceImg, false, 205, 256, true);
 		
-		var nose = new FlxSprite(0, 0);
-		var noseImg : String;
+		mouth = new FlxSprite(0, 0);
+		mouthImg = imgPath +"bouche_" + skinColor + randNose +".png";
+		mouth.loadGraphic(mouthImg, false, 205, 256, true);
 		
-		var mouth = new FlxSprite(0, 0);
-		var mouthImg : String;
 		
-		var eyes = new FlxSprite(0, 0);
-		var eyesImg : String;
+		eyes = new FlxSprite(0, 0);
+		eyesImg = imgPath +"yeux_" + skinColor + randEyes +".png";
+		eyes.loadGraphic(eyesImg, false, 205, 256, true);
 		
 		//FACULTATIF
 		var eyebrow = new FlxSprite(0,0);
@@ -93,11 +124,11 @@ class HumanProfile
 		//eyebrow.loadGraphic(faceImg, false, 64, 48, true);
 		
 		
-		faceGroup.add(faceGeometry);
-		faceGroup.add(eyes);
-		faceGroup.add(nose);
-		faceGroup.add(mouth);
-		
+		generatedFace.add(faceGeometry);
+		generatedFace.add(eyes);
+		generatedFace.add(mouth);
+		//faceGroup.add(mouth);
+		generatedFace.scale.set(3, 3);
 		
 		
 	}

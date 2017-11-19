@@ -190,7 +190,9 @@ class Player extends FlxBasic
 	{
 		//trace("in");
 		_spaceStation.sendTextToInfoScreen(human);
-		_currentHumanWithInfoDisplay = human;
+		//_spaceStation.sendPortraitToInfoScreen(
+		//_currentHumanWithInfoDisplay = human;
+		
 	}
 
 	// onMouseOut // A MODIFIER

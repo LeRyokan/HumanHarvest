@@ -22,6 +22,8 @@ class InfoScreen extends FlxSpriteGroup
 
 
 	private var _humanPortrait			:FlxSpriteGroup;
+	private var _humanPort	:FlxTypedSpriteGroup<FlxSprite>;
+	
 
 	// Ressources
 	private var _foodRessourceSprite 			: FlxSprite;
@@ -37,6 +39,8 @@ class InfoScreen extends FlxSpriteGroup
 	
 	// Humain
 	private var _humanHeadSprite				: FlxSprite;
+	private var _humanEyesSprite				: FlxSprite;
+	private var _humanMouthSprite				: FlxSprite;
 	private var _humanName						: FlxText;
 	private var _humanBiography					: FlxTypeText;
 	
@@ -93,13 +97,33 @@ class InfoScreen extends FlxSpriteGroup
 		_bloodText.fieldWidth = 96;
 
 		// HUMAIN
-		_humanHeadSprite = new FlxSprite(SPACING, 70);
-		_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
+		_humanHeadSprite = new FlxSprite(20, 120);
+		_humanEyesSprite = new FlxSprite(20, 120);
+		_humanMouthSprite = new FlxSprite(20, 120);
+		//_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
+		_humanHeadSprite.loadGraphic("assets/images/faces/visage_blanc_1.png", false, 205, 256, true);
+		_humanEyesSprite.loadGraphic("assets/images/faces/yeux_blanc_1.png", false, 205, 256, true);
+		_humanMouthSprite.loadGraphic("assets/images/faces/bouche_blanc_1.png", false, 205, 256, true);
 		
-		_humanPortrait = new FlxSpriteGroup();
-		_humanPortrait.add(_humanHeadSprite);
+		_humanHeadSprite.scale.set(2, 2);
+		_humanEyesSprite.scale.set(2, 2);
+		_humanMouthSprite.scale.set(2, 2);
+	
+		var test = new FlxSprite(0, 70);
+		//_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
+		test.loadGraphic("assets/images/face_test2.png", false, 205, 256, true);
+		//_humanHeadSprite = test ;	
+		
+		
+		//_humanPortrait = new FlxSpriteGroup();
+		//_humanPortrait.add(_humanHeadSprite);
 		//_humanPortrait.x = 700;
 		//_humanPortrait.y = 200;
+		_humanPort = new FlxTypedSpriteGroup<FlxSprite>();
+		_humanPort.add(_humanHeadSprite);
+		_humanPort.add(_humanEyesSprite);
+		_humanPort.add(_humanMouthSprite);
+		
 		
 		
 		
@@ -173,7 +197,8 @@ class InfoScreen extends FlxSpriteGroup
 		add(_bloodText);
 
 		//add(_humanHeadSprite);
-		add(_humanPortrait);
+		//add(_humanPortrait);
+		add(_humanPort);
 		add(_humanBiography);
 		add(_humanName);
 		
@@ -193,6 +218,7 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		//_humanPortrait.update(elapsed);
 	}
 
 	public function updateHuman(human:Human)
@@ -218,12 +244,26 @@ class InfoScreen extends FlxSpriteGroup
 		_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
 		_humanIqText.text 		= Std.string(fixedFloat(iqCount, 2));
 		_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
+		
+	
+		_humanHeadSprite.loadGraphic(human._humanProf.faceImg, false, 205, 256, true);
+		//_humanHeadSprite.graphic = human._humanProf.faceGeometry.graphic;
+		_humanEyesSprite.loadGraphic(human._humanProf.eyesImg, false, 205, 256, true);
+		_humanMouthSprite.loadGraphic(human._humanProf.mouthImg, false, 205, 256, true);
+		
+		_humanPort = human._humanProf.generatedFace;
 	}
 	
-	public function updatePortrait(portrait:FlxSprite)
+	public function updatePortrait(imageAdress:String)
 	{
-		_humanPortrait.clear();
-		_humanPortrait.add(portrait);
+
+		
+		//_humanHeadSprite = portrait;
+		
+		
+		//_humanPortrait.clear();
+		//_humanPortrait.add(Asprite);
+		
 	}
 	
 	

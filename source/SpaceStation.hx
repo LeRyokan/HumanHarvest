@@ -290,6 +290,7 @@ class SpaceStation extends FlxGroup
 	public function sendTextToInfoScreen(human:Human)
 	{
 		infoScreen.updateHuman(human);
+		//infoScreen.updatePortrait(human.imgAdress );
 	}
 	
 	public function spawnUnitary():Void
@@ -301,7 +302,7 @@ class SpaceStation extends FlxGroup
 		human.init(ressourceArray[peopleCount], 10, 45.0); // A SETUP
 		player.registerPhysSprite(human);
 		//test pour l'affichage du visage du joueur
-		infoScreen.updatePortrait(human.imgportrait);
+		//infoScreen.updatePortrait(human.imgportrait);
 		humanGroup.add(human);	
 		//add(human.portrait);
 		peopleCount++;	

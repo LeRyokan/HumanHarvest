@@ -56,10 +56,11 @@ class Human extends FlxSprite
 	private var _names:Array<String> = ["Lorem", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
 	
 	//Info graphique
-
+	public var _humanProf : HumanProfile;
 	//public var portrait : FlxSprite;
 	public var portrait : FlxSpriteGroup;
 	public var imgportrait : FlxSprite;
+	public var imgAdress : String;
 
 	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
 	{
@@ -74,23 +75,36 @@ class Human extends FlxSprite
 
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
-		var humanP = new HumanProfile();
+		 _humanProf = new HumanProfile();
 
 		
 		//LOAD L'IMAGE DU VISAGE
-
 		portrait = new FlxSpriteGroup();
-		var imgAdress = "assets/images/human48.png";
+		
+		
 		//portrait = new FlxSprite(_spaceStation.infoScreen._spacing,70);
-		imgportrait = new FlxSprite(700,Y+70+48);
-		imgportrait.loadGraphic(imgAdress, false, 48, 48, false);
+		imgportrait = new FlxSprite(700, Y + 70 + 48);
+		var randomizer = FlxG.random.int(0, 1);
+		trace("RANDOMIZER : " + randomizer);
+		if (randomizer == 0)
+		{
+			imgAdress = "assets/images/face_test.png";
+		}
+		else
+		{
+			imgAdress = "assets/images/face_test2.png";
+		}
+		
+		imgportrait.loadGraphic(imgAdress, false, 205, 256, false);
 		portrait.add(imgportrait);
+		
 
 		
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
-		init(humanP._meat, humanP._iq, humanP._milk);
+		init(_humanProf._meat, _humanProf._iq, _humanProf._milk);
 
-		if (humanP.isSick)
+		
+		if (_humanProf.isSick)
 		{
 			_sicknessInfo = "JE SUIS MALADE";
 		}
