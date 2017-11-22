@@ -11,7 +11,7 @@ import flixel.input.keyboard.FlxKey;
  * ...
  * @author ElRyoGrande
  */
-class MenuState extends FlxState 
+class TestState extends FlxState 
 {
 
 	//TEST POUR LE FACE GENERATOR
@@ -37,15 +37,29 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 		
-		if (FlxG.keys.justPressed.BACKSPACE)
+		//FACE GENERATOR
+		if(FlxG.keys.anyJustPressed([FlxKey.G]))
 		{
-			FlxG.switchState(new PlayState(Levels.DAY_1));
+				createFace();
 		}
 		
-		if (FlxG.keys.justPressed.T)
+		if(FlxG.keys.anyJustPressed([FlxKey.H]))
 		{
-			FlxG.switchState(new TestState());
+			
+				rollHead();
 		}
+		
+		if(FlxG.keys.anyJustPressed([FlxKey.E]))
+		{
+				
+				rollEyes();
+		}
+		
+		if(FlxG.keys.anyJustPressed([FlxKey.N]))
+		{	
+				rollNose();
+		}
+		
 	}
 	
 	
