@@ -19,7 +19,7 @@ class MenuState extends FlxState
 	{
 		bgColor = 0xFF000000;
 		
-		_title = new FlxText(0, 0, 0, "Human Harvet", 64, true);
+		_title = new FlxText(0, 0, 0, "Human Harvest", 64, true);
 		_title.screenCenter();
 		_title.y -= 100;
 		add(_title);
