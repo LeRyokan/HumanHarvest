@@ -134,6 +134,8 @@ class SpaceStation extends FlxGroup
 		humanGroup  = new FlxTypedGroup<FlxSprite>();
 		add(humanGroup);
 		
+		FlxG.camera.fade(FlxColor.BLACK, .1, true);
+		infoScreenCam.fade(FlxColor.BLACK, .1, true);
 	}
 	
 	//LE UPDATE SERA BON POUR UN PETIT REFACTO
