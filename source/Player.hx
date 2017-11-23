@@ -13,7 +13,7 @@ using flixel.util.FlxSpriteUtil;
 
 class Player extends FlxBasic
 {
-	public var _currentGrabbedHuman				: Human;
+	public var 	_currentGrabbedHuman			: Human;
 	private var _currentHumanWithInfoDisplay	: Human;
 
 	private var _mouseJoint						: DistanceJoint;
