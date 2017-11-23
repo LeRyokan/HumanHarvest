@@ -2,152 +2,88 @@ package state;
 
 import enums.Levels;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import flixel.util.FlxAxes;
 
-/**
- * ...
- * @author ElRyoGrande
- */
 class MenuState extends FlxState 
 {
-
-	//TEST POUR LE FACE GENERATOR
-	var generatedFace : FlxSpriteGroup;
-	var imgPath : String = "assets/images/faces/";
-	var faceGeometry : FlxSprite;
-	var eyes : FlxSprite;
-	var nose : FlxSprite;
-	var skinColor : String;
+	private var _title					: FlxText;
+	private var _alphaModifier 			: Float;
+	private var _startDisplay 			: FlxText;
+	private var _credit 				: FlxText;
+	private var _moreCredit 			: FlxText;
 	
 	override public function create():Void
 	{
-		super.create();
-		
 		bgColor = 0xFF000000;
 		
-		generatedFace = new FlxSpriteGroup();
+		_title = new FlxText(0, 0, 0, "Human Harvest", 64, true);
+		_title.screenCenter();
+		_title.y -= 100;
+		add(_title);
 		
-		add(generatedFace);
+		_startDisplay = new FlxText(0, 0, 0, "Click or press SPACE to start", 18, true);
+		_startDisplay.screenCenter();
+		add(_startDisplay);
+
+		_credit = new FlxText(0, 0, 0, "A stupid game by Lucas Tixier, Guillaume Ambrois & Thomas Fantino", 12, true);
+		_credit.screenCenter(FlxAxes.X);
+		_credit.y = FlxG.height - 150;
+		add(_credit);
+
+		_moreCredit = new FlxText(0, 0, 0, "                           Twitter : \n@LucasTixier - @Eponopono - @fanti_fantino", 12, true);
+		_moreCredit.screenCenter(FlxAxes.X);
+		_moreCredit.y = _credit.y + 50;
+		add(_moreCredit);
+
+		FlxG.mouse.visible = true;
+		
+		_alphaModifier = 0;
+		
+		FlxG.camera.fade(FlxColor.BLACK, .2, true);
+
+		super.create();
 	}
 	
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 		
-		if (FlxG.keys.anyJustPressed([FlxKey.BACKSPACE]))
+		blink();
+		
+		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
-			
-			FlxG.switchState(new PlayState(Levels.DAY_1));
+			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
+				FlxG.switchState(new PlayState(Levels.DAY_1));
+			});
 		}
 		
-		//FACE GENERATOR
-		if(FlxG.keys.anyJustPressed([FlxKey.G]))
+		if (FlxG.keys.justPressed.T)
 		{
-				createFace();
+			FlxG.switchState(new TestState());
 		}
-		
-		if(FlxG.keys.anyJustPressed([FlxKey.H]))
-		{
-			
-				rollHead();
-		}
-		
-		if(FlxG.keys.anyJustPressed([FlxKey.E]))
-		{
-				
-				rollEyes();
-		}
-		
-		if(FlxG.keys.anyJustPressed([FlxKey.N]))
-		{	
-				rollNose();
-		}
-		
 	}
 	
-	
-	public function createFace()
+	/**
+	 * Fonction fait blinker le titre en modifiant son alpha
+	 */
+	public function blink()
 	{
-		//generatedFace = new FlxSpriteGroup();
-		generatedFace.x = 430;
-		generatedFace.y = 400;
-		
-		if (FlxG.random.int(0, 1) == 0)
+		var currentAlpha : Float;
+
+		if (_startDisplay.alpha == 1)
 		{
-			skinColor = "blanc_";
+			_alphaModifier = -0.02;
 		}
-		else
+
+		if (_startDisplay.alpha == 0)
 		{
-			skinColor = "noir_";
+			_alphaModifier = 0.02;
 		}
-		
-		imgPath = "assets/images/faces/";
-		
-		var randFace = FlxG.random.int(1, 2);
-		var randEyes = FlxG.random.int(1, 2);
-		var randNose = FlxG.random.int(1, 2);
-		
-		//TAILLE DES IMAGES
-		//93,116
-		
-		
-		 faceGeometry = new FlxSprite(0,0);
-		var faceImg : String;
-		faceGeometry.loadGraphic(imgPath +"visage_"+skinColor+randFace +".png", false, 205, 256, true);
-		
-		 nose = new FlxSprite(0, 0);
-		var noseImg : String;
-		nose.loadGraphic(imgPath +"bouche_"+skinColor+randFace +".png", false, 205, 256, true);
-		//var mouth = new FlxSprite(0, 0);
-		//var mouthImg : String;
-		
-		 eyes = new FlxSprite(0, 0);
-		var eyesImg : String;
-		eyes.loadGraphic(imgPath +"yeux_"+skinColor+randFace +".png", false, 205, 256, true);
-		
-		//FACULTATIF
-		var eyebrow = new FlxSprite(0,0);
-		
-		
-		
-		//faceGeometry.loadGraphic(faceImg, false, 64, 48, true);
-		//
-		//nose.loadGraphic(noseImg, false, 64, 48, true);
-		//
-		//mouth.loadGraphic(mouthImg, false, 64, 48, true);
-		//
-		//eyes.loadGraphic(eyesImg, false, 64, 48, true);
-		
-		//eyebrow.loadGraphic(faceImg, false, 64, 48, true);
-		
-		
-		generatedFace.add(faceGeometry);
-		generatedFace.add(eyes);
-		generatedFace.add(nose);
-		//faceGroup.add(mouth);
-		generatedFace.scale.set(3, 3);
-		
-		
+
+		currentAlpha = _startDisplay.alpha;
+		_startDisplay.alpha = currentAlpha + _alphaModifier;
 	}
-	
-	public function rollHead()
-	{
-		var randNose = FlxG.random.int(1, 2);
-		faceGeometry.loadGraphic(imgPath +"visage_"+skinColor+randNose +".png", false, 205, 256, true);
-	}
-	public function rollEyes()
-	{
-		var randNose = FlxG.random.int(1, 2);
-		eyes.loadGraphic(imgPath +"yeux_"+skinColor+randNose +".png", false, 205, 256, true);
-	}
-	public function rollNose()
-	{
-		var randNose = FlxG.random.int(1, 2);
-		nose.loadGraphic(imgPath +"bouche_"+skinColor+randNose +".png", false, 205, 256, true);
-	}
-	
-	
 }
