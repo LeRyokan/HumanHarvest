@@ -17,28 +17,25 @@ class HumanProfile
 	var existingBacterias : Array<String>;
 	var bacterias : Array<String>;
 	
-	
-	
 	public var _meat : Float;
 	public var _iq : Int;
 	public var _milk : Float;
-	
-	//APPARENCE 
-	public var faceGroup :FlxSpriteGroup;
-	public var face : FlxSprite;
-	public var imgAdress : String;
-	
+
 	//TEST POUR LE FACE GENERATOR
-	public var generatedFace2 : FlxSpriteGroup;
-	public var generatedFace: FlxTypedSpriteGroup<FlxSprite>;
-	var imgPath : String = "assets/images/faces/";
-	public var faceGeometry : FlxSprite;
-	public var faceImg : String;
-	var eyes : FlxSprite;
-	public var eyesImg : String;
-	var mouth : FlxSprite;
-	public var mouthImg : String;
-	var skinColor : String;
+	public var _faceGroup 		:FlxSpriteGroup; // NON UTILISE
+	public var _generatedFace	: FlxTypedSpriteGroup<FlxSprite>;
+	public var _faceGeometry 	: FlxSprite;
+	
+	public var _faceImg : String;
+	public var _eyesImg : String;
+	public var _mouthImg : String;
+	
+	var _imgPath : String = "assets/images/faces/";
+	var _eyes : FlxSprite;
+	var _mouth : FlxSprite;
+	var _skinColor : String;
+	
+	
 	
 	public function new() 
 	{
@@ -73,62 +70,54 @@ class HumanProfile
 	
 	public function createFace()
 	{
-		generatedFace = new FlxTypedSpriteGroup<FlxSprite>();
-		generatedFace.x = 430;
-		generatedFace.y = 400;
+		_generatedFace = new FlxTypedSpriteGroup<FlxSprite>();
+		_generatedFace.x = 430;
+		_generatedFace.y = 400;
 		
 		if (FlxG.random.int(0, 1) == 0)
 		{
-			skinColor = "blanc_";
+			_skinColor = "blanc_";
 		}
 		else
 		{
-			skinColor = "noir_";
+			_skinColor = "noir_";
 		}
 		
-		imgPath = "assets/images/faces/";
+		_imgPath = "assets/images/faces/";
 		
 		var randFace = FlxG.random.int(1, 2);
 		var randNose = FlxG.random.int(1, 2);
 		var randEyes = FlxG.random.int(1, 2);
+		
+		
+		
 		//TAILLE DES IMAGES
 		//93,116
 		
 		
-		faceGeometry = new FlxSprite(0,0);
-		faceImg = imgPath +"visage_" + skinColor + randFace +".png";
-		faceGeometry.loadGraphic(faceImg, false, 205, 256, true);
+		_faceGeometry = new FlxSprite(0,0);
+		_faceImg = _imgPath +"visage_" + _skinColor + randFace +".png";
+		_faceGeometry.loadGraphic(_faceImg, false, 205, 256, true);
 		
-		mouth = new FlxSprite(0, 0);
-		mouthImg = imgPath +"bouche_" + skinColor + randNose +".png";
-		mouth.loadGraphic(mouthImg, false, 205, 256, true);
+		_mouth = new FlxSprite(0, 0);
+		_mouthImg = _imgPath +"bouche_" + _skinColor + randNose +".png";
+		_mouth.loadGraphic(_mouthImg, false, 205, 256, true);
 		
 		
-		eyes = new FlxSprite(0, 0);
-		eyesImg = imgPath +"yeux_" + skinColor + randEyes +".png";
-		eyes.loadGraphic(eyesImg, false, 205, 256, true);
+		_eyes = new FlxSprite(0, 0);
+		_eyesImg = _imgPath +"yeux_" + _skinColor + randEyes +".png";
+		_eyes.loadGraphic(_eyesImg, false, 205, 256, true);
 		
 		//FACULTATIF
-		var eyebrow = new FlxSprite(0,0);
+		//var eyebrow = new FlxSprite(0,0);
+
 		
 		
-		
-		//faceGeometry.loadGraphic(faceImg, false, 64, 48, true);
-		//
-		//nose.loadGraphic(noseImg, false, 64, 48, true);
-		//
-		//mouth.loadGraphic(mouthImg, false, 64, 48, true);
-		//
-		//eyes.loadGraphic(eyesImg, false, 64, 48, true);
-		
-		//eyebrow.loadGraphic(faceImg, false, 64, 48, true);
-		
-		
-		generatedFace.add(faceGeometry);
-		generatedFace.add(eyes);
-		generatedFace.add(mouth);
-		//faceGroup.add(mouth);
-		generatedFace.scale.set(3, 3);
+		_generatedFace.add(_faceGeometry);
+		_generatedFace.add(_eyes);
+		_generatedFace.add(_mouth);
+
+		_generatedFace.scale.set(3, 3);
 		
 		
 	}
