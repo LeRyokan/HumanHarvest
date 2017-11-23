@@ -171,9 +171,6 @@ class SpaceStation extends FlxGroup
 			{
 				trace("HALF TIME");
 				halfTime = true;
-				
-				
-				
 			}
 			
 			if (dayTimer.progress > 0.75 && !threeQuarterTime)
@@ -233,6 +230,9 @@ class SpaceStation extends FlxGroup
 				//trace("Y : " + Capabilities.screenResolutionY);
 				trace("fullscreen");
 				FlxG.fullscreen == !FlxG.fullscreen;
+				
+				
+				//DU BORDEL QUI SERT PAS
 				//FlxG.resizeGame(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
 				//FlxG.resizeWindow(Std.int(Capabilities.screenResolutionX), Std.int(Capabilities.screenResolutionY));
 				//FlxG.

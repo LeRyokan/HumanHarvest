@@ -20,9 +20,7 @@ class InfoScreen extends FlxSpriteGroup
 
 	public var _backgroundSprite 				: FlxSprite;
 
-
-	private var _humanPortrait			:FlxSpriteGroup;
-	private var _humanPort	:FlxTypedSpriteGroup<FlxSprite>;
+	private var _humanPortrait				:FlxTypedSpriteGroup<FlxSprite>;
 	
 
 	// Ressources
@@ -97,43 +95,34 @@ class InfoScreen extends FlxSpriteGroup
 		_bloodText.fieldWidth = 96;
 
 		// HUMAIN
+		
+		// GESTION DE L'AFFICHAGE DU VISAGE //->
 		_humanHeadSprite = new FlxSprite(20, 120);
 		_humanEyesSprite = new FlxSprite(20, 120);
 		_humanMouthSprite = new FlxSprite(20, 120);
-		//_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
-		_humanHeadSprite.loadGraphic("assets/images/faces/visage_blanc_1.png", false, 205, 256, true);
-		_humanEyesSprite.loadGraphic("assets/images/faces/yeux_blanc_1.png", false, 205, 256, true);
-		_humanMouthSprite.loadGraphic("assets/images/faces/bouche_blanc_1.png", false, 205, 256, true);
+		_humanHeadSprite.makeGraphic(93, 116, FlxColor.BLACK, false);
+		
+		// A VOIR SI ON LAISSE CA ET ON MASQUE LE SPRITES JUSQU'A APPARITION DU PREMIER VISAGE
+		//_humanHeadSprite.loadGraphic("assets/images/faces/visage_blanc_1.png", false, 205, 256, true);
+		//_humanEyesSprite.loadGraphic("assets/images/faces/yeux_blanc_1.png", false, 205, 256, true);
+		//_humanMouthSprite.loadGraphic("assets/images/faces/bouche_blanc_1.png", false, 205, 256, true);
 		
 		_humanHeadSprite.scale.set(2, 2);
 		_humanEyesSprite.scale.set(2, 2);
 		_humanMouthSprite.scale.set(2, 2);
 	
-		var test = new FlxSprite(0, 70);
-		//_humanHeadSprite.makeGraphic(205, 256, FlxColor.RED, false);
-		test.loadGraphic("assets/images/face_test2.png", false, 205, 256, true);
-		//_humanHeadSprite = test ;	
+		_humanPortrait = new FlxTypedSpriteGroup<FlxSprite>();
+		_humanPortrait.add(_humanHeadSprite);
+		_humanPortrait.add(_humanEyesSprite);
+		_humanPortrait.add(_humanMouthSprite);
 		
+		//////////////////////////////////////->
 		
-		//_humanPortrait = new FlxSpriteGroup();
-		//_humanPortrait.add(_humanHeadSprite);
-		//_humanPortrait.x = 700;
-		//_humanPortrait.y = 200;
-		_humanPort = new FlxTypedSpriteGroup<FlxSprite>();
-		_humanPort.add(_humanHeadSprite);
-		_humanPort.add(_humanEyesSprite);
-		_humanPort.add(_humanMouthSprite);
-		
-		
-		
-		
-
 		_humanName = new FlxText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y);
 		_humanName.alignment = FlxTextAlign.CENTER;
 		_humanName.size = 20;
 		_humanName.fieldWidth = _width - _humanHeadSprite.width - 3 * SPACING;
 		_humanName.text = "Lucas, 1er du nom";
-
 
 		var text:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
 		text += "\n\nDepuis, il galère.";
@@ -196,9 +185,7 @@ class InfoScreen extends FlxSpriteGroup
 		add(_bloodRessourceSprite);
 		add(_bloodText);
 
-		//add(_humanHeadSprite);
-		//add(_humanPortrait);
-		add(_humanPort);
+		add(_humanPortrait);
 		add(_humanBiography);
 		add(_humanName);
 		
@@ -218,7 +205,6 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		//_humanPortrait.update(elapsed);
 	}
 
 	public function updateHuman(human:Human)
@@ -246,24 +232,16 @@ class InfoScreen extends FlxSpriteGroup
 		_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
 		
 	
-		_humanHeadSprite.loadGraphic(human._humanProf.faceImg, false, 205, 256, true);
-		//_humanHeadSprite.graphic = human._humanProf.faceGeometry.graphic;
-		_humanEyesSprite.loadGraphic(human._humanProf.eyesImg, false, 205, 256, true);
-		_humanMouthSprite.loadGraphic(human._humanProf.mouthImg, false, 205, 256, true);
-		
-		_humanPort = human._humanProf.generatedFace;
+		//MISE A JOUR DU PORTRAIT
+		_humanHeadSprite.loadGraphic(human._humanProf._faceImg, false, 205, 256, true);
+		_humanEyesSprite.loadGraphic(human._humanProf._eyesImg, false, 205, 256, true);
+		_humanMouthSprite.loadGraphic(human._humanProf._mouthImg, false, 205, 256, true);
+		_humanPortrait = human._humanProf._generatedFace;
 	}
 	
+	//NON UTILISE
 	public function updatePortrait(imageAdress:String)
 	{
-
-		
-		//_humanHeadSprite = portrait;
-		
-		
-		//_humanPortrait.clear();
-		//_humanPortrait.add(Asprite);
-		
 	}
 	
 	

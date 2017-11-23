@@ -1,5 +1,6 @@
 package;
 
+import enums.Levels;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -31,8 +32,15 @@ class Player extends FlxBasic
 	public var _stockIq				: Float;
 	public var _stockNotoriety		: Float;
 	
+	//LES VALEURS MORALES
+	public var _monstruosity 		: Float;
+	public var _moralHealth			: Float = 50.0;
+	//public var _
+	
+	
 	//affiche le nombre jours passé
-	public var _day : Int;
+	//public var _day : Int;
+	public var _day : Levels;
 
 	public function new(spaceStation:SpaceStation)
 	{
@@ -41,18 +49,38 @@ class Player extends FlxBasic
 		initCursor();
 
 		_spaceStation = spaceStation;
+		_day = spaceStation.currentLevel;
+		
+		
+		if (_day == Levels.DAY_1)
+		{
+			_food = 0;
+			_money = spaceStation.levelConstraint.moneyPossessed;
+			_blood = 0;
+			_iq = 0;
+			_notoriety = 0;
 
-		_food = 0;
-		_money = spaceStation.levelConstraint.moneyPossessed;
-		_blood = 0;
-		_iq = 0;
-		_notoriety = 0;
+			_stockFood = 100;
+			_stockMoney = Tweaking.playerMoney;
+			_stockBlood = 100;
+			_stockIq = 100;
+			_stockNotoriety = 0;
+		}
+		else	// INIT LES INFOS PAR RAPPORT AUX RESULTATS DE LA VEILLE
+		{
+			_food = 0;
+			_money = spaceStation.levelConstraint.moneyPossessed;
+			_blood = 0;
+			_iq = 0;
+			_notoriety = 0;
 
-		_stockFood = 100;
-		_stockMoney = Tweaking.playerMoney;
-		_stockBlood = 100;
-		_stockIq = 100;
-		_stockNotoriety = 0;
+			_stockFood = 100;
+			_stockMoney = Tweaking.playerMoney;
+			_stockBlood = 100;
+			_stockIq = 100;
+			_stockNotoriety = 0;
+
+		}
 	}
 
 	public override function update(elapsed:Float)
@@ -63,45 +91,42 @@ class Player extends FlxBasic
 		{
 			cleanScreenInfo();
 		}
-
 		
-
-			// TODO: idéalement, foutre dans le onMouseUp
-			if (FlxG.mouse.justReleased)
+		// TODO: idéalement, foutre dans le onMouseUp
+		if (FlxG.mouse.justReleased)
+		{
+			if (_currentGrabbedHuman != null)
 			{
-				if (_currentGrabbedHuman != null)
+				_currentGrabbedHuman._isGrabbed = false;
+				
+				trace("SPRITE RELACHE");
+				
+				if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.slaughterhouse, slaughter))
 				{
-					_currentGrabbedHuman._isGrabbed = false;
-					
-					trace("SPRITE RELACHE");
-					
-					if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.slaughterhouse, slaughter))
-					{
-						trace("BUTCHERED");
-					}
-					else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.iqhouse, getBrainwashed))
-					{
-						trace("IQED");
-					}
-					else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.milkhouse, getMilked))
-					{
-						trace("MILKED");
-					}
-					else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.burnhouse, tryBurn))
-					{
-						trace("BURNED");
-					}
-					else
-					{
-						_currentGrabbedHuman._posOnTable.x = FlxG.mouse.x; //a déplacer je pense
-						_currentGrabbedHuman._posOnTable.y = 100;//constante de la hauteur du tapis roulant
-						//condition de si on dépasse la zone
-					}
-					
-					_currentGrabbedHuman = null;
+					trace("BUTCHERED");
 				}
+				else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.iqhouse, getBrainwashed))
+				{
+					trace("IQED");
+				}
+				else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.milkhouse, getMilked))
+				{
+					trace("MILKED");
+				}
+				else if (FlxG.overlap(_currentGrabbedHuman, _spaceStation.burnhouse, tryBurn))
+				{
+					trace("BURNED");
+				}
+				else
+				{
+					_currentGrabbedHuman._posOnTable.x = FlxG.mouse.x; //a déplacer je pense
+					_currentGrabbedHuman._posOnTable.y = 100;//constante de la hauteur du tapis roulant
+					//condition de si on dépasse la zone
+				}
+				_currentGrabbedHuman = null;
 			}
-			//
+		}
+		//
 		
 	}
 
