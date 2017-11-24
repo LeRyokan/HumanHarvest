@@ -60,9 +60,15 @@ class MenuState extends FlxState
 			});
 		}
 		
+		// Test de Lucas
 		if (FlxG.keys.justPressed.T)
 		{
 			FlxG.switchState(new TestState());
+		}
+		// Test de Guigui
+		if (FlxG.keys.justPressed.G)
+		{
+			FlxG.switchState(new TestGuillaumeState());
 		}
 	}
 	
