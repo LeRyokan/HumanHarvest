@@ -75,6 +75,15 @@ class SpaceStation extends FlxGroup
 	var ressourceArray : Array<Float>;
 	
 	
+	//TEST DE GAMEPLAY
+	//Compte d'humain perdu car non préparé
+	public var lostHuman : Int = 0;
+	
+	public var hookMode : Bool = true;
+	public var stampMode : Bool = false;
+	
+	
+	
 	public function new(level:Levels) 
 	{
 		super();
@@ -145,6 +154,21 @@ class SpaceStation extends FlxGroup
 		
 		infoScreen.updateResources(player);
 		
+		//INPUT SECTION
+		if (FlxG.keys.justPressed.A)
+		{
+			trace("HOOK MODE");
+			hookMode = true;
+			stampMode = false;
+		}
+		
+		if (FlxG.keys.justPressed.Z)
+		{
+			trace("STAMP MODE");
+			hookMode = false;
+			stampMode = true;
+		}
+		
 		//2eme solution pour la fin de partie
 		if (dayTimer.active)
 		{
@@ -154,8 +178,6 @@ class SpaceStation extends FlxGroup
 				trace("RUSH HOUR ENDS ! GOING BACK TO NORMAL");
 				gameTimer.start(gameDuration, spawnHum, 0);
 			}
-			
-			
 			
 			if (dayTimer.progress > 0.25 && !quarterTime)
 			{
@@ -214,6 +236,12 @@ class SpaceStation extends FlxGroup
 		{
 			trace("END DAY! ");
 			trace("RECAP OF THE DAY !  \r BUTCHERED : " + slaughterhouse.humanCount +"\r IQED : " + iqhouse.humanCount+"\r MILKED : " + milkhouse.humanCount+"\r BURNED : " + burnhouse.humanCount+"\r"); 
+			
+			//POUR LE GAMEPLAY COMPARATEUR DU SCORE
+			CheckObjectiv();
+			
+			
+			
 			// UN LEGER WAIT AVANT DE SWITCH STATE SERAIT COOL
 			//FlxG.switchState(new DebriefState(this.player));
 			var nextState = new DebriefState(currentLevel);
@@ -289,27 +317,21 @@ class SpaceStation extends FlxGroup
 		spawnUnitary();
 	} 
 	
-	public function sendTextToInfoScreen(human:Human)
-	{
-		infoScreen.updateHuman(human);
-		//infoScreen.updatePortrait(human.imgAdress );
-	}
-	
 	public function spawnUnitary():Void
 	{
-		placeholderArray.push(new FlxPoint(50, 100));
-		//var testMovingPlaceholder = new FlxPoint(50, 800);
-		
-		var human = new Human(50, 100, this, peopleCount,placeholderArray[peopleCount]);
+		var pos = new FlxPoint(50, 100);
+		var human = new Human(50, 100, this, peopleCount,pos);
 		human.init(ressourceArray[peopleCount], 10, 45.0); // A SETUP
 		player.registerPhysSprite(human);
-		//test pour l'affichage du visage du joueur
-		//infoScreen.updatePortrait(human.imgportrait);
+		
 		humanGroup.add(human);	
-		//add(human.portrait);
 		peopleCount++;	
 	}
 	
+	public function sendTextToInfoScreen(human:Human)
+	{
+		infoScreen.updateHuman(human);
+	}
 	
 	//public function spawnWave(idWave:Int):Bool
 	//{
@@ -341,6 +363,12 @@ class SpaceStation extends FlxGroup
 	
 	
 	public function rushHour()
+	{
+		
+	}
+	
+	
+	public function CheckObjectiv()
 	{
 		
 	}

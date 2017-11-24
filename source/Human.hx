@@ -61,29 +61,31 @@ class Human extends FlxSprite
 	public var portrait : FlxSpriteGroup;
 	public var imgportrait : FlxSprite;
 	public var imgAdress : String;
+	
+	
+	
+	//GAMEPLAY TEST
+	public var isReadyToDie : Bool = false;
 
-	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,placeholderPos:FlxPoint)
+	
+	
+
+	public function new(?X:Float=0, ?Y:Float=0, spaceStation:SpaceStation,id:Int,pos:FlxPoint)
 	{
 		super(X, Y, "assets/images/human.png");
 		
-		//this.body.allowRotation = false;
-		//this.body.gravMass = 0.0;
 		_id = id;
-
-		//posOnTable = new FlxPoint(X, Y);
-		_posOnTable = placeholderPos;
+		_posOnTable = pos;
 
 		//Inclusion du HumanProfile
 		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
-		 _humanProf = new HumanProfile();
+		_humanProf = new HumanProfile();
 
 		
 		//LOAD L'IMAGE DU VISAGE
 		portrait = new FlxSpriteGroup();
-		
-		
-		//portrait = new FlxSprite(_spaceStation.infoScreen._spacing,70);
 		imgportrait = new FlxSprite(700, Y + 70 + 48);
+		
 		var randomizer = FlxG.random.int(0, 1);
 		trace("RANDOMIZER : " + randomizer);
 		if (randomizer == 0)
@@ -101,7 +103,7 @@ class Human extends FlxSprite
 
 		
 		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
-		init(_humanProf._meat, _humanProf._iq, _humanProf._milk);
+		//init(_humanProf._meat, _humanProf._iq, _humanProf._milk);
 
 		
 		if (_humanProf.isSick)
@@ -147,33 +149,35 @@ class Human extends FlxSprite
 	{
 		super.update(elapsed);
 
-		
-		if (!_isGrabbed)
+		if (_spaceStation.hookMode)
 		{
-			if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered))
+			if (!_isGrabbed)
 			{
-				
+				if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered))
+				{
+					
+				}
+				else
+				{
+					this.velocity.x = 50;
+					if (this.y != 100)
+					{
+						this.y = _posOnTable.y;
+					}
+				}
 			}
 			else
 			{
-				//trace("UPDATE POS");
-				//is.body.velocity.x = 50; //20
-				this.velocity.x = 50;
-				if (this.y != 100)
-				{
-					this.y = _posOnTable.y;
-				}
-				//this.acceleration.x = 10;
-				//this.velocity.x = 10;
-				//this.x = posOnTable.x;
-				//this.y = posOnTable.y;
+				this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
+				this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
 			}
 		}
-		else
+		
+		if (_spaceStation.stampMode)
 		{
-			this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
-			this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
+			isReadyToDie = true;
 		}
+		
 	}
 
 	private function isActuallyGrab(human:Human, area:Area):Bool
@@ -188,19 +192,29 @@ class Human extends FlxSprite
 		}
 	}
 
-	//private function getBurned(human:Human, area:Area):Void
-	//{
-		//trace("BURNED");
-		//_spaceStation.burnhouse.humanCount++;
-		//human.kill();
-	//}
-	
+	// VA BOUGER JE PENSE
 	private function getSlaughtered(human:Human, area:Area):Void
 	{
-		trace("BOUCHERIE");
-		_spaceStation.player._food += human._food;
-		area.humanCount++;
+		if (human.isReadyToDie)
+		{
+			trace("BOUCHERIE");
+			_spaceStation.player._food += human._food;
+			area.humanCount++;
+			
+		}
+		else
+		{
+			//MALUS : COUTE PLUS CHER   ++
+			//MALUS : PRODUIT MOINS DE VIANDE ++++
+			
+			//OU SIMPLEMENT NULLITE DE LA MORT  ---
+ 			trace("TU L'AVAIS PAS MARQUER TU GAGNE MOINS DE BOUFFE"); // PAS LOGIQUE
+			_spaceStation.player._food += human._food/2;
+			_spaceStation.lostHuman++;
+		}
+		
 		human.kill();
+		
 	}
 
 	//private function onMouseOver(_)
