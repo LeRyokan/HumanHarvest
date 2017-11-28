@@ -7,6 +7,7 @@ import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.input.FlxAccelerometer;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -126,7 +127,8 @@ class Human extends FlxSprite
 		//trace("width : " + width + " - height : " + height);
 		//FlxG.watch.add(this, "isGrab", "Grab : " );
 		
-		_biography = _biographies[FlxG.random.int(0, _biographies.length - 1)];
+		//_biography = _biographies[FlxG.random.int(0, _biographies.length - 1)];
+		_biography = _basicInfo;
 		_name = _names[FlxG.random.int(0, _names.length - 1)];
 		_infosAlreadyDisplayed = false;
 	}
@@ -149,35 +151,24 @@ class Human extends FlxSprite
 	{
 		super.update(elapsed);
 
-		if (_spaceStation.hookMode)
+		FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered);
+			
+		this.velocity.x = 50;
+		if (this.y != 100)
 		{
-			if (!_isGrabbed)
-			{
-				if (FlxG.overlap(this, _spaceStation.slaughterhouse, getSlaughtered))
-				{
-					
-				}
-				else
-				{
-					this.velocity.x = 50;
-					if (this.y != 100)
-					{
-						this.y = _posOnTable.y;
-					}
-				}
-			}
-			else
-			{
-				this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
-				this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
-			}
+			this.y = _posOnTable.y;
 		}
 		
-		if (_spaceStation.stampMode)
+			
+		if (_isGrabbed && !_spaceStation.stampMode)
+		{
+			this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
+			this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
+		}
+		else
 		{
 			isReadyToDie = true;
 		}
-		
 	}
 
 	private function isActuallyGrab(human:Human, area:Area):Bool
@@ -195,28 +186,75 @@ class Human extends FlxSprite
 	// VA BOUGER JE PENSE
 	private function getSlaughtered(human:Human, area:Area):Void
 	{
-		if (human.isReadyToDie)
+		if(!human._humanProf.isSick)
 		{
-			trace("BOUCHERIE");
-			_spaceStation.player._food += human._food;
-			area.humanCount++;
-			
+			if (human.isReadyToDie)
+			{
+				trace("BOUCHERIE");
+				_spaceStation.player._food += human._food;
+				area.humanCount++;
+				
+			}
+			else
+			{
+				//MALUS : COUTE PLUS CHER   ++
+				//MALUS : PRODUIT MOINS DE VIANDE ++++
+				
+				//OU SIMPLEMENT NULLITE DE LA MORT  ---
+				trace("TU L'AVAIS PAS MARQUER TU GAGNE MOINS DE BOUFFE"); // PAS LOGIQUE
+				_spaceStation.player._food += human._food/2;
+				_spaceStation.lostHuman++;
+			}
 		}
 		else
 		{
-			//MALUS : COUTE PLUS CHER   ++
-			//MALUS : PRODUIT MOINS DE VIANDE ++++
-			
-			//OU SIMPLEMENT NULLITE DE LA MORT  ---
- 			trace("TU L'AVAIS PAS MARQUER TU GAGNE MOINS DE BOUFFE"); // PAS LOGIQUE
-			_spaceStation.player._food += human._food/2;
-			_spaceStation.lostHuman++;
+			if (_spaceStation.player._food -20 <= 0)
+			{
+				_spaceStation.player._food = 0;
+			}
+			else
+			{
+				_spaceStation.player._food -= 20;
+			}
 		}
-		
 		human.kill();
 		
 	}
 
+	
+	//IDEE de centraliser les tests de l'humain 
+	public function checkHuman(human:Human, area:Area)
+	{
+		
+		var value = 0.0;
+		
+		switch (area._areaType) 
+		{
+			case SLAUGHTERHOUSE:
+				
+				if (!human._humanProf.isSick)
+				{
+					if (human.isReadyToDie)
+					{
+						//value = 
+					}
+					else
+					{
+						
+					}
+				}
+				else
+				{
+					value = -50.0;
+				}
+				
+				
+				
+			default:
+				
+		}
+	}
+	
 	//private function onMouseOver(_)
 	//{
 	////_shadowSelect.visible = true;
