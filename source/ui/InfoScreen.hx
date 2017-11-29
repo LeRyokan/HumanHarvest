@@ -1,11 +1,16 @@
 package ui;
 
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.addons.text.FlxTypeText;
+import flixel.addons.ui.FlxUIButton;
+import flixel.util.FlxAxes;
 
 class InfoScreen extends FlxSpriteGroup
 {
@@ -36,6 +41,8 @@ class InfoScreen extends FlxSpriteGroup
 	private var _bloodText						: FlxText;
 	
 	// Humain
+	private var _humanSpriteGroup				: FlxSpriteGroup;
+	
 	private var _humanHeadSprite				: FlxSprite;
 	private var _humanEyesSprite				: FlxSprite;
 	private var _humanMouthSprite				: FlxSprite;
@@ -51,6 +58,18 @@ class InfoScreen extends FlxSpriteGroup
 	private var _humanMoneyText					: FlxText;
 	private var _humanIqText 					: FlxText;
 	private var _humanBloodText					: FlxText;
+	
+	// NEWS
+	private var _infosSpriteGroup				: FlxSpriteGroup;
+	private var _newsTitleText					: FlxText;
+	private var _newsText						: FlxTypeText;
+	
+	// BUTTONS
+	private var _showHumanInfosButton			: FlxUIButton;
+	private var _showNewsButton					: FlxUIButton;
+	
+	// Autres
+	private var _showHumans						: Bool = true;
 
 	public function new()
 	{
@@ -60,7 +79,7 @@ class InfoScreen extends FlxSpriteGroup
 
 		_backgroundSprite = new FlxSprite(0, 0);
 		_backgroundSprite.makeGraphic(_width, _height, FlxColor.BLACK, false);
-
+		
 		// RESSOURCES
 		_foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
 		_foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
@@ -95,6 +114,8 @@ class InfoScreen extends FlxSpriteGroup
 		_bloodText.fieldWidth = 96;
 
 		// HUMAIN
+		
+		_humanSpriteGroup = new FlxSpriteGroup();
 		
 		// GESTION DE L'AFFICHAGE DU VISAGE //->
 		_humanHeadSprite = new FlxSprite(20, 120);
@@ -169,6 +190,37 @@ class InfoScreen extends FlxSpriteGroup
 		_humanBloodText.size = 14;
 		_humanBloodText.fieldWidth = 64;
 		_humanBloodText.text = "3.45";
+		
+		// NEWS
+		_infosSpriteGroup = new FlxSpriteGroup();
+		
+		_newsTitleText = new FlxText((_width / 2) - 100, 80, 0, "ZoggytroNews", 32);
+		// TODO: mieux centrer
+		//_newsTitleText.alignment = FlxTextAlign.CENTER;
+		//_newsTitleText.screenCenter(FlxAxes.X);
+		
+		var text:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
+		text += "\n\nDepuis, il galère.";
+		text += "\n\nEt il a décidé d'emmener Guillaume dans sa galère.";
+		text += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
+		text += "\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
+		text += "\n\nPour le moment c'est du vu et revu mais imagine avec des petits blocs, peut être des images et tout.";
+		text += "\n\nTiens je vais essayer de faire un exemple d'article en dessous, on va voir ce que ça donne.";
+		text += "\n\nDans la nuit du Zurbi au Dyrpo, dans le quartier mal famé du centre ville de la banlieue de l'ouest de la capitale Zogytronnienne, c'est à dire, à 3.1254 degrés de latitude et 57.3254 degrés de longitude, peu après 2547h21, un jeune humain à l'allure obèse, tout de jaune vêtu, a été aperçu courant et criant sans arrêt d'une voix que les humains emprisonnés à côté ont plus tard qualifiés de \"chèvrique, à la limite de l'humain\". Depuis, des rumeurs ont émergés chez les humains, certains parlent de leur sauveur, un certain Mr. Belly, sorte de Jésus 8.0, malgré sa ressemblance à Donal Trump. Si vous apercevez cet énergumène, NE L'APPROCHEZ SURTOUT PAS et appellez tout de suite votre maman, avant de vous mettre en DBA (Disposition en Biais d'Assurance). Merci et désolé.";
+		text += "\n\nBon, donc faudra monter la taille du texte et/ou mettre un écart de ligne plus grand, là c'est illisible ptain !";
+
+		_newsText = new FlxTypeText(SPACING, 150, 0, text, 12);
+		_newsText.fieldWidth = _width - 2*SPACING;
+		_newsText.start(0.01);
+		
+		// BUTTONS
+		_showHumanInfosButton = new FlxUIButton(SPACING, _height - 50 - SPACING, "Human", OnClickShowHumanInfosButton);
+		_showHumanInfosButton.resize((_width / 2) - 1.5*SPACING, 50);
+		_showHumanInfosButton.label.size = 14;
+		
+		_showNewsButton = new FlxUIButton(_showHumanInfosButton.x + _showHumanInfosButton.width + SPACING, _showHumanInfosButton.y, "News", OnClickShowNewsButton);
+		_showNewsButton.resize((_width / 2) - 1.5*SPACING, 50);
+		_showNewsButton.label.size = 14;
 
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
@@ -185,26 +237,56 @@ class InfoScreen extends FlxSpriteGroup
 		add(_bloodRessourceSprite);
 		add(_bloodText);
 
-		add(_humanPortrait);
-		add(_humanBiography);
-		add(_humanName);
+		// HUMAIN
+		_humanSpriteGroup.add(_humanPortrait);
+		_humanSpriteGroup.add(_humanBiography);
+		_humanSpriteGroup.add(_humanName);
 		
-		add(_humanFoodRessourceSprite);
-		add(_humanFoodText);
+		_humanSpriteGroup.add(_humanFoodRessourceSprite);
+		_humanSpriteGroup.add(_humanFoodText);
 
-		add(_humanMoneyRessoureSprite);
-		add(_humanMoneyText);
+		_humanSpriteGroup.add(_humanMoneyRessoureSprite);
+		_humanSpriteGroup.add(_humanMoneyText);
 
-		add(_humanIqRessourceSprite);
-		add(_humanIqText);
+		_humanSpriteGroup.add(_humanIqRessourceSprite);
+		_humanSpriteGroup.add(_humanIqText);
 
-		add(_humanBloodRessourceSprite);
-		add(_humanBloodText);
+		_humanSpriteGroup.add(_humanBloodRessourceSprite);
+		_humanSpriteGroup.add(_humanBloodText);
+		//
+		
+		// NEWS
+		_infosSpriteGroup.add(_newsTitleText);
+		_infosSpriteGroup.add(_newsText);
+		
+		_infosSpriteGroup.visible = false;
+		//
+		
+		add(_humanSpriteGroup);
+		add(_infosSpriteGroup);
+		
+		// BUTTONS
+		add(_showHumanInfosButton);
+		add(_showNewsButton);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		if (_showHumans) {
+			_showHumanInfosButton.color = FlxColor.WHITE;
+			_showNewsButton.color = FlxColor.GRAY;
+			
+			_humanSpriteGroup.visible = true;
+			_infosSpriteGroup.visible = false;
+		} else {
+			_showHumanInfosButton.color = FlxColor.GRAY;
+			_showNewsButton.color = FlxColor.WHITE;
+			
+			_humanSpriteGroup.visible = false;
+			_infosSpriteGroup.visible = true;
+		}
 	}
 
 	public function updateHuman(human:Human)
@@ -242,8 +324,8 @@ class InfoScreen extends FlxSpriteGroup
 	//NON UTILISE
 	public function updatePortrait(imageAdress:String)
 	{
+		
 	}
-	
 	
 	public function updateResources(player:Player)
 	{
@@ -256,6 +338,18 @@ class InfoScreen extends FlxSpriteGroup
 		_moneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
 		_iqText.text 		= Std.string(fixedFloat(iqCount, 2));
 		_bloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
+	}
+	
+	private function OnClickShowHumanInfosButton():Void
+	{
+		trace("human");
+		_showHumans = true;
+	}
+	
+	private function OnClickShowNewsButton():Void
+	{
+		trace("news");
+		_showHumans = false;
 	}
 	
 	// Fonction pompée sur internet pour pouvoir arrondir un chiffre avec le nombre de chiffres après la virgule qu'on veut

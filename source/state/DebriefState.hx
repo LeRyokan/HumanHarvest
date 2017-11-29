@@ -121,8 +121,6 @@ class DebriefState extends FlxState
 		addRessourceText.text += "+ " + playerInfo._blood +"\r";  
 		gameDayText.text += "-----------------------------------------------\r";
 		
-		
-		
 		gameDayText.text += "STOCK DE NOURRITURE : " + playerInfo._stockFood + "\r"; 
 		gameDayText.text += "STOCK DE QI : " + playerInfo._stockIq + "\r";
 		gameDayText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
@@ -145,17 +143,21 @@ class DebriefState extends FlxState
 		gameResText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
 		gameResText.text += "STOCK DE ZOLLARS : " + playerInfo._stockMoney + "\r";
 		
-		
-		
-		
 		add(gameDayText);
 		add(addRessourceText);
 		add(DailyText);
 		add(gameResText);
 	
-		
 		trace("Nombre de lignes : " + DailyText.numLines);
 		trace("LIGNES : " + DailyText.getLineWidth(1));
+		
+	}
+	
+	public function CheckObjectiv()
+	{
+		
+		//playerInfo._food
+		//playerInfo.
 		
 	}
 	
