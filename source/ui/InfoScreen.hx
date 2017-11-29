@@ -89,32 +89,31 @@ class InfoScreen extends FlxSpriteGroup
 		_foodText.size = 20;
 		_foodText.fieldWidth = 96;
 
-		_moneyRessoureSprite = new FlxSprite(_foodText.x + _foodText.width + SPACING, SPACING);
-		_moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
-
-		_moneyText = new FlxText(_moneyRessoureSprite.x + _moneyRessoureSprite.width + SPACING / 2, SPACING + 2);
-		_moneyText.alignment = FlxTextAlign.LEFT;
-		_moneyText.size = 20;
-		_moneyText.fieldWidth = 96;
-
-		_iqRessourceSprite = new FlxSprite(_moneyText.x + _moneyText.width + SPACING, SPACING);
-		_iqRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
-
-		_iqText = new FlxText(_iqRessourceSprite.x + _iqRessourceSprite.width + SPACING / 2, SPACING + 2);
-		_iqText.alignment = FlxTextAlign.LEFT;
-		_iqText.size = 20;
-		_iqText.fieldWidth = 96;
-
-		_bloodRessourceSprite = new FlxSprite(_iqText.x + _iqText.width + SPACING, SPACING);
-		_bloodRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
-
-		_bloodText = new FlxText(_bloodRessourceSprite.x + _bloodRessourceSprite.width + SPACING / 2, SPACING + 2);
-		_bloodText.alignment = FlxTextAlign.LEFT;
-		_bloodText.size = 20;
-		_bloodText.fieldWidth = 96;
+		//_moneyRessoureSprite = new FlxSprite(_foodText.x + _foodText.width + SPACING, SPACING);
+		//_moneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
+//
+		//_moneyText = new FlxText(_moneyRessoureSprite.x + _moneyRessoureSprite.width + SPACING / 2, SPACING + 2);
+		//_moneyText.alignment = FlxTextAlign.LEFT;
+		//_moneyText.size = 20;
+		//_moneyText.fieldWidth = 96;
+//
+		//_iqRessourceSprite = new FlxSprite(_moneyText.x + _moneyText.width + SPACING, SPACING);
+		//_iqRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
+//
+		//_iqText = new FlxText(_iqRessourceSprite.x + _iqRessourceSprite.width + SPACING / 2, SPACING + 2);
+		//_iqText.alignment = FlxTextAlign.LEFT;
+		//_iqText.size = 20;
+		//_iqText.fieldWidth = 96;
+//
+		//_bloodRessourceSprite = new FlxSprite(_iqText.x + _iqText.width + SPACING, SPACING);
+		//_bloodRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
+//
+		//_bloodText = new FlxText(_bloodRessourceSprite.x + _bloodRessourceSprite.width + SPACING / 2, SPACING + 2);
+		//_bloodText.alignment = FlxTextAlign.LEFT;
+		//_bloodText.size = 20;
+		//_bloodText.fieldWidth = 96;
 
 		// HUMAIN
-		
 		_humanSpriteGroup = new FlxSpriteGroup();
 		
 		// GESTION DE L'AFFICHAGE DU VISAGE //->
@@ -164,32 +163,32 @@ class InfoScreen extends FlxSpriteGroup
 		_humanFoodText.fieldWidth = 64;
 		_humanFoodText.text = "3.45";
 
-		_humanMoneyRessoureSprite = new FlxSprite(2 * SPACING, _humanFoodRessourceSprite.y + _humanFoodRessourceSprite.height + SPACING);
-		_humanMoneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
-
-		_humanMoneyText = new FlxText(_humanMoneyRessoureSprite.x + _humanMoneyRessoureSprite.width + SPACING / 2, _humanMoneyRessoureSprite.y + 8);
-		_humanMoneyText.alignment = FlxTextAlign.LEFT;
-		_humanMoneyText.size = 14;
-		_humanMoneyText.fieldWidth = 64;
-		_humanMoneyText.text = "3.45";
-
-		_humanIqRessourceSprite = new FlxSprite(2 * SPACING, _humanMoneyRessoureSprite.y + _humanMoneyRessoureSprite.height + SPACING);
-		_humanIqRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
-
-		_humanIqText = new FlxText(_humanIqRessourceSprite.x + _humanIqRessourceSprite.width + SPACING / 2, _humanIqRessourceSprite.y + 8);
-		_humanIqText.alignment = FlxTextAlign.LEFT;
-		_humanIqText.size = 14;
-		_humanIqText.fieldWidth = 64;
-		_humanIqText.text = "3.45";
-
-		_humanBloodRessourceSprite = new FlxSprite(2 * SPACING, _humanIqRessourceSprite.y + _humanIqRessourceSprite.height + SPACING);
-		_humanBloodRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
-
-		_humanBloodText = new FlxText(_humanBloodRessourceSprite.x + _humanBloodRessourceSprite.width + SPACING / 2, _humanBloodRessourceSprite.y + 8);
-		_humanBloodText.alignment = FlxTextAlign.LEFT;
-		_humanBloodText.size = 14;
-		_humanBloodText.fieldWidth = 64;
-		_humanBloodText.text = "3.45";
+		//_humanMoneyRessoureSprite = new FlxSprite(2 * SPACING, _humanFoodRessourceSprite.y + _humanFoodRessourceSprite.height + SPACING);
+		//_humanMoneyRessoureSprite.makeGraphic(32, 32, FlxColor.YELLOW, false);
+//
+		//_humanMoneyText = new FlxText(_humanMoneyRessoureSprite.x + _humanMoneyRessoureSprite.width + SPACING / 2, _humanMoneyRessoureSprite.y + 8);
+		//_humanMoneyText.alignment = FlxTextAlign.LEFT;
+		//_humanMoneyText.size = 14;
+		//_humanMoneyText.fieldWidth = 64;
+		//_humanMoneyText.text = "3.45";
+//
+		//_humanIqRessourceSprite = new FlxSprite(2 * SPACING, _humanMoneyRessoureSprite.y + _humanMoneyRessoureSprite.height + SPACING);
+		//_humanIqRessourceSprite.makeGraphic(32, 32, FlxColor.MAGENTA, false);
+//
+		//_humanIqText = new FlxText(_humanIqRessourceSprite.x + _humanIqRessourceSprite.width + SPACING / 2, _humanIqRessourceSprite.y + 8);
+		//_humanIqText.alignment = FlxTextAlign.LEFT;
+		//_humanIqText.size = 14;
+		//_humanIqText.fieldWidth = 64;
+		//_humanIqText.text = "3.45";
+//
+		//_humanBloodRessourceSprite = new FlxSprite(2 * SPACING, _humanIqRessourceSprite.y + _humanIqRessourceSprite.height + SPACING);
+		//_humanBloodRessourceSprite.makeGraphic(32, 32, FlxColor.LIME, false);
+//
+		//_humanBloodText = new FlxText(_humanBloodRessourceSprite.x + _humanBloodRessourceSprite.width + SPACING / 2, _humanBloodRessourceSprite.y + 8);
+		//_humanBloodText.alignment = FlxTextAlign.LEFT;
+		//_humanBloodText.size = 14;
+		//_humanBloodText.fieldWidth = 64;
+		//_humanBloodText.text = "3.45";
 		
 		// NEWS
 		_infosSpriteGroup = new FlxSpriteGroup();
@@ -228,14 +227,14 @@ class InfoScreen extends FlxSpriteGroup
 		add(_foodRessourceSprite);
 		add(_foodText);
 
-		add(_moneyRessoureSprite);
-		add(_moneyText);
-
-		add(_iqRessourceSprite);
-		add(_iqText);
-
-		add(_bloodRessourceSprite);
-		add(_bloodText);
+		//add(_moneyRessoureSprite);
+		//add(_moneyText);
+//
+		//add(_iqRessourceSprite);
+		//add(_iqText);
+//
+		//add(_bloodRessourceSprite);
+		//add(_bloodText);
 
 		// HUMAIN
 		_humanSpriteGroup.add(_humanPortrait);
@@ -245,14 +244,14 @@ class InfoScreen extends FlxSpriteGroup
 		_humanSpriteGroup.add(_humanFoodRessourceSprite);
 		_humanSpriteGroup.add(_humanFoodText);
 
-		_humanSpriteGroup.add(_humanMoneyRessoureSprite);
-		_humanSpriteGroup.add(_humanMoneyText);
-
-		_humanSpriteGroup.add(_humanIqRessourceSprite);
-		_humanSpriteGroup.add(_humanIqText);
-
-		_humanSpriteGroup.add(_humanBloodRessourceSprite);
-		_humanSpriteGroup.add(_humanBloodText);
+		//_humanSpriteGroup.add(_humanMoneyRessoureSprite);
+		//_humanSpriteGroup.add(_humanMoneyText);
+//
+		//_humanSpriteGroup.add(_humanIqRessourceSprite);
+		//_humanSpriteGroup.add(_humanIqText);
+//
+		//_humanSpriteGroup.add(_humanBloodRessourceSprite);
+		//_humanSpriteGroup.add(_humanBloodText);
 		//
 		
 		// NEWS
@@ -309,16 +308,16 @@ class InfoScreen extends FlxSpriteGroup
 		var bloodCount			: Float = human._blood;
 		
 		_humanFoodText.text 	= Std.string(fixedFloat(foodCount, 2));
-		_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
-		_humanIqText.text 		= Std.string(fixedFloat(iqCount, 2));
-		_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
-		
+		//_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
+		//_humanIqText.text 		= Std.string(fixedFloat(iqCount, 2));
+		//_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
+		//
 	
 		//MISE A JOUR DU PORTRAIT
-		_humanHeadSprite.loadGraphic(human._humanProf._faceImg, false, 205, 256, true);
-		_humanEyesSprite.loadGraphic(human._humanProf._eyesImg, false, 205, 256, true);
-		_humanMouthSprite.loadGraphic(human._humanProf._mouthImg, false, 205, 256, true);
-		_humanPortrait = human._humanProf._generatedFace;
+		_humanHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
+		_humanEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
+		_humanMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
+		_humanPortrait = human._generatedFace;
 	}
 	
 	//NON UTILISE
@@ -335,9 +334,9 @@ class InfoScreen extends FlxSpriteGroup
 		var bloodCount		: Float = player._blood;
 		
 		_foodText.text 		= Std.string(fixedFloat(foodCount, 2));
-		_moneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
-		_iqText.text 		= Std.string(fixedFloat(iqCount, 2));
-		_bloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
+		//_moneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
+		//_iqText.text 		= Std.string(fixedFloat(iqCount, 2));
+		//_bloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
 	}
 	
 	private function OnClickShowHumanInfosButton():Void
