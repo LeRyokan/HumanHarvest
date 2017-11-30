@@ -56,16 +56,33 @@ class Human extends FlxSprite
 	private var _biographies:Array<String> = ["Lorem  lorem sit amet risus hendrerit elementum. Mauris laoreet urna at dui sagittis aliquet. Donec ac neque nisi. Nullam quis lacinia velit. Phasellus tincidunt, dui eget gravida lobortis, lacus ligula dignissim sem, vel volutpat.\n\nDonec sed nisl eget elit bibendum iaculis. Fusce eu mollis augue, ut tempor est. Curabitur tempus libero eget nisl faucibus, vel fringilla quam pretium. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis sed lectus sit amet lacus ultrices ullamcorper. Morbi risus felis, pharetra elementum elit nec, lacinia finibus sem. Donec finibus lorem ac blandit gravida. Nunc at feugiat nisi, sed varius magna. Pellentesque interdum in erat non tempus.", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
 	private var _names:Array<String> = ["Lorem", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
 	
-	//Info graphique
-	public var _humanProf : HumanProfile;
-	//public var portrait : FlxSprite;
-	public var portrait : FlxSpriteGroup;
-	public var imgportrait : FlxSprite;
-	public var imgAdress : String;
+	////Info graphique
+	//public var _humanProf : HumanProfile;
+	////public var portrait : FlxSprite;
+	//public var portrait : FlxSpriteGroup;
+	//public var imgportrait : FlxSprite;
+	//public var imgAdress : String;
+	
+	
+	// Pour la creation du portrait
+	public var _generatedFace	: FlxTypedSpriteGroup<FlxSprite>;
+	public var _faceGeometry 	: FlxSprite;
+	
+	public var _faceImg : String;
+	public var _eyesImg : String;
+	public var _mouthImg : String;
+	
+	var _imgPath : String = "assets/images/faces/";
+	var _eyes : FlxSprite;
+	var _mouth : FlxSprite;
+	var _skinColor : String;
 	
 	
 	
 	//GAMEPLAY TEST
+	
+	
+	public var isSick : Bool;
 	public var isReadyToDie : Bool = false;
 
 	
@@ -77,37 +94,14 @@ class Human extends FlxSprite
 		
 		_id = id;
 		_posOnTable = pos;
-
-		//Inclusion du HumanProfile
-		//LES TEXTES SERONT GENERER COTE HUMANPROFILE
-		_humanProf = new HumanProfile();
-
 		
-		//LOAD L'IMAGE DU VISAGE
-		portrait = new FlxSpriteGroup();
-		imgportrait = new FlxSprite(700, Y + 70 + 48);
+		//GENERATION DU VISAGE
+		createFace();
 		
-		var randomizer = FlxG.random.int(0, 1);
-		trace("RANDOMIZER : " + randomizer);
-		if (randomizer == 0)
-		{
-			imgAdress = "assets/images/face_test.png";
-		}
-		else
-		{
-			imgAdress = "assets/images/face_test2.png";
-		}
+		//DETERMINATION DE LA MALADIE
+		SicknessDetermination();
 		
-		imgportrait.loadGraphic(imgAdress, false, 205, 256, false);
-		portrait.add(imgportrait);
-		
-
-		
-		//ON INIT LES RESSOURCES EN PREMIER -- NON UTILISER ACTUELLEMENT
-		//init(_humanProf._meat, _humanProf._iq, _humanProf._milk);
-
-		
-		if (_humanProf.isSick)
+		if (isSick)
 		{
 			_sicknessInfo = "JE SUIS MALADE";
 		}
@@ -140,10 +134,10 @@ class Human extends FlxSprite
 		_iq = iq;
 		_blood = milk;
 
-		_basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _food + " KILOS DE VIANDE \r";
-		_basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
-		_basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
-		_basicInfo += "STATUT GRAB : " + _isGrabbed ;
+		//_basicInfo += "ME TUER VOUS PERMETTRA DE PRODUIRE : " + _food + " KILOS DE VIANDE \r";
+		//_basicInfo += "UTILISER MON CERVEAU VOUS PERMETTRA DE PRODUIRE : " + _iq + " POINTS DE QI \r";
+		//_basicInfo += "ME VIDER DE MON EAU VOUS PERMETTRA DE PRODUIRE  : " + _blood + " LITRES D'EAU \r";
+		//_basicInfo += "STATUT GRAB : " + _isGrabbed ;
 
 	}
 
@@ -165,9 +159,17 @@ class Human extends FlxSprite
 			this.x = FlxG.mouse.x - FlxG.mouse.cursorContainer.width;
 			this.y = FlxG.mouse.y - FlxG.mouse.cursorContainer.height;
 		}
-		else
+		
+		if(_isGrabbed && _spaceStation.stampMode)
 		{
-			isReadyToDie = true;
+			if (!isReadyToDie)
+			{
+				isReadyToDie = true;
+				_basicInfo += " PRET POUR EN FAIRE DES STEAKS ! ";
+				_biography = _basicInfo;
+				_spaceStation.infoScreen.updateHuman(this);
+			}
+			
 		}
 	}
 
@@ -186,7 +188,7 @@ class Human extends FlxSprite
 	// VA BOUGER JE PENSE
 	private function getSlaughtered(human:Human, area:Area):Void
 	{
-		if(!human._humanProf.isSick)
+		if(!human.isSick)
 		{
 			if (human.isReadyToDie)
 			{
@@ -232,7 +234,7 @@ class Human extends FlxSprite
 		{
 			case SLAUGHTERHOUSE:
 				
-				if (!human._humanProf.isSick)
+				if (!human.isSick)
 				{
 					if (human.isReadyToDie)
 					{
@@ -255,25 +257,76 @@ class Human extends FlxSprite
 		}
 	}
 	
-	//private function onMouseOver(_)
-	//{
-	////_shadowSelect.visible = true;
-	//}
-	//
-	//private function onMouseOut(_)
-	//{
-	////_shadowSelect.visible = false;
-	//}
-	//
-	//private function onMouseDown(_)
-	//{
-	//isGrab = true;
-	//}
-	//
-	//private function onMouseUp(_)
-	//{
-	//isGrab = false;
-	//}
-	//
+	
+	public function createFace()
+	{
+		_generatedFace = new FlxTypedSpriteGroup<FlxSprite>();
+		_generatedFace.x = 430;
+		_generatedFace.y = 400;
+		
+		if (FlxG.random.int(0, 1) == 0)
+		{
+			_skinColor = "blanc_";
+		}
+		else
+		{
+			_skinColor = "noir_";
+		}
+		
+		_imgPath = "assets/images/faces/";
+		
+		var randFace = FlxG.random.int(1, 2);
+		var randNose = FlxG.random.int(1, 2);
+		var randEyes = FlxG.random.int(1, 2);
+		
+		
+		
+		//TAILLE DES IMAGES
+		//93,116
+		
+		
+		_faceGeometry = new FlxSprite(0,0);
+		_faceImg = _imgPath +"visage_" + _skinColor + randFace +".png";
+		_faceGeometry.loadGraphic(_faceImg, false, 205, 256, true);
+		
+		_mouth = new FlxSprite(0, 0);
+		_mouthImg = _imgPath +"bouche_" + _skinColor + randNose +".png";
+		_mouth.loadGraphic(_mouthImg, false, 205, 256, true);
+		
+		
+		_eyes = new FlxSprite(0, 0);
+		_eyesImg = _imgPath +"yeux_" + _skinColor + randEyes +".png";
+		_eyes.loadGraphic(_eyesImg, false, 205, 256, true);
+		
+		//FACULTATIF
+		//var eyebrow = new FlxSprite(0,0);
+
+		
+		
+		_generatedFace.add(_faceGeometry);
+		_generatedFace.add(_eyes);
+		_generatedFace.add(_mouth);
+
+		_generatedFace.scale.set(3, 3);
+		
+		
+	}
+	
+	public function SicknessDetermination()
+	{
+		var sickChance = 70.0; //Value evolue en fonction du LVL
+		var luckyNumber = FlxG.random.float(0, 100.0);
+		
+		if (luckyNumber <= sickChance)
+		{
+			//trace("MALADE");
+			isSick = true;
+		}
+		else
+		{
+			//trace("SAIN");
+			isSick = false;
+		}
+	}
 
 }

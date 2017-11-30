@@ -106,26 +106,26 @@ class DebriefState extends FlxState
 		gameResText = new FlxText(1280 / 2, 860/2+100, 0, "", 8, true);
 		
 		
-		addRessourceText = new FlxText(640 + 100 , 410, 0, "", 8, true);
+		//addRessourceText = new FlxText(640 + 100 , 410, 0, "", 8, true);
 		
-		addRessourceText.color = FlxColor.GREEN;
+		//addRessourceText.color = FlxColor.GREEN;
 		gameDayText.color = FlxColor.WHITE;
 		gameResText.color = FlxColor.GREEN;
 		
 		gameDayText.text += "STATS DU JOUR N° " + playerInfo._day + "\r"; 
 		gameDayText.text += "NOURRITURE PRODUITE: " + playerInfo._food + "\r"; 
-		addRessourceText.text += "+ " + playerInfo._food +"\r";  
-		gameDayText.text += "QI PRODUIT : " + playerInfo._iq + "\r";
-		addRessourceText.text += "+ " + playerInfo._iq +"\r";  
-		gameDayText.text += "SANG PRODUIT: " + playerInfo._blood + "\r";
-		addRessourceText.text += "+ " + playerInfo._blood +"\r";  
+		//addRessourceText.text += "+ " + playerInfo._food +"\r";  
+		//gameDayText.text += "QI PRODUIT : " + playerInfo._iq + "\r";
+		////addRessourceText.text += "+ " + playerInfo._iq +"\r";  
+		//gameDayText.text += "SANG PRODUIT: " + playerInfo._blood + "\r";
+		////addRessourceText.text += "+ " + playerInfo._blood +"\r";  
 		gameDayText.text += "-----------------------------------------------\r";
 		
 		gameDayText.text += "STOCK DE NOURRITURE : " + playerInfo._stockFood + "\r"; 
-		gameDayText.text += "STOCK DE QI : " + playerInfo._stockIq + "\r";
-		gameDayText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
-		gameDayText.text += "STOCK DE ZOLLARS : " + playerInfo._stockMoney + "\r";
-	
+		//gameDayText.text += "STOCK DE QI : " + playerInfo._stockIq + "\r";
+		//gameDayText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
+		//gameDayText.text += "STOCK DE ZOLLARS : " + playerInfo._stockMoney + "\r";
+	//
 		
 		gameDayText.text += "-----------------------------------------------\r";
 		//Calcul des stocks après usage des ressources :
@@ -139,13 +139,13 @@ class DebriefState extends FlxState
 		playerInfo._stockBlood -=  _bloodForDay;
 		
 		gameResText.text += "STOCK DE NOURRITURE : " + playerInfo._stockFood + "\r"; 
-		gameResText.text += "STOCK DE QI : " + playerInfo._stockIq + "\r";
-		gameResText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
-		gameResText.text += "STOCK DE ZOLLARS : " + playerInfo._stockMoney + "\r";
+		//gameResText.text += "STOCK DE QI : " + playerInfo._stockIq + "\r";
+		//gameResText.text += "STOCK DE SANG : " + playerInfo._stockBlood + "\r";
+		//gameResText.text += "STOCK DE ZOLLARS : " + playerInfo._stockMoney + "\r";
 		
 		add(gameDayText);
-		add(addRessourceText);
-		add(DailyText);
+		//add(addRessourceText);
+		//add(DailyText);
 		add(gameResText);
 	
 		trace("Nombre de lignes : " + DailyText.numLines);
