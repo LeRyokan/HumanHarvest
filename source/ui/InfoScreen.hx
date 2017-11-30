@@ -1,16 +1,12 @@
 package ui;
 
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
-import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.ui.FlxUIButton;
-import flixel.util.FlxAxes;
 
 class InfoScreen extends FlxSpriteGroup
 {
@@ -70,6 +66,13 @@ class InfoScreen extends FlxSpriteGroup
 	
 	// Autres
 	private var _showHumans						: Bool = true;
+	
+	// BARRE DE NEWS BFMTV
+	private var _newsBarBackground				: FlxSprite;
+	private var _newsBarTextFirst					: FlxText;
+	private var _newsBarTextSecond					: FlxText;
+	
+	private var _newsTexts 						: Array<String>;
 
 	public function new()
 	{
@@ -199,12 +202,7 @@ class InfoScreen extends FlxSpriteGroup
 		//_newsTitleText.alignment = FlxTextAlign.CENTER;
 		//_newsTitleText.screenCenter(FlxAxes.X);
 		
-		var text:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
-		text += "\n\nDepuis, il galère.";
-		text += "\n\nEt il a décidé d'emmener Guillaume dans sa galère.";
-		text += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
-		text += "\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
-		text += "\n\nPour le moment c'est du vu et revu mais imagine avec des petits blocs, peut être des images et tout.";
+		var text:String = "\n\nPour le moment c'est du vu et revu mais imagine avec des petits blocs, peut être des images et tout.";
 		text += "\n\nTiens je vais essayer de faire un exemple d'article en dessous, on va voir ce que ça donne.";
 		text += "\n\nDans la nuit du Zurbi au Dyrpo, dans le quartier mal famé du centre ville de la banlieue de l'ouest de la capitale Zogytronnienne, c'est à dire, à 3.1254 degrés de latitude et 57.3254 degrés de longitude, peu après 2547h21, un jeune humain à l'allure obèse, tout de jaune vêtu, a été aperçu courant et criant sans arrêt d'une voix que les humains emprisonnés à côté ont plus tard qualifiés de \"chèvrique, à la limite de l'humain\". Depuis, des rumeurs ont émergés chez les humains, certains parlent de leur sauveur, un certain Mr. Belly, sorte de Jésus 8.0, malgré sa ressemblance à Donal Trump. Si vous apercevez cet énergumène, NE L'APPROCHEZ SURTOUT PAS et appellez tout de suite votre maman, avant de vous mettre en DBA (Disposition en Biais d'Assurance). Merci et désolé.";
 		text += "\n\nBon, donc faudra monter la taille du texte et/ou mettre un écart de ligne plus grand, là c'est illisible ptain !";
@@ -214,14 +212,34 @@ class InfoScreen extends FlxSpriteGroup
 		_newsText.start(0.01);
 		
 		// BUTTONS
-		_showHumanInfosButton = new FlxUIButton(SPACING, _height - 50 - SPACING, "Human", OnClickShowHumanInfosButton);
+		_showHumanInfosButton = new FlxUIButton(SPACING, _height - 100 - SPACING, "Human", OnClickShowHumanInfosButton);
 		_showHumanInfosButton.resize((_width / 2) - 1.5*SPACING, 50);
 		_showHumanInfosButton.label.size = 14;
 		
 		_showNewsButton = new FlxUIButton(_showHumanInfosButton.x + _showHumanInfosButton.width + SPACING, _showHumanInfosButton.y, "News", OnClickShowNewsButton);
 		_showNewsButton.resize((_width / 2) - 1.5*SPACING, 50);
-		_showNewsButton.label.size = 14;
-
+		_showNewsButton.label.size = 18;
+		
+		// NEWS BAR temp
+		_newsBarBackground = new FlxSprite(0, _height - 50);
+		_newsBarBackground.makeGraphic(_width, 50, FlxColor.BLUE);
+		
+		_newsTexts = new Array<String>();
+		_newsTexts.push("Aujourd'hui, Guillaume a eu la chiasse et c'était pas beau à voir :/");
+		_newsTexts.push("Ceci est un message déroulant lolilol, et comme je te l'ai dit, j'ai un nouveau clavier, j'aime taper avec, donc je vais écrire plein de caca pour voir ce que ça donne sur un long message.");
+		_newsTexts.push("Gros texte. Petit texte. Petit texte. Petit texte. Petit texte.");
+		_newsTexts.push("Petit pénis. Petit pénis. Petit pénis. Petit pénis.");
+		_newsTexts.push("Grosse bite qui sent le fromage. Petit texte. Petit texte. Petit texte.");
+		
+		_newsBarTextFirst = new FlxText(0, _height - 37, 0, _newsTexts[0], 20);
+		_newsBarTextFirst.wordWrap = false;
+		_newsBarTextFirst.autoSize = true;
+		
+		// 50 = espace entre 2 news pour le moment
+		_newsBarTextSecond = new FlxText(_newsBarTextFirst.fieldWidth + 50, _height - 37, 0, _newsTexts[Std.random(_newsTexts.length)], 20);
+		_newsBarTextSecond.wordWrap = false;
+		_newsBarTextSecond.autoSize = true;
+		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
 
@@ -268,11 +286,38 @@ class InfoScreen extends FlxSpriteGroup
 		// BUTTONS
 		add(_showHumanInfosButton);
 		add(_showNewsButton);
+		
+		add(_newsBarBackground);
+		add(_newsBarTextFirst);
+		add(_newsBarTextSecond);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		_newsBarTextFirst.x -= 15;
+		_newsBarTextSecond.x -= 15;
+		// Ici faut remettre le OFFSET malheureusement (dés que c'est ajouté en fait) (et le OFFSET c'est parce que sinon y'a un délai chiant)
+		if (_newsBarTextFirst.x < OFFSET - _newsBarTextFirst.fieldWidth) 
+		{
+			//_newsBarTextFirst.text = _newsTexts[Std.random(_newsTexts.length)];
+			//_newsBarTextFirst.x = OFFSET + _width;
+			
+			// magouille
+			trace(_newsBarTextFirst.fieldWidth);
+			_newsBarTextFirst.text = _newsBarTextSecond.text;
+			_newsBarTextFirst.x = _newsBarTextSecond.x;
+			trace(_newsBarTextFirst.fieldWidth);
+			
+			_newsBarTextSecond.text = _newsTexts[Std.random(_newsTexts.length)];
+			_newsBarTextSecond.x = OFFSET + _newsBarTextFirst.fieldWidth + 50;
+		}
+		//else if (_newsBarTextSecond.x < OFFSET - _newsBarTextSecond.fieldWidth) 
+		//{
+			//_newsBarTextFirst.text = _newsTexts[Std.random(_newsTexts.length)];
+			//_newsBarTextFirst.x = OFFSET + _width;
+		//}
 		
 		if (_showHumans) {
 			_showHumanInfosButton.color = FlxColor.WHITE;
@@ -313,7 +358,6 @@ class InfoScreen extends FlxSpriteGroup
 		_humanIqText.text 		= Std.string(fixedFloat(iqCount, 2));
 		_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
 		
-	
 		//MISE A JOUR DU PORTRAIT
 		_humanHeadSprite.loadGraphic(human._humanProf._faceImg, false, 205, 256, true);
 		_humanEyesSprite.loadGraphic(human._humanProf._eyesImg, false, 205, 256, true);
