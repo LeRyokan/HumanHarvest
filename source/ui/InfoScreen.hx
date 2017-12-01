@@ -1,17 +1,20 @@
 package ui;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.text.FlxTypeText;
+import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.FlxG;
-import flixel.addons.text.FlxTypeText;
-import flixel.addons.ui.FlxUIButton;
 
 class InfoScreen extends FlxSpriteGroup
 {
 	public static inline var OFFSET 			: Int = 10000;
 	public static inline var SPACING 			: Int = 20;
+	
+	public static inline var NEWS_SPACING_MIN	: Int = 50;
+	public static inline var NEWS_SPEED			: Int = 3;
 	//COPIE DE LA STATIC INLINE QUI BIZARREMENT PEUT PAS ETRE ATTEINTE PAR LA CLASSE HUMAN
 	public var _spacing : Int = 10020;
 	
@@ -69,8 +72,9 @@ class InfoScreen extends FlxSpriteGroup
 	
 	// BARRE DE NEWS BFMTV
 	private var _newsBarBackground				: FlxSprite;
-	private var _newsBarTextFirst					: FlxText;
-	private var _newsBarTextSecond					: FlxText;
+	//private var _newsBarTextFirst				: FlxText;
+	//private var _newsBarTextSecond				: FlxText;
+	private var _newsBarTextGroup				: FlxTypedSpriteGroup<FlxText>;
 	
 	private var _newsTexts 						: Array<String>;
 
@@ -230,14 +234,18 @@ class InfoScreen extends FlxSpriteGroup
 		_newsTexts.push("Petit pénis. Petit pénis. Petit pénis. Petit pénis.");
 		_newsTexts.push("Grosse bite qui sent le fromage. Petit texte. Petit texte. Petit texte.");
 		
-		_newsBarTextFirst = new FlxText(0, _height - 37, 0, _newsTexts[0], 20);
-		_newsBarTextFirst.wordWrap = false;
-		_newsBarTextFirst.autoSize = true;
+		//_newsBarTextFirst = new FlxText(0, _height - 37, 0, _newsTexts[0], 20);
+		//_newsBarTextFirst.wordWrap = false;
+		//_newsBarTextFirst.autoSize = true;
 		
 		// 50 = espace entre 2 news pour le moment
-		_newsBarTextSecond = new FlxText(_newsBarTextFirst.fieldWidth + 50, _height - 37, 0, _newsTexts[Std.random(_newsTexts.length)], 20);
-		_newsBarTextSecond.wordWrap = false;
-		_newsBarTextSecond.autoSize = true;
+		//_newsBarTextSecond = new FlxText(_newsBarTextFirst.fieldWidth + 50, _height - 37, 0, _newsTexts[Std.random(_newsTexts.length)], 20);
+		//_newsBarTextSecond.wordWrap = false;
+		//_newsBarTextSecond.autoSize = true;
+		
+		_newsBarTextGroup = new FlxTypedSpriteGroup<FlxText>();
+		_newsBarTextGroup.x = 0;
+		_newsBarTextGroup.y = _height - 37;
 		
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
@@ -287,36 +295,43 @@ class InfoScreen extends FlxSpriteGroup
 		add(_showNewsButton);
 		
 		add(_newsBarBackground);
-		add(_newsBarTextFirst);
-		add(_newsBarTextSecond);
+		//add(_newsBarTextFirst);
+		//add(_newsBarTextSecond);
+		add(_newsBarTextGroup);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
 		
-		_newsBarTextFirst.x -= 15;
-		_newsBarTextSecond.x -= 15;
-		// Ici faut remettre le OFFSET malheureusement (dés que c'est ajouté en fait) (et le OFFSET c'est parce que sinon y'a un délai chiant)
-		if (_newsBarTextFirst.x < OFFSET - _newsBarTextFirst.fieldWidth) 
+		// On fait avancer toutes les news, et si jamais elles sortent du cadre (donc vues), on les supprime
+		for (newsBarText in _newsBarTextGroup) 
 		{
-			//_newsBarTextFirst.text = _newsTexts[Std.random(_newsTexts.length)];
-			//_newsBarTextFirst.x = OFFSET + _width;
-			
-			// magouille
-			trace(_newsBarTextFirst.fieldWidth);
-			_newsBarTextFirst.text = _newsBarTextSecond.text;
-			_newsBarTextFirst.x = _newsBarTextSecond.x;
-			trace(_newsBarTextFirst.fieldWidth);
-			
-			_newsBarTextSecond.text = _newsTexts[Std.random(_newsTexts.length)];
-			_newsBarTextSecond.x = OFFSET + _newsBarTextFirst.fieldWidth + 50;
+			newsBarText.x -= NEWS_SPEED;
+			if (newsBarText.x < OFFSET - newsBarText.fieldWidth)
+			{
+				_newsBarTextGroup.remove(newsBarText, true);
+			}
 		}
-		//else if (_newsBarTextSecond.x < OFFSET - _newsBarTextSecond.fieldWidth) 
-		//{
-			//_newsBarTextFirst.text = _newsTexts[Std.random(_newsTexts.length)];
-			//_newsBarTextFirst.x = OFFSET + _width;
-		//}
+		
+		// méthode de débug pour ajouter une news
+		if (FlxG.keys.justPressed.N) 
+		{
+			var newsBarText:FlxText = new FlxText(0, 0, 0, _newsTexts[Std.random(_newsTexts.length)], 20);
+			newsBarText.wordWrap = false;
+			newsBarText.autoSize = true;
+			
+			if (_newsBarTextGroup.length == 0)
+			{
+				newsBarText.x = _width;
+			} else 
+			{
+				var last:FlxText = _newsBarTextGroup.members[_newsBarTextGroup.members.length - 1];
+				newsBarText.x = last.x + last.fieldWidth + NEWS_SPACING_MIN - OFFSET;
+			}
+
+			_newsBarTextGroup.add(newsBarText);
+		}
 		
 		if (_showHumans) {
 			_showHumanInfosButton.color = FlxColor.WHITE;
@@ -348,9 +363,9 @@ class InfoScreen extends FlxSpriteGroup
 		_humanName.text = human._name;
 		
 		var foodCount			: Float = human._food;
-		var moneyCount			: Float = human._money;
-		var iqCount				: Float = human._iq;
-		var bloodCount			: Float = human._blood;
+		//var moneyCount			: Float = human._money;
+		//var iqCount				: Float = human._iq;
+		//var bloodCount			: Float = human._blood;
 		
 		_humanFoodText.text 	= Std.string(fixedFloat(foodCount, 2));
 		//_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
@@ -373,9 +388,9 @@ class InfoScreen extends FlxSpriteGroup
 	public function updateResources(player:Player)
 	{
 		var foodCount		: Float = player._food;
-		var moneyCount		: Float = player._money;
-		var iqCount			: Float = player._iq;
-		var bloodCount		: Float = player._blood;
+		//var moneyCount		: Float = player._money;
+		//var iqCount			: Float = player._iq;
+		//var bloodCount		: Float = player._blood;
 		
 		_foodText.text 		= Std.string(fixedFloat(foodCount, 2));
 		//_moneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
