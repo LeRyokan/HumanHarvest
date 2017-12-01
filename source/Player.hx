@@ -40,7 +40,8 @@ class Player extends FlxBasic
 	
 	//affiche le nombre jours passé
 	//public var _day : Int;
-	public var _day : Levels;
+	public var _day : Int;
+	
 
 	public function new(spaceStation:SpaceStation)
 	{
@@ -49,10 +50,10 @@ class Player extends FlxBasic
 		initCursor();
 
 		_spaceStation = spaceStation;
-		_day = spaceStation.currentLevel;
+		_day = spaceStation._indexCurrentLevel;
 		
 		
-		if (_day == Levels.DAY_1)
+		if (_day == 1)
 		{
 			_food = 0;
 			_money = spaceStation.levelConstraint.moneyPossessed;
@@ -68,7 +69,7 @@ class Player extends FlxBasic
 		}
 		else	// INIT LES INFOS PAR RAPPORT AUX RESULTATS DE LA VEILLE
 		{
-			_food = 0;
+			_food = _spaceStation._save.data.food;
 			_money = spaceStation.levelConstraint.moneyPossessed;
 			_blood = 0;
 			_iq = 0;

@@ -11,6 +11,7 @@ import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import nape.geom.Vec2;
@@ -29,8 +30,12 @@ class SpaceStation extends FlxGroup
 {
 	////////////////////////////////////////
 	//A MIGRER PLUS TARD DANS GAME SESSION//
-	public var currentLevel : Levels;
+	public var currentLevel : Levels; //VA DISPARAITRE
+	public var _indexCurrentLevel : Int;
 	
+	//VARIABLE POUR LA GESTION DE LA SAVE
+	public var _saveName: String;
+	public var _save : FlxSave;
 	
 	//Game timer
 	public var gameTimer : FlxTimer;
@@ -84,10 +89,15 @@ class SpaceStation extends FlxGroup
 	
 	
 	
-	public function new(level:Levels) 
+	public function new(indexCurrentLevel:Int,saveName:String) 
 	{
 		super();
-		currentLevel = level;
+		//currentLevel = level;
+		_save = new FlxSave();
+		_save.bind(saveName);
+		_indexCurrentLevel = indexCurrentLevel;
+		trace("NIVEAU RETENU DANS LA SAVE : " + _save.data.level);
+		trace("NIVEAU ACTUEL : " + _indexCurrentLevel);
 		placeholderArray = new Array<FlxPoint>();
 		
 		//A REVOIR
@@ -243,8 +253,14 @@ class SpaceStation extends FlxGroup
 			
 			
 			// UN LEGER WAIT AVANT DE SWITCH STATE SERAIT COOL
-			//FlxG.switchState(new DebriefState(this.player));
-			var nextState = new DebriefState(currentLevel);
+			
+			// ON FAIS LA SAUVEGARDE ICI
+			trace("LEVEL SAVE : " + _indexCurrentLevel);
+			_save.data.level = _indexCurrentLevel;
+			_save.data.food = player._food;
+			_save.flush();
+			
+			var nextState = new DebriefState(_indexCurrentLevel);
 			nextState.initState(this.player);
 			FlxG.switchState(nextState);
 		}

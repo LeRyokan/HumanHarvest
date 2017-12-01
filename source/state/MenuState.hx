@@ -1,6 +1,6 @@
 package state;
 
-import enums.Gamemode.GameMode;
+import enums.GameMode;
 import enums.Levels;
 import flixel.FlxG;
 import flixel.FlxState;

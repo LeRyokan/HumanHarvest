@@ -7,4 +7,5 @@ enum GameMode
 {
 	NEW;
 	LOAD;
+	NEXT_LEVEL;
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import enums.GameMode;
 import enums.Levels;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -51,7 +52,7 @@ class TextButton extends FlxSpriteGroup
 		y = rect.y;
 		
 		_idToNextLVL = id;
-		
+		nextState = new PlayState(GameMode.NEXT_LEVEL);
 		//switch (_idToNextLVL) 
 		//{
 			//case 1:

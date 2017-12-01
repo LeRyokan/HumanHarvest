@@ -31,7 +31,7 @@ class LevelConstraint
 		var fast = new Fast(xml);
 		var n = fast.node.levels;
 	
-		trace ("ACTUAL LEVEL " + _actualLevel);
+		//trace ("ACTUAL LEVEL " + _actualLevel);
 		for (level in n.nodes.level)
 		{
 			if (Std.parseInt(level.att.id) == _actualLevel)
@@ -44,13 +44,13 @@ class LevelConstraint
 			
 				moneyPossessed = Std.parseInt(money.innerData);
 				
-				trace("PEOPLE MAX: "  + peopleMax.innerData);
+				//trace("PEOPLE MAX: "  + peopleMax.innerData);
 				peopleCatch = Std.parseInt(peopleMax.innerData);
-				trace("ELEMENTS  MEAT: "  + meatValue.innerData);
+				//trace("ELEMENTS  MEAT: "  + meatValue.innerData);
 				meatToProduce = Std.parseFloat(meatValue.innerData);
-				trace("ELEMENTS  IQ: "  + iqValue.innerData);
+				//trace("ELEMENTS  IQ: "  + iqValue.innerData);
 				iqToProduce =  Std.parseInt(iqValue.innerData);
-				trace("ELEMENTS  MILK: "  + milkValue.innerData);
+				//trace("ELEMENTS  MILK: "  + milkValue.innerData);
 				milkToProduce =  Std.parseFloat(milkValue.innerData);
 			}
 		}
@@ -81,12 +81,12 @@ class LevelConstraint
 		{
 			var randomizer = FlxG.random.int( -50, 50);
 			var result = (percentageOfMoy * randomizer) + moyenne;
-			trace("PERSO " + i + ": " + result);
+			//trace("PERSO " + i + ": " + result);
 			totalMeatProducable += result;
 			ressourceArray.push(result);
 		}
 		
-		trace("TOTAL MEAT PRODUCABLE : " + totalMeatProducable);
+		//trace("TOTAL MEAT PRODUCABLE : " + totalMeatProducable);
 		return ressourceArray;
 	}
 	

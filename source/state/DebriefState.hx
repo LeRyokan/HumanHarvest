@@ -26,14 +26,16 @@ class DebriefState extends FlxState
 	var _iqForDay : Int = 20;
 	var _bloodForDay : Int = 40;
 	
-	var _currentLevel :Levels;
+	var _currentLevel :Levels; //VA DISPARAITRE
+	var _indexCurrentLevel :Int;
+	
 	public var buttonNextDay : ui.TextButton;	
 	
 	
-	public function new(level:Levels)
+	public function new(level:Int)
 	{
 		super();
-		_currentLevel = level;
+		_indexCurrentLevel = level;
 	}
 	
 	
@@ -42,28 +44,33 @@ class DebriefState extends FlxState
 		super.create();
 		
 		bgColor = 0xFF000000;
-		trace(_currentLevel);
-		switch (_currentLevel) 
-		{
-			case Levels.DAY_1:
-				buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 2 !",2);
-				add(buttonNextDay);
-				
-			case Levels.DAY_2:
-				buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 3 !",3);
-				add(buttonNextDay);
-				
-			case Levels.DAY_3:
-				buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 4 !",4);
-				add(buttonNextDay);
-				
-			case Levels.DAY_4:
-				buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 5 !",5);
-				add(buttonNextDay);
-			
-			default:
-				
-		}
+		trace(_indexCurrentLevel);
+		var nextLevelIndex = _indexCurrentLevel + 1;
+		
+		buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY " + nextLevelIndex+ " !",nextLevelIndex);
+		add(buttonNextDay);
+		
+		//switch (_currentLevel) 
+		//{
+			//case Levels.DAY_1:
+				//buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 2 !",2);
+				//add(buttonNextDay);
+				//
+			//case Levels.DAY_2:
+				//buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 3 !",3);
+				//add(buttonNextDay);
+				//
+			//case Levels.DAY_3:
+				//buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 4 !",4);
+				//add(buttonNextDay);
+				//
+			//case Levels.DAY_4:
+				//buttonNextDay = new TextButton(new Rectangle(1280 / 2, 750, 48, 36), "GO TO DAY 5 !",5);
+				//add(buttonNextDay);
+			//
+			//default:
+				//
+		//}
 		
 	}
 	
