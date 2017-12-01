@@ -1,5 +1,6 @@
 package state;
 
+import enums.Gamemode.GameMode;
 import enums.Levels;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -52,18 +53,23 @@ class MenuState extends FlxState
 		super.update(elapsed);
 		
 		blink();
-		
+		//NEW GAME
 		if (FlxG.mouse.justPressed || FlxG.keys.justPressed.SPACE)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
-				FlxG.switchState(new PlayState(Levels.DAY_1));
+				FlxG.switchState(new PlayState(GameMode.NEW));
 			});
 		}
 		
-		// Test de Lucas
-		if (FlxG.keys.justPressed.T)
+		// LOADED GAME
+		if (FlxG.keys.justPressed.L)
 		{
-			FlxG.switchState(new TestState());
+			FlxG.camera.fade(FlxColor.BLACK, .1, false, function() {
+				FlxG.switchState(new PlayState(GameMode.LOAD));
+			});
+			
+			
+			//FlxG.switchState(new TestState());
 		}
 		// Test de Guigui
 		if (FlxG.keys.justPressed.G)

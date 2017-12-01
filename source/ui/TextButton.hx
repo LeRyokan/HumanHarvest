@@ -52,19 +52,19 @@ class TextButton extends FlxSpriteGroup
 		
 		_idToNextLVL = id;
 		
-		switch (_idToNextLVL) 
-		{
-			case 1:
-				nextState = new PlayState(Levels.DAY_1);
-			case 2:
-				nextState = new PlayState(Levels.DAY_2);
-			case 3:
-				nextState = new PlayState(Levels.DAY_3);
-			case 4:
-				nextState = new PlayState(Levels.DAY_4);
-			default:
-				
-		}
+		//switch (_idToNextLVL) 
+		//{
+			//case 1:
+				//nextState = new PlayState(Levels.DAY_1);
+			//case 2:
+				//nextState = new PlayState(Levels.DAY_2);
+			//case 3:
+				//nextState = new PlayState(Levels.DAY_3);
+			//case 4:
+				//nextState = new PlayState(Levels.DAY_4);
+			//default:
+				//
+		//}
 		
 		
 		//Setup mouse event

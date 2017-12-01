@@ -7,7 +7,7 @@ import flixel.util.FlxSave;
 class TestGuillaumeState extends FlxState
 {
 	private var _gameSave					: FlxSave;
-
+	private var _foodCount					:Int = 0;
 	override public function create():Void
 	{
 		super.create();
@@ -19,11 +19,12 @@ class TestGuillaumeState extends FlxState
 
 		if (FlxG.keys.justPressed.A)
 		{
-			loadSave();
+			initSave();
 		}
 		if (FlxG.keys.justPressed.Z)
 		{
-			modifySave();
+			//modifySave();
+			_foodCount += 100;
 		}
 		if (FlxG.keys.justPressed.E)
 		{
@@ -32,10 +33,11 @@ class TestGuillaumeState extends FlxState
 		if (FlxG.keys.justPressed.Q)
 		{
 			trace(_gameSave);
+			trace("BOUFFE : " + _gameSave.data.foodCount);
 		}
 	}
 	
-	public function loadSave():Void
+	public function initSave():Void
 	{
 		_gameSave = new FlxSave(); // initialize
 		_gameSave.bind("SaveDemo"); // bind to the named save slot
@@ -48,7 +50,9 @@ class TestGuillaumeState extends FlxState
 	
 	public function saveSave():Void
 	{
+		_gameSave.data.foodCount = _foodCount;
 		_gameSave.flush();
+		trace("SAVE DONE !");
 	}
 	
 }

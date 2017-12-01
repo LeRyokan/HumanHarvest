@@ -3,19 +3,34 @@ package state;
 import Human;
 import Player;
 import SpaceStation;
+import enums.Gamemode;
 import enums.Levels;
 import flixel.FlxState;
 import enums.Levels;
+import flixel.util.FlxSave;
 
 class PlayState extends FlxState
 {
 	public var _currentLevel 		: Levels;
+	public var _gameMode			: GameMode;
 	public var _spaceStation		: SpaceStation;
+	private var _saveLoaded 		: FlxSave;
 
-	public function new(level:Levels)
+	public function new(gameMode:GameMode)
 	{
 		super();
-		_currentLevel = level;
+		//_currentLevel = level;
+		switch (gameMode) 
+		{
+			case GameMode.NEW:
+				_currentLevel = Levels.DAY_1;
+			case GameMode.LOAD:
+				_saveLoaded = new FlxSave(); // initialize
+				_saveLoaded.bind("SaveTEST"); // bind to the named save slot
+				_currentLevel = _saveLoaded.data.level;
+			default:
+				
+		}
 	}
 
 	override public function create():Void
