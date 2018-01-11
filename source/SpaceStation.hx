@@ -10,12 +10,14 @@ import flixel.addons.nape.FlxNapeSpace;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import nape.geom.Vec2;
 import openfl.geom.Rectangle;
+import shaders.CRT;
 import ui.InfoScreen;
 import state.DebriefState;
 import enums.AreaType;
@@ -88,6 +90,20 @@ class SpaceStation extends FlxGroup
 	public var stampMode : Bool = false;
 	
 	
+	//#if shaders_supported
+	//
+	//public static var useShaders:Bool = false;
+	//
+	//
+	//private var _shaderButton : FlxButton;
+	//
+	//private var crt = new CRT();
+	//
+	//private var timer : FlxTimer;
+	//
+	//#end
+	
+	
 	
 	public function new(indexCurrentLevel:Int,saveName:String) 
 	{
@@ -118,7 +134,12 @@ class SpaceStation extends FlxGroup
 		
 		///////////////////////////////////
 		infoScreen = new InfoScreen();
+		//infoScreen.init(useShaders,crt);
 		add(infoScreen);
+		
+		
+		
+		
 		
 		// Caméra pour le HUD (on sait pas trop comment, mais ça marche)
 		var infoScreenCam = new FlxCamera(FlxG.width - infoScreen._width, FlxG.height - infoScreen._height, infoScreen._width, infoScreen._height, 1);
@@ -128,6 +149,20 @@ class SpaceStation extends FlxGroup
 		FlxG.cameras.add(infoScreenCam);
 		///////////////////////////////////
 		
+		//#if shaders_supported
+		//
+		//timer = new FlxTimer();
+		//timer.start(0);
+		//
+		//
+		//_shaderButton = new FlxButton(300, 10, "Shaders: Off", onShaderToggle);
+		//add(_shaderButton);
+		//
+		////_testerShader = new ShadedChar(200, 60);
+		////_testerShader.init(useShaders, crt);
+		////add(_testerShader);
+		//
+		//#end
 
 		//var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
 		//add(ressourceBar2);
@@ -163,6 +198,11 @@ class SpaceStation extends FlxGroup
 		super.update(elapsed);
 		
 		infoScreen.updateResources(player);
+		
+		//#if shaders_supported
+		//crt.time += timer.elapsedTime;
+//
+		//#end
 		
 		//INPUT SECTION
 		if (FlxG.keys.justPressed.A)
@@ -388,5 +428,37 @@ class SpaceStation extends FlxGroup
 	{
 		
 	}
+	
+	//#if shaders_supported
+	//private function onShaderToggle():Void
+	//{
+		//useShaders = !useShaders;
+		//toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
+		//
+		//infoScreen._backgroundSprite.useShader = useShaders;
+		//
+		//// Update the bunnies
+		////for (bunny in _bunnies)
+		////{
+			////if (bunny != null)
+			////{
+				////bunny.useShader = useShaders;
+			////}
+		////}
+	//}
+	//#end
+	//
+	//private function toggleHelper(Button:FlxButton, Text1:String, Text2:String):Void
+	//{
+		//if (Button.label.text == Text1)
+		//{
+			//Button.label.text = Text2;
+		//}
+		//else 
+		//{
+			//Button.label.text = Text1;
+		//}
+//}
+	
 	
 }

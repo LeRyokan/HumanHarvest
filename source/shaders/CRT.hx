@@ -10,23 +10,32 @@ import openfl.display.Shader;
 class CRT extends Shader 
 {
 	
+
+	
 	@fragment var fragment = '
+	
+	uniform float time; 
+	
+	float grad = 0.12;
+	float timeScale = 10;
+	//float moduloOffset = 7;
+	float moduloOffset = 8;
+	float fragCoordOffset = 0.5;
+	
 	void main()
 	{
-		
-		//if (mod(floor(${Shader.vTexCoord}.y * ${Shader.uObjectSize}.y), 2.0) == 0.0)
-		//{
-			//gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-		//}
-		//else
-		//{
-			//gl_FragColor = texture2D(${Shader.uSampler},${Shader.vTexCoord});
-		//}
-		
-		
-		if (mod(${Shader.vTexCoord}.y, 2.0) == 0.0)
+	
+		if (mod(gl_FragCoord.y + fragCoordOffset + moduloOffset + (time * timeScale), 9) <= 4.0)
 		{
-			gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+			vec4 yolo = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
+			if (yolo.a != 0.0)
+			{
+				gl_FragColor = vec4(yolo.r-grad,yolo.g-grad,yolo.b-grad, 1.0);
+			}
+			else
+			{
+				gl_FragColor = texture2D(${Shader.uSampler},${Shader.vTexCoord});
+			}
 		}
 		else
 		{
@@ -36,36 +45,7 @@ class CRT extends Shader
 	';
 	
 	
-	//@fragment var fragment = '
-	//void main(void)
-	//{
-		//vec4 color = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-		////gl_FragColor = vec4(vec3(1.0, 1.0, 1.0) - color.rgb, color.a);
-		//gl_FragColor = vec4((1.0 - color.r) * color.a, (1.0 - color.g) * color.a, (1.0 - color.b) * color.a, color.a);
-	//}
-	//';
 	
-	//if (mod(floor(vTexCoord.y * uResolution.y / scale), 2.0) == 0.0)
-		//{
-			//gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-		//}
-		//else
-		//{
-			//gl_FragColor = texture2D(uImage0, vTexCoord);
-		//}
-	
-	
-	
-	
-	//
-	//@fragment var fragment = '
-	//void main()
-	//{
-		//vec4 color = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-		//gl_FragColor = vec4((1.0 - color.r) * color.a, (1.0 - color.g) * color.a, (1.0 - color.b) * color.a, color.a);
-	//}
-	//';
-	//
 	
 	public function new()
 	{

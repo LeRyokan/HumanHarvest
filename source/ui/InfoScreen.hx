@@ -5,8 +5,12 @@ import flixel.FlxSprite;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.ui.FlxUIButton;
 import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxAssets.FlxShader;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import shaders.CRT;
 
 class InfoScreen extends FlxSpriteGroup
 {
@@ -22,7 +26,30 @@ class InfoScreen extends FlxSpriteGroup
 	public var _height					: Int = FlxG.height - 150;
 
 
-	public var _backgroundSprite 				: FlxSprite;
+	// SHADER SECTION
+	
+	#if shaders_supported
+	
+	public static var useShaders:Bool = false;
+	
+	//private var _testerShader : ShadedChar;
+	
+	private var _shaderButton : FlxButton;
+	
+	private var crt = new CRT();
+	
+	private var timer : FlxTimer;
+	
+	#end
+	
+	
+	//public var useShader(default, set):Bool = false;
+	//private var _shader:FlxShader;
+	
+	//END SHADER SECTION
+	
+	//public var _backgroundSprite 				: FlxSprite;
+	public var _backgroundSprite 				: ShadedSprite;
 
 	private var _humanPortrait				:FlxTypedSpriteGroup<FlxSprite>;
 	
@@ -78,14 +105,55 @@ class InfoScreen extends FlxSpriteGroup
 	
 	private var _newsTexts 						: Array<String>;
 
+	//private function set_useShader(Value:Bool):Bool
+	//{
+		//if (Value)
+		//{
+			//shader = _shader;
+		//}
+		//else
+		//{
+			//shader = null;
+		//}
+		//
+		//return useShader = Value;
+	//}	
+	//
+	//public function init(UseShader:Bool = false, ?Shader:FlxShader)
+	//{
+		//if (Shader != null)
+		//{
+			//_shader = Shader;
+		//}
+		//
+		//useShader = UseShader;
+	//}
+	
 	public function new()
 	{
 		super();
 
 		this.x = OFFSET;
-
-		_backgroundSprite = new FlxSprite(0, 0);
-		_backgroundSprite.makeGraphic(_width, _height, FlxColor.BLACK, false);
+		
+		//_backgroundSprite = new FlxSprite(0, 0);
+		
+		
+		
+		#if shaders_supported
+		
+		timer = new FlxTimer();
+		timer.start(0);
+		
+		
+		_backgroundSprite = new ShadedSprite(0, 0,"assets/images/monitorBckground.png");
+		_backgroundSprite.init(useShaders, crt);
+		
+		
+		#end
+		
+		
+		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.BLACK, false);
+		//_backgroundSprite.makeGraphic(_width, _height, FlxColor.fromRGB(16, 140, 119), false);
 		
 		// RESSOURCES
 		_foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
@@ -250,6 +318,13 @@ class InfoScreen extends FlxSpriteGroup
 		// Ajout de tout à la fin sinon avec le x = 10000, ça merde le placement
 		add(_backgroundSprite);
 
+		#if shaders_supported
+		
+		_shaderButton = new FlxButton(100, 0, "Shaders: Off", onShaderToggle);
+		add(_shaderButton);
+		
+		#end
+		
 		add(_foodRessourceSprite);
 		add(_foodText);
 
@@ -303,6 +378,12 @@ class InfoScreen extends FlxSpriteGroup
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		#if shaders_supported
+		crt.time += timer.elapsedTime;
+
+		#end
+		
 		
 		// On fait avancer toutes les news, et si jamais elles sortent du cadre (donc vues), on les supprime
 		for (newsBarText in _newsBarTextGroup) 
@@ -415,4 +496,37 @@ class InfoScreen extends FlxSpriteGroup
 	{
 		return Math.round( v * Math.pow(10, precision) ) / Math.pow(10, precision);
 	}
+	
+	#if shaders_supported
+	private function onShaderToggle():Void
+	{
+		useShaders = !useShaders;
+		toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
+		
+		_backgroundSprite.useShader = useShaders;
+		//_testerShader.useShader = useShaders;
+		
+		// Update the bunnies
+		//for (bunny in _bunnies)
+		//{
+			//if (bunny != null)
+			//{
+				//bunny.useShader = useShaders;
+			//}
+		//}
+	}
+	#end
+	
+	private function toggleHelper(Button:FlxButton, Text1:String, Text2:String):Void
+	{
+		if (Button.label.text == Text1)
+		{
+			Button.label.text = Text2;
+		}
+		else 
+		{
+			Button.label.text = Text1;
+		}
+	}
+	
 }

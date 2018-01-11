@@ -8,6 +8,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxAxes;
+import flixel.util.FlxTimer;
 import shaders.CRT;
 
 class MenuState extends FlxState 
@@ -22,14 +23,19 @@ class MenuState extends FlxState
 	
 	//Shader testing 
 	
-	public static var useShaders:Bool = false;
+	
 	#if shaders_supported
+	
+	public static var useShaders:Bool = false;
 	
 	private var _testerShader : ShadedChar;
 	
 	private var _shaderButton : FlxButton;
 	
 	private var crt = new CRT();
+	
+	private var timer : FlxTimer;
+	
 	#end
 	
 	
@@ -59,6 +65,10 @@ class MenuState extends FlxState
 		
 		#if shaders_supported
 		
+		timer = new FlxTimer();
+		timer.start(0);
+		
+		
 		_shaderButton = new FlxButton(100, 60, "Shaders: Off", onShaderToggle);
 		add(_shaderButton);
 		
@@ -73,7 +83,7 @@ class MenuState extends FlxState
 		_alphaModifier = 0;
 		
 		FlxG.camera.fade(FlxColor.BLACK, .2, true);
-
+		
 		super.create();
 	}
 	
@@ -82,6 +92,13 @@ class MenuState extends FlxState
 		super.update(elapsed);
 		
 		blink();
+		
+		#if shaders_supported
+		crt.time += timer.elapsedTime;
+
+		#end
+		
+		
 		//NEW GAME
 		//FlxG.mouse.justPressed
 		if (FlxG.keys.justPressed.SPACE)
