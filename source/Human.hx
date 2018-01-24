@@ -285,31 +285,31 @@ class Human extends FlxSprite
 		//93,116
 		
 		
-		_faceGeometry = new FlxSprite(0,0);
+		//_faceGeometry = new FlxSprite(0,0);
 		_faceImg = _imgPath +"visage_" + _skinColor + randFace +".png";
-		_faceGeometry.loadGraphic(_faceImg, false, 205, 256, true);
+		//_faceGeometry.loadGraphic(_faceImg, false, 205, 256, true);
 		
-		_mouth = new FlxSprite(0, 0);
+		//_mouth = new FlxSprite(0, 0);
 		_mouthImg = _imgPath +"bouche_" + _skinColor + randNose +".png";
-		_mouth.loadGraphic(_mouthImg, false, 205, 256, true);
+		//_mouth.loadGraphic(_mouthImg, false, 205, 256, true);
 		
 		
-		_eyes = new FlxSprite(0, 0);
+		//_eyes = new FlxSprite(0, 0);
 		_eyesImg = _imgPath +"yeux_" + _skinColor + randEyes +".png";
-		_eyes.loadGraphic(_eyesImg, false, 205, 256, true);
+		//_eyes.loadGraphic(_eyesImg, false, 205, 256, true);
 		
 		//FACULTATIF
 		//var eyebrow = new FlxSprite(0,0);
 
 		
 		
-		_generatedFace.add(_faceGeometry);
-		_generatedFace.add(_eyes);
-		_generatedFace.add(_mouth);
-
-		_generatedFace.scale.set(3, 3);
-		
-		
+		//_generatedFace.add(_faceGeometry);
+		//_generatedFace.add(_eyes);
+		//_generatedFace.add(_mouth);
+//
+		//_generatedFace.scale.set(3, 3);
+		//
+		//
 	}
 	
 	public function SicknessDetermination()

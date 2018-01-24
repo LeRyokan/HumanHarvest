@@ -17,7 +17,13 @@ class ShadedSprite extends FlxSprite
 	public function new(?X:Float = 0, ?Y:Float = 0, ?img:String) 
 	{
 		super(X, Y);
-		loadGraphic(img);
+		if (img != null)
+		{
+			loadGraphic(img);
+		}
+		
+		
+		
 		//loadGraphic("assets/images/monitorBckground.png");
 		
 	}

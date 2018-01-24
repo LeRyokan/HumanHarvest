@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.ui.FlxUIButton;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.text.FlxText;
@@ -43,15 +44,20 @@ class InfoScreen extends FlxSpriteGroup
 	#end
 	
 	
-	//public var useShader(default, set):Bool = false;
-	//private var _shader:FlxShader;
-	
 	//END SHADER SECTION
 	
 	//public var _backgroundSprite 				: FlxSprite;
 	public var _backgroundSprite 				: ShadedSprite;
-
-	private var _humanPortrait				:FlxTypedSpriteGroup<FlxSprite>;
+	
+	private var _humanShadedSpriteGroup			: FlxSpriteGroup;
+	private var _humanShadedPortrait			: FlxTypedSpriteGroup<ShadedSprite>;
+	
+    private var _humanShadedHeadSprite 			: ShadedSprite;
+    private var _humanShadedEyesSprite 			: ShadedSprite;
+    private var _humanShadedMouthSprite 		: ShadedSprite;
+	
+	//WILL DISAPPEAR
+	private var _humanPortrait					:FlxTypedSpriteGroup<FlxSprite>;
 	
 
 	// Ressources
@@ -149,6 +155,33 @@ class InfoScreen extends FlxSpriteGroup
 		_backgroundSprite.init(useShaders, crt);
 		
 		
+		// HUMAIN	SHADED	TEST
+		
+		_humanShadedSpriteGroup = new FlxSpriteGroup();
+		
+		//_humanShadedSpriteGroup = new FlxTypedGroup<ShadedSprite>();
+		
+		
+		
+		_humanShadedHeadSprite = new ShadedSprite(20, 120);
+		_humanShadedEyesSprite = new ShadedSprite(20, 120);
+		_humanShadedMouthSprite = new ShadedSprite(20, 120);
+		
+		_humanShadedHeadSprite.init(true, crt);
+		_humanShadedEyesSprite.init(true, crt);
+		_humanShadedMouthSprite.init(true, crt);
+		
+		_humanShadedHeadSprite.scale.set(2, 2); 
+		_humanShadedEyesSprite.scale.set(2, 2); 
+		_humanShadedMouthSprite.scale.set(2, 2);
+		
+		_humanShadedPortrait = new FlxTypedSpriteGroup<ShadedSprite>();
+		
+		_humanShadedPortrait.add(_humanShadedHeadSprite);
+		_humanShadedPortrait.add(_humanShadedEyesSprite);
+		_humanShadedPortrait.add(_humanShadedMouthSprite);
+		
+		
 		#end
 		
 		
@@ -188,19 +221,18 @@ class InfoScreen extends FlxSpriteGroup
 		//_bloodText.size = 20;
 		//_bloodText.fieldWidth = 96;
 
-		// HUMAIN
+	
+		
+		
+		// VISAGE HUMAIN
 		_humanSpriteGroup = new FlxSpriteGroup();
 		
 		// GESTION DE L'AFFICHAGE DU VISAGE //->
 		_humanHeadSprite = new FlxSprite(20, 120);
 		_humanEyesSprite = new FlxSprite(20, 120);
 		_humanMouthSprite = new FlxSprite(20, 120);
-		_humanHeadSprite.makeGraphic(93, 116, FlxColor.BLACK, false);
-		
-		// A VOIR SI ON LAISSE CA ET ON MASQUE LE SPRITES JUSQU'A APPARITION DU PREMIER VISAGE
-		//_humanHeadSprite.loadGraphic("assets/images/faces/visage_blanc_1.png", false, 205, 256, true);
-		//_humanEyesSprite.loadGraphic("assets/images/faces/yeux_blanc_1.png", false, 205, 256, true);
-		//_humanMouthSprite.loadGraphic("assets/images/faces/bouche_blanc_1.png", false, 205, 256, true);
+		//_humanHeadSprite.makeGraphic(93, 116, FlxColor.BLACK, false);
+		_humanHeadSprite.makeGraphic(93, 116, 0x00108C77, false);
 		
 		_humanHeadSprite.scale.set(2, 2);
 		_humanEyesSprite.scale.set(2, 2);
@@ -323,6 +355,8 @@ class InfoScreen extends FlxSpriteGroup
 		_shaderButton = new FlxButton(100, 0, "Shaders: Off", onShaderToggle);
 		add(_shaderButton);
 		
+		//_humanShadedSpriteGroup.add(_humanShadedPortrait);
+		
 		#end
 		
 		add(_foodRessourceSprite);
@@ -361,8 +395,11 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_infosSpriteGroup.visible = false;
 		//
-		
-		add(_humanSpriteGroup);
+		#if shaders_supported
+		//add(_humanShadedSpriteGroup);
+		add(_humanShadedPortrait);
+		#end
+		//add(_humanSpriteGroup);
 		add(_infosSpriteGroup);
 		
 		// BUTTONS
@@ -444,27 +481,28 @@ class InfoScreen extends FlxSpriteGroup
 		_humanName.text = human._name;
 		
 		var foodCount			: Float = human._food;
-		//var moneyCount			: Float = human._money;
-		//var iqCount				: Float = human._iq;
-		//var bloodCount			: Float = human._blood;
 		
 		_humanFoodText.text 	= Std.string(fixedFloat(foodCount, 2));
-		//_humanMoneyText.text 	= Std.string(fixedFloat(moneyCount, 2));
-		//_humanIqText.text 		= Std.string(fixedFloat(iqCount, 2));
-		//_humanBloodText.text 	= Std.string(fixedFloat(bloodCount, 2));
-		//
+		
+		
 		//MISE A JOUR DU PORTRAIT
 		_humanHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
 		_humanEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
 		_humanMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
-		_humanPortrait = human._generatedFace;
-	}
+		//_humanPortrait = human._generatedFace;
+		
+		
+		#if shaders_supported
+		_humanShadedHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
+		_humanShadedEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
+		_humanShadedMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
 	
-	//NON UTILISE
-	public function updatePortrait(imageAdress:String)
-	{
+			
+		#end
+		
 		
 	}
+	
 	
 	public function updateResources(player:Player)
 	{
