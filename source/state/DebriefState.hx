@@ -6,7 +6,6 @@ import flixel.FlxState;
 import flixel.text.FlxBitmapText;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import neko.vm.Ui;
 import ui.TextButton;
 
 /**

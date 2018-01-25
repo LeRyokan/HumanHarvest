@@ -24,19 +24,19 @@ class MenuState extends FlxState
 	//Shader testing 
 	
 	
-	#if shaders_supported
-	
-	public static var useShaders:Bool = false;
-	
-	private var _testerShader : ShadedChar;
-	
-	private var _shaderButton : FlxButton;
-	
-	private var crt = new CRT();
-	
-	private var timer : FlxTimer;
-	
-	#end
+	//#if shaders_supported
+	//
+	//public static var useShaders:Bool = false;
+	//
+	//private var _testerShader : ShadedChar;
+	//
+	//private var _shaderButton : FlxButton;
+	//
+	//private var crt = new CRT();
+	//
+	//private var timer : FlxTimer;
+	//
+	//#end
 	
 	
 	override public function create():Void
@@ -63,20 +63,20 @@ class MenuState extends FlxState
 		add(_moreCredit);
 
 		
-		#if shaders_supported
-		
-		timer = new FlxTimer();
-		timer.start(0);
-		
-		
-		_shaderButton = new FlxButton(100, 60, "Shaders: Off", onShaderToggle);
-		add(_shaderButton);
-		
-		_testerShader = new ShadedChar(200, 60);
-		_testerShader.init(useShaders, crt);
-		add(_testerShader);
-		
-		#end
+		//#if shaders_supported
+		//
+		//timer = new FlxTimer();
+		//timer.start(0);
+		//
+		//
+		//_shaderButton = new FlxButton(100, 60, "Shaders: Off", onShaderToggle);
+		//add(_shaderButton);
+		//
+		//_testerShader = new ShadedChar(200, 60);
+		//_testerShader.init(useShaders, crt);
+		//add(_testerShader);
+		//
+		//#end
 		
 		FlxG.mouse.visible = true;
 		
@@ -93,11 +93,11 @@ class MenuState extends FlxState
 		
 		blink();
 		
-		#if shaders_supported
-		crt.time += timer.elapsedTime;
-
-		#end
-		
+		//#if shaders_supported
+		//crt.time += timer.elapsedTime;
+		//
+		//#end
+		//
 		
 		//NEW GAME
 		//FlxG.mouse.justPressed
@@ -125,24 +125,24 @@ class MenuState extends FlxState
 		}
 	}
 	
-	#if shaders_supported
-	private function onShaderToggle():Void
-	{
-		useShaders = !useShaders;
-		toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
-		
-		_testerShader.useShader = useShaders;
-		
-		// Update the bunnies
-		//for (bunny in _bunnies)
-		//{
-			//if (bunny != null)
-			//{
-				//bunny.useShader = useShaders;
-			//}
-		//}
-	}
-	#end
+	//#if shaders_supported
+	//private function onShaderToggle():Void
+	//{
+		//useShaders = !useShaders;
+		//toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
+		//
+		//_testerShader.useShader = useShaders;
+		//
+		//// Update the bunnies
+		////for (bunny in _bunnies)
+		////{
+			////if (bunny != null)
+			////{
+				////bunny.useShader = useShaders;
+			////}
+		////}
+	//}
+	//#end
 	
 	private function toggleHelper(Button:FlxButton, Text1:String, Text2:String):Void
 	{

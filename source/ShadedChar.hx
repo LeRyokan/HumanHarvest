@@ -8,6 +8,10 @@ import flixel.system.FlxAssets.FlxShader;
  * ...
  * @author ElRyoGrande
  */
+
+ 
+ //VA DISPARAITRE UNE FOIS LES TESTS DE SHADER FINI
+ 
 class ShadedChar extends FlxSprite 
 {
 	

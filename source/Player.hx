@@ -5,10 +5,7 @@ import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.addons.nape.FlxNapeSpace;
 import flixel.input.mouse.FlxMouseEventManager;
-import nape.constraint.DistanceJoint;
-import nape.geom.Vec2;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -17,7 +14,6 @@ class Player extends FlxBasic
 	public var 	_currentGrabbedHuman			: Human;
 	private var _currentHumanWithInfoDisplay	: Human;
 
-	private var _mouseJoint						: DistanceJoint;
 	private var _spaceStation					: SpaceStation;
 
 	public var _food	 			: Float;
@@ -35,7 +31,6 @@ class Player extends FlxBasic
 	//LES VALEURS MORALES
 	public var _monstruosity 		: Float;
 	public var _moralHealth			: Float = 50.0;
-	//public var _
 	
 	
 	//affiche le nombre jours passé

@@ -46,7 +46,7 @@ class InfoScreen extends FlxSpriteGroup
 	
 	//END SHADER SECTION
 	
-	//public var _backgroundSprite 				: FlxSprite;
+	
 	public var _backgroundSprite 				: ShadedSprite;
 	
 	private var _humanShadedSpriteGroup			: FlxSpriteGroup;
@@ -55,6 +55,12 @@ class InfoScreen extends FlxSpriteGroup
     private var _humanShadedHeadSprite 			: ShadedSprite;
     private var _humanShadedEyesSprite 			: ShadedSprite;
     private var _humanShadedMouthSprite 		: ShadedSprite;
+	
+	
+	private var _shadedText						: ShadedText;
+	
+	
+	
 	
 	//WILL DISAPPEAR
 	private var _humanPortrait					:FlxTypedSpriteGroup<FlxSprite>;
@@ -147,31 +153,26 @@ class InfoScreen extends FlxSpriteGroup
 		
 		#if shaders_supported
 		
+		//Utilisé par le Shader
 		timer = new FlxTimer();
 		timer.start(0);
-		
 		
 		_backgroundSprite = new ShadedSprite(0, 0,"assets/images/monitorBckground.png");
 		_backgroundSprite.init(useShaders, crt);
 		
-		
-		// HUMAIN	SHADED	TEST
+		// HUMAIN FACE SHADED TEST
 		
 		_humanShadedSpriteGroup = new FlxSpriteGroup();
-		
-		//_humanShadedSpriteGroup = new FlxTypedGroup<ShadedSprite>();
-		
-		
 		
 		_humanShadedHeadSprite = new ShadedSprite(20, 120);
 		_humanShadedEyesSprite = new ShadedSprite(20, 120);
 		_humanShadedMouthSprite = new ShadedSprite(20, 120);
 		
-		_humanShadedHeadSprite.init(true, crt);
-		_humanShadedEyesSprite.init(true, crt);
-		_humanShadedMouthSprite.init(true, crt);
+		_humanShadedHeadSprite.init(useShaders, crt);
+		_humanShadedEyesSprite.init(useShaders, crt);
+		_humanShadedMouthSprite.init(useShaders, crt);
 		
-		_humanShadedHeadSprite.scale.set(2, 2); 
+		_humanShadedHeadSprite.scale.set(2, 2);
 		_humanShadedEyesSprite.scale.set(2, 2); 
 		_humanShadedMouthSprite.scale.set(2, 2);
 		
@@ -181,6 +182,20 @@ class InfoScreen extends FlxSpriteGroup
 		_humanShadedPortrait.add(_humanShadedEyesSprite);
 		_humanShadedPortrait.add(_humanShadedMouthSprite);
 		
+		
+		// SHADED TEXT TEST
+		
+		var trytext:String = "Un jour, Lucas a décidé de faire des Jeux Vidéo.";
+		trytext += "\n\nDepuis, il galère.";
+		trytext += "\n\nEt il a décidé d'emmener Guillaume dans sa galère.";
+		trytext += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
+		trytext += "\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
+		
+		
+		_shadedText = new ShadedText(20 + 100 + SPACING, 120 + 2 * SPACING, 0, trytext, 12);
+		_shadedText.init(useShaders, crt);
+		_shadedText.fieldWidth = _width - _shadedText.x - SPACING;
+		_shadedText.start(0.006);
 		
 		#end
 		
@@ -355,7 +370,9 @@ class InfoScreen extends FlxSpriteGroup
 		_shaderButton = new FlxButton(100, 0, "Shaders: Off", onShaderToggle);
 		add(_shaderButton);
 		
-		//_humanShadedSpriteGroup.add(_humanShadedPortrait);
+		_humanShadedSpriteGroup.add(_humanShadedPortrait);
+		_humanShadedSpriteGroup.add(_shadedText);
+		
 		
 		#end
 		
@@ -396,8 +413,8 @@ class InfoScreen extends FlxSpriteGroup
 		_infosSpriteGroup.visible = false;
 		//
 		#if shaders_supported
-		//add(_humanShadedSpriteGroup);
-		add(_humanShadedPortrait);
+		add(_humanShadedSpriteGroup);
+		//add(_humanShadedPortrait);
 		#end
 		//add(_humanSpriteGroup);
 		add(_infosSpriteGroup);
@@ -455,13 +472,15 @@ class InfoScreen extends FlxSpriteGroup
 			_showHumanInfosButton.color = FlxColor.WHITE;
 			_showNewsButton.color = FlxColor.GRAY;
 			
-			_humanSpriteGroup.visible = true;
+			//_humanSpriteGroup.visible = true;
+			_humanShadedSpriteGroup.visible = true;
 			_infosSpriteGroup.visible = false;
 		} else {
 			_showHumanInfosButton.color = FlxColor.GRAY;
 			_showNewsButton.color = FlxColor.WHITE;
 			
-			_humanSpriteGroup.visible = false;
+			//_humanSpriteGroup.visible = false;
+			_humanShadedSpriteGroup.visible = false;
 			_infosSpriteGroup.visible = true;
 		}
 	}
@@ -536,12 +555,23 @@ class InfoScreen extends FlxSpriteGroup
 	}
 	
 	#if shaders_supported
+	//FAIRE DE CETTE FONCTION UNE OPTION DANS LES MENU DE PAUSE POUR ACTIVER/DESACTIVER LES SHADERS
 	private function onShaderToggle():Void
 	{
 		useShaders = !useShaders;
 		toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
 		
 		_backgroundSprite.useShader = useShaders;
+		_shadedText.useShader = useShaders;
+		
+		for (part in _humanShadedPortrait)
+		{
+			if (part != null)
+			{
+				part.useShader = useShaders;
+			}
+		}
+		
 		//_testerShader.useShader = useShaders;
 		
 		// Update the bunnies

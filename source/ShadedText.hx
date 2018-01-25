@@ -1,26 +1,22 @@
 package;
 
-import flixel.FlxSprite;
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.addons.text.FlxTypeText;
 import flixel.system.FlxAssets.FlxShader;
 
 /**
  * ...
  * @author ElRyoGrande
  */
-class ShadedSprite extends FlxSprite 
+class ShadedText extends FlxTypeText 
 {
-
+	
 	public var useShader(default, set):Bool = false;
 	private var _shader:FlxShader;
 
-	public function new(?X:Float = 0, ?Y:Float = 0, ?img:String) 
+	public function new(X:Float, Y:Float, Width:Int, Text:String, Size:Int=8, EmbeddedFont:Bool=true) 
 	{
-		super(X, Y);
-		if (img != null)
-		{
-			loadGraphic(img);
-		}
+		super(X, Y, Width, Text, Size, EmbeddedFont);
+		
 	}
 	
 	public function init(UseShader:Bool = false, ?Shader:FlxShader)
@@ -46,5 +42,6 @@ class ShadedSprite extends FlxSprite
 		
 		return useShader = Value;
 	}
+	
 	
 }
