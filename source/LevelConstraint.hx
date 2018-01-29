@@ -10,14 +10,16 @@ import openfl.Assets;
  */
 class LevelConstraint 
 {
-
+	//Classe utilisé pour la génération des conditions de jeux dans un niveau
+	//Défini quels options sont dispo dans le niveau ou pas.
+	
 	public var moneyPossessed : Int;
 	public var peopleCatch : Int;
 	public var meatToProduce : Float;
 	public var iqToProduce : Int;
 	public var milkToProduce : Float;
 	
-	//C'EST LUI QUI DEVRAIT GENERER TOUS LES HUMANS PROFILES
+	public var arrayOfRules : Array<Bool>;
 
 	var _actualLevel : Int;
 	
@@ -36,6 +38,34 @@ class LevelConstraint
 		{
 			if (Std.parseInt(level.att.id) == _actualLevel)
 			{
+				
+				trace("RULES");
+				arrayOfRules = new Array<Bool>();
+				var rules = level.nodes.rules;
+				for (r in rules)
+				{
+					if (Std.parseInt(r.node.disease.innerData) == 1)
+					{
+						arrayOfRules.push(true);
+					}
+					else
+					{
+						arrayOfRules.push(false);
+					}
+					
+					if (Std.parseInt(r.node.event.innerData) == 1)
+					{
+						arrayOfRules.push(true);
+					}
+					else
+					{
+						arrayOfRules.push(false);
+					}
+				}
+				
+				trace("LENGTH : " + arrayOfRules.length);
+				
+				
 				var money = level.node.money;
 				var meatValue = level.node.meat;
 				var iqValue = level.node.iq;
@@ -43,23 +73,12 @@ class LevelConstraint
 				var peopleMax = level.node.people;
 			
 				moneyPossessed = Std.parseInt(money.innerData);
-				
-				//trace("PEOPLE MAX: "  + peopleMax.innerData);
 				peopleCatch = Std.parseInt(peopleMax.innerData);
-				//trace("ELEMENTS  MEAT: "  + meatValue.innerData);
 				meatToProduce = Std.parseFloat(meatValue.innerData);
-				//trace("ELEMENTS  IQ: "  + iqValue.innerData);
 				iqToProduce =  Std.parseInt(iqValue.innerData);
-				//trace("ELEMENTS  MILK: "  + milkValue.innerData);
 				milkToProduce =  Std.parseFloat(milkValue.innerData);
 			}
 		}
-		
-		
-		
-	
-		
-		
 	}
 	
 	public function createHumanRessource():Array<Float>

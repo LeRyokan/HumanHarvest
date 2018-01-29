@@ -73,9 +73,11 @@ class SpaceStation extends FlxGroup
 	
 	public var infoScreen:InfoScreen;
 	
-	//LEVEL CONSTRAINT
+	//INFORMATION SUR LE NIVEAU
 	public var levelConstraint :LevelConstraint;
+	public var rulesOfTheDay  : Array<Bool>;
 	var ressourceArray : Array<Float>;
+	
 	
 	
 	//TEST DE GAMEPLAY
@@ -86,18 +88,7 @@ class SpaceStation extends FlxGroup
 	public var stampMode : Bool = false;
 	
 	
-	//#if shaders_supported
-	//
-	//public static var useShaders:Bool = false;
-	//
-	//
-	//private var _shaderButton : FlxButton;
-	//
-	//private var crt = new CRT();
-	//
-	//private var timer : FlxTimer;
-	//
-	//#end
+
 	
 	
 	
@@ -112,9 +103,11 @@ class SpaceStation extends FlxGroup
 		trace("NIVEAU ACTUEL : " + _indexCurrentLevel);
 		placeholderArray = new Array<FlxPoint>();
 		
-		//A REVOIR
-		levelConstraint = new LevelConstraint(1);
+		//TODO REGLE APPLIQUER A LA JOURNEE
+		levelConstraint = new LevelConstraint(_indexCurrentLevel);
+		rulesOfTheDay = levelConstraint.arrayOfRules;
 		ressourceArray = levelConstraint.createHumanRessource();
+		
 		
 		//FlxNapeSpace.init();
 		//FlxNapeSpace.createWalls(0,0,1280,860);
@@ -130,7 +123,6 @@ class SpaceStation extends FlxGroup
 		
 		///////////////////////////////////
 		infoScreen = new InfoScreen();
-		//infoScreen.init(useShaders,crt);
 		add(infoScreen);
 		
 		
@@ -145,26 +137,12 @@ class SpaceStation extends FlxGroup
 		FlxG.cameras.add(infoScreenCam);
 		///////////////////////////////////
 		
-		//#if shaders_supported
-		//
-		//timer = new FlxTimer();
-		//timer.start(0);
-		//
-		//
-		//_shaderButton = new FlxButton(300, 10, "Shaders: Off", onShaderToggle);
-		//add(_shaderButton);
-		//
-		////_testerShader = new ShadedChar(200, 60);
-		////_testerShader.init(useShaders, crt);
-		////add(_testerShader);
-		//
-		//#end
+
 
 		//var ressourceBar2 = new RessourceBar(new Rectangle(760, 400, 520, 600), this);
 		//add(ressourceBar2);
 		
 		slaughterhouse = new Area(1120, 50, enums.AreaType.SLAUGHTERHOUSE);
-
 		add(slaughterhouse);
 		
 		iqhouse = new Area(250, 700, enums.AreaType.IQ);
@@ -204,6 +182,7 @@ class SpaceStation extends FlxGroup
 		if (FlxG.keys.justPressed.A)
 		{
 			trace("HOOK MODE");
+			player.setCursor(0);
 			hookMode = true;
 			stampMode = false;
 		}
@@ -211,6 +190,7 @@ class SpaceStation extends FlxGroup
 		if (FlxG.keys.justPressed.Z)
 		{
 			trace("STAMP MODE");
+			player.setCursor(1);
 			hookMode = false;
 			stampMode = true;
 		}

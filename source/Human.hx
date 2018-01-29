@@ -95,8 +95,11 @@ class Human extends FlxSprite
 		//GENERATION DU VISAGE
 		createFace();
 		
+		//REGLES DE GENERATION DU JOUR
+		var generationConstraint = spaceStation.rulesOfTheDay;
+		
 		//DETERMINATION DE LA MALADIE
-		SicknessDetermination();
+		SicknessDetermination(generationConstraint);
 		
 		if (isSick)
 		{
@@ -224,7 +227,6 @@ class Human extends FlxSprite
 	//IDEE de centraliser les tests de l'humain 
 	public function checkHuman(human:Human, area:Area)
 	{
-		
 		var value = 0.0;
 		
 		switch (area._areaType) 
@@ -235,7 +237,7 @@ class Human extends FlxSprite
 				{
 					if (human.isReadyToDie)
 					{
-						//value = 
+					
 					}
 					else
 					{
@@ -276,54 +278,40 @@ class Human extends FlxSprite
 		var randNose = FlxG.random.int(1, 2);
 		var randEyes = FlxG.random.int(1, 2);
 		
-		
-		
 		//TAILLE DES IMAGES
 		//93,116
-		
-		
-		//_faceGeometry = new FlxSprite(0,0);
 		_faceImg = _imgPath +"visage_" + _skinColor + randFace +".png";
-		//_faceGeometry.loadGraphic(_faceImg, false, 205, 256, true);
-		
-		//_mouth = new FlxSprite(0, 0);
 		_mouthImg = _imgPath +"bouche_" + _skinColor + randNose +".png";
-		//_mouth.loadGraphic(_mouthImg, false, 205, 256, true);
-		
-		
-		//_eyes = new FlxSprite(0, 0);
 		_eyesImg = _imgPath +"yeux_" + _skinColor + randEyes +".png";
-		//_eyes.loadGraphic(_eyesImg, false, 205, 256, true);
-		
-		//FACULTATIF
-		//var eyebrow = new FlxSprite(0,0);
 
 		
-		
-		//_generatedFace.add(_faceGeometry);
-		//_generatedFace.add(_eyes);
-		//_generatedFace.add(_mouth);
-//
-		//_generatedFace.scale.set(3, 3);
-		//
-		//
+	
 	}
 	
-	public function SicknessDetermination()
+	public function SicknessDetermination(generationConstraint:Array<Bool>)
 	{
-		var sickChance = 70.0; //Value evolue en fonction du LVL
-		var luckyNumber = FlxG.random.float(0, 100.0);
-		
-		if (luckyNumber <= sickChance)
+		if (generationConstraint[0] == true )
 		{
-			//trace("MALADE");
-			isSick = true;
+			var sickChance = 70.0; //Value evolue en fonction du LVL
+			var luckyNumber = FlxG.random.float(0, 100.0);
+			
+			if (luckyNumber <= sickChance)
+			{
+				isSick = true;
+			}
+			else
+			{
+				isSick = false;
+			}
 		}
 		else
 		{
-			//trace("SAIN");
 			isSick = false;
 		}
+		
+		
+		
+		
 	}
 
 }

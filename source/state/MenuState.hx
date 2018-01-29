@@ -23,7 +23,6 @@ class MenuState extends FlxState
 	
 	//Shader testing 
 	
-	
 	//#if shaders_supported
 	//
 	//public static var useShaders:Bool = false;

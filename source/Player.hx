@@ -42,7 +42,7 @@ class Player extends FlxBasic
 	{
 		super();
 
-		initCursor();
+		setCursor(0);
 
 		_spaceStation = spaceStation;
 		_day = spaceStation._indexCurrentLevel;
@@ -126,15 +126,20 @@ class Player extends FlxBasic
 		
 	}
 
-	public function initCursor():Void
+	public function setCursor(cursorType:Int):Void
 	{
 		// Create a white circle to use as a cursor graphic
 		var sprite = new FlxSprite();
-		//sprite.makeGraphic(15, 15, FlxColor.TRANSPARENT);
-		//sprite.drawCircle( -1, -1, -1, FlxColor.fromRGB(255, 255, 255, 125));
-
-		sprite.loadGraphic("assets/images/alien_pointer.png", false, 32, 32, true);
-
+		
+		if (cursorType == 0)
+		{
+			sprite.loadGraphic("assets/images/alien_pointer.png", false, 32, 32, true);
+		}
+		else
+		{
+			sprite.loadGraphic("assets/images/stamp.png", false, 32, 32, true);
+		}
+		
 		// Load the sprite's graphic to the cursor
 		FlxG.mouse.load(sprite.pixels);
 	}

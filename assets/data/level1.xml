@@ -1,5 +1,9 @@
 <levels>
 	<level id="1">
+		<rules>
+			<disease> 0 </disease>
+			<event> 0 </event>
+		</rules>
         <money> 500 </money>
 		<people> 50 </people>
 		<meat> 100 </meat>
@@ -8,6 +12,10 @@
 	</level>
 	
 	<level id="2">
+		<rules>
+			<disease> 1 </disease>
+			<event> 0 </event>
+		</rules>
         <money> 500 </money>
         <people> 25 </people>
 		<meat> 150 </meat>
@@ -16,6 +24,10 @@
 	</level>
 	
 	<level id="3">
+		<rules>
+			<disease> 1 </disease>
+			<event> 0 </event>
+		</rules>
         <money> 500 </money>
         <people> 25 </people>
 		<meat> 250 </meat>

@@ -33,8 +33,6 @@ class InfoScreen extends FlxSpriteGroup
 	
 	public static var useShaders:Bool = false;
 	
-	//private var _testerShader : ShadedChar;
-	
 	private var _shaderButton : FlxButton;
 	
 	private var crt = new CRT();
@@ -58,7 +56,7 @@ class InfoScreen extends FlxSpriteGroup
 	
 	
 	private var _shadedText						: ShadedText;
-	
+	private var _humanBiography					: ShadedText;
 	
 	
 	
@@ -85,7 +83,7 @@ class InfoScreen extends FlxSpriteGroup
 	private var _humanEyesSprite				: FlxSprite;
 	private var _humanMouthSprite				: FlxSprite;
 	private var _humanName						: FlxText;
-	private var _humanBiography					: FlxTypeText;
+
 	
 	private var _humanFoodRessourceSprite 		: FlxSprite;
 	private var _humanMoneyRessoureSprite		: FlxSprite;
@@ -112,7 +110,7 @@ class InfoScreen extends FlxSpriteGroup
 	// BARRE DE NEWS BFMTV
 	private var _newsBarBackground				: FlxSprite;
 	//private var _newsBarTextFirst				: FlxText;
-	//private var _newsBarTextSecond				: FlxText;
+	//private var _newsBarTextSecond			: FlxText;
 	private var _newsBarTextGroup				: FlxTypedSpriteGroup<FlxText>;
 	
 	private var _newsTexts 						: Array<String>;
@@ -192,10 +190,10 @@ class InfoScreen extends FlxSpriteGroup
 		trytext += "\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
 		
 		
-		_shadedText = new ShadedText(20 + 100 + SPACING, 120 + 2 * SPACING, 0, trytext, 12);
-		_shadedText.init(useShaders, crt);
-		_shadedText.fieldWidth = _width - _shadedText.x - SPACING;
-		_shadedText.start(0.006);
+		_humanBiography = new ShadedText(20 + 100 + SPACING, 120 + 2 * SPACING, 0, trytext, 12);
+		_humanBiography.init(useShaders, crt);
+		_humanBiography.fieldWidth = _width - _humanBiography.x - SPACING;
+		_humanBiography.start(0.006);
 		
 		#end
 		
@@ -205,7 +203,8 @@ class InfoScreen extends FlxSpriteGroup
 		
 		// RESSOURCES
 		_foodRessourceSprite = new FlxSprite(SPACING + SPACING, SPACING);
-		_foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
+		_foodRessourceSprite.loadGraphic("assets/images/food.png", false, 27, 22, false);
+		//_foodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
 
 		_foodText = new FlxText(_foodRessourceSprite.x + _foodRessourceSprite.width + SPACING / 2, SPACING + 2);
 		_foodText.alignment = FlxTextAlign.LEFT;
@@ -272,12 +271,12 @@ class InfoScreen extends FlxSpriteGroup
 		text += "\n\nDeux Galériens, c'est toujours mieux qu'un Galérien tout seul.";
 		text += "\n\nCette chaîne de caractère raconte leurs aventures dans le monde cruel du Jeu Vidéo !";
 
-		_humanBiography = new FlxTypeText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y + 2 * SPACING, 0, text, 12);
-		_humanBiography.fieldWidth = _width - _humanBiography.x - SPACING;
-		_humanBiography.start(0.006);
+		//_humanBiography = new FlxTypeText(_humanHeadSprite.x + _humanHeadSprite.width + SPACING, _humanHeadSprite.y + 2 * SPACING, 0, text, 12);
+		//_humanBiography.fieldWidth = _width - _humanBiography.x - SPACING;
+		//_humanBiography.start(0.006);
 		
 		_humanFoodRessourceSprite = new FlxSprite(2 * SPACING, _humanHeadSprite.y + _humanHeadSprite.height + SPACING);
-		_humanFoodRessourceSprite.makeGraphic(32, 32, FlxColor.RED, false);
+		_humanFoodRessourceSprite.loadGraphic("assets/images/food.png", false, 27, 22, false);
 
 		_humanFoodText = new FlxText(_humanFoodRessourceSprite.x + _humanFoodRessourceSprite.width + SPACING / 2, _humanFoodRessourceSprite.y + 8);
 		_humanFoodText.alignment = FlxTextAlign.LEFT;
@@ -371,7 +370,11 @@ class InfoScreen extends FlxSpriteGroup
 		add(_shaderButton);
 		
 		_humanShadedSpriteGroup.add(_humanShadedPortrait);
-		_humanShadedSpriteGroup.add(_shadedText);
+		//_humanShadedSpriteGroup.add(_shadedText); //--> TRANSFORMER EN HUMAN BIOGRAPHY
+		_humanShadedSpriteGroup.add(_humanBiography);
+		_humanShadedSpriteGroup.add(_humanName);
+		_humanShadedSpriteGroup.add(_humanFoodRessourceSprite);
+		_humanShadedSpriteGroup.add(_humanFoodText);
 		
 		
 		#end
@@ -379,32 +382,6 @@ class InfoScreen extends FlxSpriteGroup
 		add(_foodRessourceSprite);
 		add(_foodText);
 
-		//add(_moneyRessoureSprite);
-		//add(_moneyText);
-//
-		//add(_iqRessourceSprite);
-		//add(_iqText);
-//
-		//add(_bloodRessourceSprite);
-		//add(_bloodText);
-
-		// HUMAIN
-		_humanSpriteGroup.add(_humanPortrait);
-		_humanSpriteGroup.add(_humanBiography);
-		_humanSpriteGroup.add(_humanName);
-		
-		_humanSpriteGroup.add(_humanFoodRessourceSprite);
-		_humanSpriteGroup.add(_humanFoodText);
-
-		//_humanSpriteGroup.add(_humanMoneyRessoureSprite);
-		//_humanSpriteGroup.add(_humanMoneyText);
-//
-		//_humanSpriteGroup.add(_humanIqRessourceSprite);
-		//_humanSpriteGroup.add(_humanIqText);
-//
-		//_humanSpriteGroup.add(_humanBloodRessourceSprite);
-		//_humanSpriteGroup.add(_humanBloodText);
-		//
 		
 		// NEWS
 		_infosSpriteGroup.add(_newsTitleText);
@@ -505,18 +482,10 @@ class InfoScreen extends FlxSpriteGroup
 		
 		
 		//MISE A JOUR DU PORTRAIT
-		_humanHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
-		_humanEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
-		_humanMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
-		//_humanPortrait = human._generatedFace;
-		
-		
 		#if shaders_supported
 		_humanShadedHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
 		_humanShadedEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
 		_humanShadedMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
-	
-			
 		#end
 		
 		
@@ -562,7 +531,7 @@ class InfoScreen extends FlxSpriteGroup
 		toggleHelper(_shaderButton, "Shaders: Off", "Shaders: On");
 		
 		_backgroundSprite.useShader = useShaders;
-		_shadedText.useShader = useShaders;
+		_humanBiography.useShader = useShaders;
 		
 		for (part in _humanShadedPortrait)
 		{
@@ -571,17 +540,6 @@ class InfoScreen extends FlxSpriteGroup
 				part.useShader = useShaders;
 			}
 		}
-		
-		//_testerShader.useShader = useShaders;
-		
-		// Update the bunnies
-		//for (bunny in _bunnies)
-		//{
-			//if (bunny != null)
-			//{
-				//bunny.useShader = useShaders;
-			//}
-		//}
 	}
 	#end
 	
