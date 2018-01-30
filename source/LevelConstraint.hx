@@ -19,7 +19,7 @@ class LevelConstraint
 	public var iqToProduce : Int;
 	public var milkToProduce : Float;
 	
-	public var arrayOfRules : Array<Bool>;
+	public var arrayOfRules : Array<Int>;
 
 	var _actualLevel : Int;
 	
@@ -40,27 +40,12 @@ class LevelConstraint
 			{
 				
 				trace("RULES");
-				arrayOfRules = new Array<Bool>();
+				arrayOfRules = new Array<Int>();
 				var rules = level.nodes.rules;
 				for (r in rules)
 				{
-					if (Std.parseInt(r.node.disease.innerData) == 1)
-					{
-						arrayOfRules.push(true);
-					}
-					else
-					{
-						arrayOfRules.push(false);
-					}
-					
-					if (Std.parseInt(r.node.event.innerData) == 1)
-					{
-						arrayOfRules.push(true);
-					}
-					else
-					{
-						arrayOfRules.push(false);
-					}
+					arrayOfRules.push(Std.parseInt(r.node.disease.innerData));
+					arrayOfRules.push(Std.parseInt(r.node.diseaseLevel.innerData));
 				}
 				
 				trace("LENGTH : " + arrayOfRules.length);

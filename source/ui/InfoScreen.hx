@@ -370,13 +370,10 @@ class InfoScreen extends FlxSpriteGroup
 		add(_shaderButton);
 		
 		_humanShadedSpriteGroup.add(_humanShadedPortrait);
-		//_humanShadedSpriteGroup.add(_shadedText); //--> TRANSFORMER EN HUMAN BIOGRAPHY
 		_humanShadedSpriteGroup.add(_humanBiography);
 		_humanShadedSpriteGroup.add(_humanName);
 		_humanShadedSpriteGroup.add(_humanFoodRessourceSprite);
 		_humanShadedSpriteGroup.add(_humanFoodText);
-		
-		
 		#end
 		
 		add(_foodRessourceSprite);
@@ -386,12 +383,11 @@ class InfoScreen extends FlxSpriteGroup
 		// NEWS
 		_infosSpriteGroup.add(_newsTitleText);
 		_infosSpriteGroup.add(_newsText);
-		
 		_infosSpriteGroup.visible = false;
 		//
+		
 		#if shaders_supported
 		add(_humanShadedSpriteGroup);
-		//add(_humanShadedPortrait);
 		#end
 		//add(_humanSpriteGroup);
 		add(_infosSpriteGroup);
@@ -480,15 +476,12 @@ class InfoScreen extends FlxSpriteGroup
 		
 		_humanFoodText.text 	= Std.string(fixedFloat(foodCount, 2));
 		
-		
 		//MISE A JOUR DU PORTRAIT
 		#if shaders_supported
 		_humanShadedHeadSprite.loadGraphic(human._faceImg, false, 205, 256, true);
 		_humanShadedEyesSprite.loadGraphic(human._eyesImg, false, 205, 256, true);
 		_humanShadedMouthSprite.loadGraphic(human._mouthImg, false, 205, 256, true);
-		#end
-		
-		
+		#end	
 	}
 	
 	

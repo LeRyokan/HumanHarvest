@@ -75,7 +75,7 @@ class SpaceStation extends FlxGroup
 	
 	//INFORMATION SUR LE NIVEAU
 	public var levelConstraint :LevelConstraint;
-	public var rulesOfTheDay  : Array<Bool>;
+	public var rulesOfTheDay  : Array<Int>;
 	var ressourceArray : Array<Float>;
 	
 	

@@ -33,6 +33,13 @@ class Human extends FlxSprite
 
 	public var _basicInfo 				: String;
 	public var _sicknessInfo			: String;
+	private var _bufferBacteriaList		: Array<String>;
+	public var _bacteriaList			: Array<String>;
+	private var _goodBacteriaList		: Array<String> = ["Acetobacter aurantius", "Bacillus anthracis", "Bacillus cereus" ,"Campylobacter jejuni", "Chlamydophila psittaci","Enterococcus faecalis","Francisella tularensis" ,"Gardnerella vaginalis","Salmonella enteritidis"];
+	private var _badBacteriaList		: Array<String> = ["Haemophilus ducreyi", "Legionella pneumophila", "Micrococcus luteus"];
+	private var _badCoupleBacteriaList	: Array<String> = ["COUPLE_1_A", "COUPLE_1_B", "COUPLE_2_A", "COUPLE_2_B", "COUPLE_2_A", "COUPLE_2_B"];
+	private var _badTroupleBacteriaList	: Array<String> = ["TROUPLE_1_A", "TROUPLE_1_B", "TROUPLE_1_C", "TROUPLE_2_A", "TROUPLE_2_B", "TROUPLE_2_C", "TROUPLE_3_A","TROUPLE_3_B","TROUPLE_3_C"];
+	
 
 	//Info lié à la position dans le tapis roulant
 	public var _posOnTable				: FlxPoint;
@@ -52,14 +59,7 @@ class Human extends FlxSprite
 	// TODO: importer d'un fichier
 	private var _biographies:Array<String> = ["Lorem  lorem sit amet risus hendrerit elementum. Mauris laoreet urna at dui sagittis aliquet. Donec ac neque nisi. Nullam quis lacinia velit. Phasellus tincidunt, dui eget gravida lobortis, lacus ligula dignissim sem, vel volutpat.\n\nDonec sed nisl eget elit bibendum iaculis. Fusce eu mollis augue, ut tempor est. Curabitur tempus libero eget nisl faucibus, vel fringilla quam pretium. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis sed lectus sit amet lacus ultrices ullamcorper. Morbi risus felis, pharetra elementum elit nec, lacinia finibus sem. Donec finibus lorem ac blandit gravida. Nunc at feugiat nisi, sed varius magna. Pellentesque interdum in erat non tempus.", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
 	private var _names:Array<String> = ["Lorem", "Pear", "Banana", "Orange", "Mangue", "CACA", "LEL"];
-	
-	////Info graphique
-	//public var _humanProf : HumanProfile;
-	////public var portrait : FlxSprite;
-	//public var portrait : FlxSpriteGroup;
-	//public var imgportrait : FlxSprite;
-	//public var imgAdress : String;
-	
+
 	
 	// Pour la creation du portrait
 	public var _generatedFace	: FlxTypedSpriteGroup<FlxSprite>;
@@ -103,25 +103,31 @@ class Human extends FlxSprite
 		
 		if (isSick)
 		{
-			_sicknessInfo = "JE SUIS MALADE";
+			//_sicknessInfo = "JE SUIS MALADE \n";
+			 
 		}
 		else
 		{
-			_sicknessInfo = "JE SUIS SAIN";
+			//_sicknessInfo = "JE SUIS SAIN \n";
+			
 		}
-
-		_basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "\r");
-		_basicInfo += _sicknessInfo + "\r\r";
+		
+		_sicknessInfo = "LISTE DES BACTERIES \n";
+		
+		for (bact in _bacteriaList)
+		{
+			_sicknessInfo += bact.toString() + "\n";
+		}
+		_basicInfo = new String(_sicknessInfo);
+		//_basicInfo = new String("JE SUIS L'HUMAIN NUMERO " +_id + "! \n");
+		//_basicInfo += _sicknessInfo + "\r\r";
 
 		_isGrabbed = false;
 		_spaceStation = spaceStation;
 
 		setSize(32, 32);
 		offset.set(-16, 0);
-		//trace("width : " + width + " - height : " + height);
-		//FlxG.watch.add(this, "isGrab", "Grab : " );
 		
-		//_biography = _biographies[FlxG.random.int(0, _biographies.length - 1)];
 		_biography = _basicInfo;
 		_name = _names[FlxG.random.int(0, _names.length - 1)];
 		_infosAlreadyDisplayed = false;
@@ -225,6 +231,7 @@ class Human extends FlxSprite
 
 	
 	//IDEE de centraliser les tests de l'humain 
+	//PAS UTILISER POUR L'INSTANT
 	public function checkHuman(human:Human, area:Area)
 	{
 		var value = 0.0;
@@ -254,6 +261,143 @@ class Human extends FlxSprite
 			default:
 				
 		}
+	}
+	
+	
+	
+	
+	public function SicknessDetermination(generationConstraint:Array<Int>)
+	{
+		_bacteriaList = new Array<String>();
+		var bufferList = new Map<Int,String>();
+		
+		var sickChance = 70.0; //Value evolue en fonction du LVL
+		var luckyNumber = FlxG.random.float(0, 100.0);
+		
+		//liste de 3,4 ou 5 bactéries (dépend du niveau de difficulté de la maladie)
+		
+		if (generationConstraint[0] == 1 && luckyNumber <= sickChance)
+		{	
+			isSick = true;
+			
+			//Niveau de difficulté de la maladie 
+			switch (generationConstraint[1]) 
+			{
+				case 1:
+					var count = [0,1,2];
+					
+					for (i in 0...3)
+					{
+						var rand = FlxG.random.int(0, count.length - 1);
+						var id = count[rand];
+						count.remove(id);
+						if (i == 0)
+						{
+							bufferList[id] = _badBacteriaList[FlxG.random.int(0, _badBacteriaList.length - 1)];
+						}
+						else
+						{
+							var bact = _goodBacteriaList[FlxG.random.int(0, _goodBacteriaList.length - 1)];
+							bufferList[id] = bact;
+							_goodBacteriaList.remove(bact);
+						}
+						
+					}
+					
+					for (i in 0...3)
+					{
+						_bacteriaList.push(bufferList.get(i));
+					}
+					
+				case 2:
+					
+					var count = [0,1,2,3];
+					
+					for (i in 0...3)
+					{
+						var rand = FlxG.random.int(0, count.length - 1);
+						var id = count[rand];
+						count.remove(id);
+						if (i == 0)
+						{
+							var random = FlxG.random.int(0, Std.int(_badCoupleBacteriaList.length / 2) - 1) * 2;
+							bufferList[id] = _badCoupleBacteriaList[random];
+							
+							var internalRand = FlxG.random.int(0, count.length - 1);
+							var internalId = count[internalRand];
+							count.remove(internalId);
+							bufferList[internalId] = _badCoupleBacteriaList[random+1];
+							
+						}
+						else
+						{
+							var bact = _goodBacteriaList[FlxG.random.int(0, _goodBacteriaList.length - 1)];
+							bufferList[id] = bact;
+							_goodBacteriaList.remove(bact);
+						}
+						
+					}
+					
+					for (i in 0...4)
+					{
+						_bacteriaList.push(bufferList.get(i));
+					}
+					
+					
+				case 3:
+					
+					var count = [0,1,2,3,4];
+					
+					for (i in 0...3)
+					{
+						var rand = FlxG.random.int(0, count.length - 1);
+						var id = count[rand];
+						count.remove(id);
+						if (i == 0)
+						{
+							var random = FlxG.random.int(0, Std.int(_badTroupleBacteriaList.length / 3) - 1) * 3;
+							bufferList[id] = _badTroupleBacteriaList[random];
+							
+							var internalRand = FlxG.random.int(0, count.length - 1);
+							var internalId = count[internalRand];
+							count.remove(internalId);
+							bufferList[internalId] = _badTroupleBacteriaList[random + 1];
+							
+							
+							internalRand = FlxG.random.int(0, count.length - 1);
+							internalId = count[internalRand];
+							count.remove(internalId);
+							bufferList[internalId] = _badTroupleBacteriaList[random+2];
+							
+						}
+						else
+						{
+							var bact = _goodBacteriaList[FlxG.random.int(0, _goodBacteriaList.length - 1)];
+							bufferList[id] = bact;
+							_goodBacteriaList.remove(bact);
+						}
+						
+					}
+					
+					for (i in 0...5)
+					{
+						_bacteriaList.push(bufferList.get(i));
+					}
+					
+				default:
+			}
+		}
+		else
+		{
+			isSick = false;
+			for (i in 0...(generationConstraint[1]+2))
+			{
+				
+				var bact = _goodBacteriaList[FlxG.random.int(0, _goodBacteriaList.length - 1)];
+				_bacteriaList.push(bact);
+				_goodBacteriaList.remove(bact);
+			}
+		}		
 	}
 	
 	
@@ -288,30 +432,5 @@ class Human extends FlxSprite
 	
 	}
 	
-	public function SicknessDetermination(generationConstraint:Array<Bool>)
-	{
-		if (generationConstraint[0] == true )
-		{
-			var sickChance = 70.0; //Value evolue en fonction du LVL
-			var luckyNumber = FlxG.random.float(0, 100.0);
-			
-			if (luckyNumber <= sickChance)
-			{
-				isSick = true;
-			}
-			else
-			{
-				isSick = false;
-			}
-		}
-		else
-		{
-			isSick = false;
-		}
-		
-		
-		
-		
-	}
 
 }
